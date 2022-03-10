@@ -13,6 +13,18 @@ public class Card {
 	int pointValue;
 	
 	/**
+	 *  constructor
+	 * @param s suit
+	 * @param ct card type
+	 * @param pv point value
+	 */
+	public Card(Suit s, CardType ct, int pv) {
+		this.suit = s;
+		this.cardType = ct;
+		this.pointValue = pv;
+	}
+	
+	/**
 	 * number of points the card is worth
 	 * @return value as int
 	 */

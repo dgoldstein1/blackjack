@@ -19,8 +19,9 @@ class DeckTest {
 		}
 		assertEquals(3, cards.length, "draws correct number of cards");
 		// assert that too many cards throws error
+		cards = new Card[0];
 		try {
-			cards = d.Draw(999);
+			cards = d.Draw(d.getMaxSize() + 1);
 			fail("expected error to be thrown");			
 		} catch (DeckIsEmptyException e) {
 			
@@ -31,9 +32,9 @@ class DeckTest {
 	@Test
 	void shuffle() throws DeckIsEmptyException {
 		Deck d = new Deck();
-		Card[] firstDraw = d.Draw(52);
+		Card[] firstDraw = d.Draw(d.getMaxSize());
 		d.Reset();
-		Card[] secondDraw = d.Draw(52);
+		Card[] secondDraw = d.Draw(d.getMaxSize());
 		assertNotEquals(firstDraw, secondDraw);
 	}
 	

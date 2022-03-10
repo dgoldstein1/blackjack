@@ -18,5 +18,4 @@ public enum CardType {
 	FOUR,
 	THREE,
 	TWO,
-	ONE
 }
