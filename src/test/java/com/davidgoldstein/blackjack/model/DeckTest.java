@@ -29,13 +29,20 @@ class DeckTest {
 	}
 	
 	@Test
-	void shuffle() {
-		fail("not implemented");
+	void shuffle() throws DeckIsEmptyException {
+		Deck d = new Deck();
+		Card[] firstDraw = d.Draw(52);
+		d.Reset();
+		Card[] secondDraw = d.Draw(52);
+		assertNotEquals(firstDraw, secondDraw);
 	}
 	
 	@Test
 	void reset() {
-		fail("not implemented");
+		Deck d = new Deck();
+		Deck a = d;
+		d.Reset();
+		assertNotEquals(a,d);
 	}
 
 }
