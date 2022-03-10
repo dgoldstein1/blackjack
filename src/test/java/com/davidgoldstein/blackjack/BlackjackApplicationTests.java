@@ -1,4 +1,4 @@
-package davidgoldstein.com.example.blackjack;
+package com.davidgoldstein.blackjack;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

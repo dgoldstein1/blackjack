@@ -1,4 +1,4 @@
-package davidgoldstein.com.example.blackjack;
+package com.davidgoldstein.blackjack;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
