@@ -7,7 +7,7 @@ package com.davidgoldstein.blackjack.model;
  * @author Z008HBS
  * definition of a playing card
  */
-public class Card {
+public class Card implements Comparable<Card>{
 	Suit suit;
 	CardType cardType;
 	int pointValue;
@@ -44,5 +44,14 @@ public class Card {
 	 */
 	public CardType getCardType() {
 		return this.cardType;
+	}
+	
+	public String toString() {
+		return String.format("%s of %s", this.cardType.name(), this.suit.name());
+	}
+
+	@Override
+	public int compareTo(Card o) {
+		return this.toString().compareTo(o.toString());
 	}
 }

@@ -2,6 +2,9 @@ package com.davidgoldstein.blackjack.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
@@ -11,39 +14,41 @@ class DeckTest {
 	void nextCards() {
 		Deck d = new Deck();		
 		// assert that we can draw cards
-		Card[] cards = new Card[0];
+		List<Card> cards = new ArrayList<Card>();
 		try {
-			cards = d.Draw(3);			
+			cards = d.draw(3);			
 		} catch (DeckIsEmptyException e) {
 			fail("exception was thrown");
 		}
-		assertEquals(3, cards.length, "draws correct number of cards");
+		assertEquals(3, cards.size(), "draws correct number of cards");
 		// assert that too many cards throws error
-		cards = new Card[0];
+		cards = new ArrayList<Card>();
 		try {
-			cards = d.Draw(d.getMaxSize() + 1);
+			cards = d.draw(d.getMaxSize() + 1);
 			fail("expected error to be thrown");			
-		} catch (DeckIsEmptyException e) {
-			
-		}
-		assertEquals(0, cards.length, "returns empty array of cards");
+		} catch (DeckIsEmptyException e) {}
+		assertEquals(0, cards.size(), "returns empty array of cards");
 	}
 	
 	@Test
 	void shuffle() throws DeckIsEmptyException {
 		Deck d = new Deck();
-		Card[] firstDraw = d.Draw(d.getMaxSize());
-		d.Reset();
-		Card[] secondDraw = d.Draw(d.getMaxSize());
+		List<Card> firstDraw = d.draw(d.getMaxSize());
+		d.reset();
+		List<Card> secondDraw = d.draw(d.getMaxSize());
 		assertNotEquals(firstDraw, secondDraw);
+		Collections.sort(firstDraw );
+		Collections.sort(secondDraw);
+		assertEquals(firstDraw.toString(), secondDraw.toString());
 	}
 	
 	@Test
-	void reset() {
+	void reset() throws DeckIsEmptyException {
 		Deck d = new Deck();
-		Deck a = d;
-		d.Reset();
-		assertNotEquals(a,d);
+		d.draw(3);
+		int currSize = d.getSize();
+		d.reset();
+		assertNotEquals(currSize,d.getSize());
 	}
 
 }

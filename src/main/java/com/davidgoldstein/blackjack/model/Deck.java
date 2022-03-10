@@ -3,6 +3,10 @@
  */
 package com.davidgoldstein.blackjack.model;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -14,14 +18,20 @@ public class Deck {
 	Stack<Card> discardPile;
 	// size of deck when full
 	int maxSize;
+	int size;
 	
 	/**
 	 * Initialize new deck
 	 */
 	public Deck() {
+		init();
+	}
+	
+	private void init() {
 		this.discardPile = new Stack<Card>();
 		this.deck = initialDeck();
 		this.maxSize = this.deck.size();
+		this.size = this.deck.size();
 	}
 	
 	/**
@@ -29,15 +39,15 @@ public class Deck {
 	 * @param count
 	 * @return
 	 */
-	public Card[] Draw(int count) throws DeckIsEmptyException {
+	public List<Card> draw(int count) throws DeckIsEmptyException {
 		// check if there are enough cards in deck
 		if (count > this.deck.size()) {
 			throw new DeckIsEmptyException(String.format("requested %d cards but only %d available", count, this.deck.size()));
 		}
 		// remove from deck
-		Card[] cards = new Card[count];
+		ArrayList<Card> cards = new ArrayList<Card>();		
 		for(int i = 0; i < count; i++) {
-			cards[i] = this.deck.pop();			
+			cards.add(this.deck.pop());			
 		}
 		return cards;
 	}
@@ -45,16 +55,17 @@ public class Deck {
 	/**
 	 * shuffles deck into random order
 	 */
-	public void Shuffle() {
-		
+	public void shuffle() {
+		Collections.shuffle(this.deck);
 	}
 	
 	/**
 	 * adds all cards from discard pile back into main deck
 	 * shuffles the deck into new order
 	 */
-	public void Reset() {
-		// TODO: implement
+	public void reset() {
+		init();
+		this.shuffle();
 	}
 	
 	/**
@@ -62,6 +73,13 @@ public class Deck {
 	 */
 	public int getMaxSize() {
 		return this.maxSize;
+	}
+	
+	/**
+	 * @return number of cards currently in deck
+	 */
+	public int getSize() {
+		return this.deck.size();
 	}
 	
 	/**
