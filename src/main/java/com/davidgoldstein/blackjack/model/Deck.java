@@ -27,7 +27,7 @@ public class Deck {
 	 * @param count
 	 * @return
 	 */
-	public Card[] NextCards(int count) throws DeckIsEmptyException {
+	public Card[] Draw(int count) throws DeckIsEmptyException {
 		// TODO: implement
 		return this.deck;
 	}
