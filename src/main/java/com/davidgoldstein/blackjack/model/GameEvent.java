@@ -6,8 +6,8 @@ package com.davidgoldstein.blackjack.model;
  *
  */
 public class GameEvent {
-	Person initiator;
-	PlayerEvent type;
+	public final Person initiator;
+	public final PlayerEvent type;
 	
 	public GameEvent(Person p, PlayerEvent et) {
 		this.initiator = p;
