@@ -1,5 +1,7 @@
 package com.davidgoldstein.blackjack.model;
 
+import com.davidgoldstein.blackjack.api.PlayerEventRequest;
+
 import java.util.ArrayList;
 
 public class Game {
@@ -12,7 +14,7 @@ public class Game {
 	 * @param e event
 	 * @throws InvalidMoveException when move is invalid
 	 */
-	public void HandleGameEvent(GameEvent e) throws InvalidMoveException {
+	public void HandleGameEvent(PlayerEventRequest e) throws InvalidMoveException {
 		if (e.type == PlayerEvent.HIT_ME) {
 			System.out.printf("HIT_ME: %s",e.initiator);
 		}
