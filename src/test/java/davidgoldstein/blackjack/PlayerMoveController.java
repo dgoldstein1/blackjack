@@ -1,4 +1,4 @@
-package davidgoldstein.blackjack.server;
+package davidgoldstein.blackjack;
 
 import davidgoldstein.blackjack.BlackjackApplication;
 import org.junit.jupiter.api.BeforeEach;
