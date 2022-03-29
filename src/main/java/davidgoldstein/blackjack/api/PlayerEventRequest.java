@@ -1,7 +1,6 @@
 package davidgoldstein.blackjack.api;
 
 import davidgoldstein.blackjack.model.Person;
-import davidgoldstein.blackjack.model.PlayerEvent;
 
 /**
  * structure for holding on to game events
@@ -18,7 +17,7 @@ public class PlayerEventRequest {
 		this.type = et;
 		this.gameID = gameID;
 	}
-	
+
 	public String toString() {
 		return String.format("initiator: %s, type : %s", this.initiator, this.type);
 	}

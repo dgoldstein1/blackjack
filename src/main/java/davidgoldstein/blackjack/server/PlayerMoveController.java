@@ -11,7 +11,8 @@ import org.springframework.web.util.HtmlUtils;
 public class PlayerMoveController {
     @MessageMapping("/welcome")
     @SendTo("/topic/greetings")
-    public PlayerEventResponse playerMove(PlayerEventRequest playerMove) throws Exception {
-        return new PlayerEventResponse("Hello, " + HtmlUtils.htmlEscape(playerMove.initiator.getName()) + "!");
+    public String playerMove(String msg) throws Exception {
+        return msg;
+//        return new PlayerEventResponse("Hello, " + HtmlUtils.htmlEscape(playerMove.initiator.getName()) + "!");
     }
 }

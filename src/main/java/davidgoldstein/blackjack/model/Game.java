@@ -1,5 +1,6 @@
 package davidgoldstein.blackjack.model;
 
+import davidgoldstein.blackjack.api.PlayerEvent;
 import davidgoldstein.blackjack.api.PlayerEventRequest;
 
 import java.util.ArrayList;

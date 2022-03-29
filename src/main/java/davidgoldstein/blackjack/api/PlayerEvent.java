@@ -1,4 +1,4 @@
-package davidgoldstein.blackjack.model;
+package davidgoldstein.blackjack.api;
 
 /**
  * any-time something "happens" in the game

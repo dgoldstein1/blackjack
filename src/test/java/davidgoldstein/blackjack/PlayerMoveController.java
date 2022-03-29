@@ -1,6 +1,9 @@
 package davidgoldstein.blackjack;
 
 import davidgoldstein.blackjack.BlackjackApplication;
+import davidgoldstein.blackjack.api.PlayerEventRequest;
+import davidgoldstein.blackjack.api.PlayerEventRequestTest;
+import davidgoldstein.blackjack.api.PlayerEventResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -49,11 +52,11 @@ public class PlayerMoveController {
             @Override
             public void handleFrame(StompHeaders headers, Object payload) {
                 System.out.println("Received message: " + payload);
-                blockingQueue.add((String) payload);
+                blockingQueue.add(payload);
             }
         });
-        session.send("/app/welcome", "Mike");
-        assertEquals("Hello, Mike!", blockingQueue.poll(1, SECONDS));
+        session.send("/app/welcome", "test123");
+        assertEquals("test123", blockingQueue.poll(1, SECONDS));
     }
 
     private String getWsPath() {

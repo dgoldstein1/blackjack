@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="davidgoldstein.blackjack.model.DeckTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2022-03-29T18:42:08" hostname="C02GC22QMD6R" time="0.019">
+<testsuite name="davidgoldstein.blackjack.model.DeckTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2022-03-29T19:06:19" hostname="C02GC22QMD6R" time="0.013">
   <properties/>
-  <testcase name="reset()" classname="davidgoldstein.blackjack.model.DeckTest" time="0.003"/>
+  <testcase name="reset()" classname="davidgoldstein.blackjack.model.DeckTest" time="0.002"/>
   <testcase name="nextCards()" classname="davidgoldstein.blackjack.model.DeckTest" time="0.001"/>
-  <testcase name="shuffle()" classname="davidgoldstein.blackjack.model.DeckTest" time="0.014"/>
+  <testcase name="shuffle()" classname="davidgoldstein.blackjack.model.DeckTest" time="0.009"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
