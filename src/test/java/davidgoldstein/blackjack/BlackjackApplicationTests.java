@@ -9,5 +9,5 @@ class BlackjackApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }
+
