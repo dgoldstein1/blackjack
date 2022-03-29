@@ -9,7 +9,7 @@ import org.springframework.web.util.HtmlUtils;
 
 @Controller
 public class PlayerMoveController {
-    @MessageMapping("/hello")
+    @MessageMapping("/welcome")
     @SendTo("/topic/greetings")
     public PlayerEventResponse playerMove(PlayerEventRequest playerMove) throws Exception {
         return new PlayerEventResponse("Hello, " + HtmlUtils.htmlEscape(playerMove.initiator.getName()) + "!");

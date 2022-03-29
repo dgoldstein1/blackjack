@@ -35,31 +35,24 @@ public class PlayerMoveController {
 
     @Test
     public void verifyGreetingIsReceived() throws Exception {
-
         ArrayBlockingQueue blockingQueue = new ArrayBlockingQueue(1);
-
         webSocketStompClient.setMessageConverter(new StringMessageConverter());
-
         StompSession session = webSocketStompClient
                 .connect(getWsPath(), new StompSessionHandlerAdapter() {})
                 .get(1, SECONDS);
 
         session.subscribe("/topic/greetings", new StompFrameHandler() {
-
             @Override
             public Type getPayloadType(StompHeaders headers) {
                 return String.class;
             }
-
             @Override
             public void handleFrame(StompHeaders headers, Object payload) {
                 System.out.println("Received message: " + payload);
                 blockingQueue.add((String) payload);
             }
         });
-
         session.send("/app/welcome", "Mike");
-
         assertEquals("Hello, Mike!", blockingQueue.poll(1, SECONDS));
     }
 
