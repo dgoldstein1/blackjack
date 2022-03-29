@@ -20,6 +20,8 @@ public class Player implements Person{
 		this.money = 0;  
 	}
 
+	public Player() {}
+
 	@Override
 	public ArrayList<Card> getHand() {
 		return this.hand;
