@@ -1,5 +1,6 @@
 package davidgoldstein.blackjack.service;
 
+import davidgoldstein.blackjack.beans.ActionRequest;
 import davidgoldstein.blackjack.beans.GameState;
 import davidgoldstein.blackjack.model.Action;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,7 @@ public class GameService {
         return new GameState(uuid);
     }
 
-    public GameState move(UUID uuid, Action action) {
+    public GameState move(UUID uuid, ActionRequest req) {
         return new GameState(uuid);
     }
 }

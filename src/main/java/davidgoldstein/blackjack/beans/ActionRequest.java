@@ -13,11 +13,11 @@ public class ActionRequest implements Serializable {
     // userId of the user trying to make the request
     private UUID userId;
     // type of action being requested
-    private Action action;
+    private String action;
     public ActionRequest() {}
 
-    public Action getAction() { return  action; }
-    public void setAction(Action action) { this.action = action;}
+    public Action getAction() { return  Action.fromValue(action); }
+    public void setAction(String action) { this.action = action;}
     public UUID getUserId() {return this.userId;}
     public void setUserId(UUID id) {this.userId = userId;}
 }

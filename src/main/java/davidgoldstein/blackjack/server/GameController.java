@@ -1,5 +1,6 @@
 package davidgoldstein.blackjack.server;
 
+import davidgoldstein.blackjack.beans.ActionRequest;
 import davidgoldstein.blackjack.beans.GameState;
 import davidgoldstein.blackjack.model.Action;
 import davidgoldstein.blackjack.service.GameService;
@@ -30,8 +31,8 @@ public class GameController {
 
     @MessageMapping("/action/{uuid}")
     @SendTo("/topic/action/{uuid}")
-    public GameState makeMove(@DestinationVariable String uuid, Action action) {
-        GameState gameState = gameService.move(UUID.fromString(uuid), action);
+    public GameState makeMove(@DestinationVariable String uuid, ActionRequest req) {
+        GameState gameState = gameService.move(UUID.fromString(uuid), req);
 
         return gameState;
     }
