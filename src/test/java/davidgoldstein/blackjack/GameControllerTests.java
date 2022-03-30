@@ -74,7 +74,7 @@ public class GameControllerTests {
     }
 
     @Test
-    public void testCannotCreateExistingGame() throws URISyntaxException, InterruptedException, ExecutionException, TimeoutException {
+    public void testCannotCreateExistingGame() throws InterruptedException, ExecutionException, TimeoutException {
         StompSession ss = newStompSession();
         String uuid = UUID.randomUUID().toString();
         ss.subscribe(SUBSCRIBE_CREATE_TABLE_ENDPOINT + uuid, new CreateGameStompFrameHandler());

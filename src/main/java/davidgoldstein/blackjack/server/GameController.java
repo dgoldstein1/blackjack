@@ -3,6 +3,7 @@ package davidgoldstein.blackjack.server;
 import davidgoldstein.blackjack.beans.ActionRequest;
 import davidgoldstein.blackjack.beans.GameState;
 import davidgoldstein.blackjack.model.Action;
+import davidgoldstein.blackjack.service.GameAlreadyExistsException;
 import davidgoldstein.blackjack.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -28,12 +29,16 @@ public class GameController {
      */
     @MessageMapping("/create/{gameId}")
     @SendTo("/topic/table/{gameId}")
-    public GameState createGame(@DestinationVariable String gameId) {
-        GameState gameState = gameService.createGame(gameId);
-
-        return gameState;
+    public GameState createGame(@DestinationVariable String gameId) throws GameAlreadyExistsException {
+        return gameService.createGame(gameId);
     }
 
+    /**
+     * listens on actions to games, sends updates to /topics/actions/gameID
+     * @param gameId
+     * @param req
+     * @return
+     */
     @MessageMapping("/action/{gameId}")
     @SendTo("/topic/action/{gameId}")
     public GameState makeMove(@DestinationVariable String gameId, ActionRequest req) {
