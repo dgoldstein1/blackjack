@@ -1,17 +1,16 @@
-package davidgoldstein.blackjack.server;
+package davidgoldstein.blackjack.controller;
 
 import davidgoldstein.blackjack.beans.ActionRequest;
 import davidgoldstein.blackjack.beans.GameState;
-import davidgoldstein.blackjack.model.Action;
 import davidgoldstein.blackjack.service.GameAlreadyExistsException;
 import davidgoldstein.blackjack.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
-
-import java.util.UUID;
 
 @Controller
 public class GameController {
@@ -31,6 +30,12 @@ public class GameController {
     @SendTo("/topic/table/{gameId}")
     public GameState createGame(@DestinationVariable String gameId) throws GameAlreadyExistsException {
         return gameService.createGame(gameId);
+    }
+
+    @MessageExceptionHandler
+    @SendToUser("/queue/errors")
+    public String handleException(Throwable exception) {
+        return exception.getMessage();
     }
 
     /**
