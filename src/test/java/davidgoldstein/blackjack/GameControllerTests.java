@@ -47,39 +47,50 @@ public class GameControllerTests {
         URL = "ws://localhost:" + port + "/game";
     }
 
+    /**
+     * creats a new game with a random UUID
+     * @return
+     * @throws URISyntaxException
+     * @throws InterruptedException
+     * @throws ExecutionException
+     * @throws TimeoutException
+     */
+    private StompSession newStompSession() throws InterruptedException, ExecutionException, TimeoutException {
+        WebSocketStompClient stompClient = new WebSocketStompClient(new SockJsClient(createTransportClient()));
+        stompClient.setMessageConverter(new MappingJackson2MessageConverter());
+        return stompClient.connect(URL, new StompSessionHandlerAdapter() {
+        }).get(1, SECONDS);
+    }
+
 
     @Test
     public void testCreateGame() throws URISyntaxException, InterruptedException, ExecutionException, TimeoutException {
+        StompSession ss = newStompSession();
         String uuid = UUID.randomUUID().toString();
+        ss.subscribe(SUBSCRIBE_CREATE_TABLE_ENDPOINT + uuid, new CreateGameStompFrameHandler());
+        ss.send(SEND_CREATE_TABLE_ENDPOINT + uuid, null);
+        GameState gs = completableFuture.get(10, SECONDS);
+        assertNotNull(gs);
+    }
 
-        WebSocketStompClient stompClient = new WebSocketStompClient(new SockJsClient(createTransportClient()));
-        stompClient.setMessageConverter(new MappingJackson2MessageConverter());
-
-        StompSession stompSession = stompClient.connect(URL, new StompSessionHandlerAdapter() {
-        }).get(1, SECONDS);
-
-        stompSession.subscribe(SUBSCRIBE_CREATE_TABLE_ENDPOINT + uuid, new CreateGameStompFrameHandler());
-        stompSession.send(SEND_CREATE_TABLE_ENDPOINT + uuid, null);
-
-        GameState gameState = completableFuture.get(10, SECONDS);
-        assertEquals(gameState.getId(), uuid);
-        assertNotNull(gameState);
+    @Test
+    public void testCannotCreateExistingGame() throws URISyntaxException, InterruptedException, ExecutionException, TimeoutException {
+        StompSession ss = newStompSession();
+        String uuid = UUID.randomUUID().toString();
+        ss.subscribe(SUBSCRIBE_CREATE_TABLE_ENDPOINT + uuid, new CreateGameStompFrameHandler());
+        ss.send(SEND_CREATE_TABLE_ENDPOINT + uuid, null);
+        ss.send(SEND_CREATE_TABLE_ENDPOINT + uuid, null);
+        GameState gs = completableFuture.get(10, SECONDS);
+        assertNotNull(gs);
     }
 
     @Test
     public void testAction() throws InterruptedException, ExecutionException, TimeoutException {
+        StompSession ss = newStompSession();
         String uuid = UUID.randomUUID().toString();
-
-        WebSocketStompClient stompClient = new WebSocketStompClient(new SockJsClient(createTransportClient()));
-        stompClient.setMessageConverter(new MappingJackson2MessageConverter());
-
-        StompSession stompSession = stompClient.connect(URL, new StompSessionHandlerAdapter() {
-        }).get(1, SECONDS);
-
-        stompSession.subscribe(SUBSCRIBE_ACTION_REQUEST_ENDPOINT + uuid, new CreateGameStompFrameHandler());
-        stompSession.send(SEND_ACTION_REQUEST_ENDPOINT + uuid, new ActionRequest());
+        ss.subscribe(SUBSCRIBE_ACTION_REQUEST_ENDPOINT + uuid, new CreateGameStompFrameHandler());
+        ss.send(SEND_ACTION_REQUEST_ENDPOINT + uuid, new ActionRequest());
         GameState gameStateAfterACTION_REQUEST = completableFuture.get(5, SECONDS);
-
         assertNotNull(gameStateAfterACTION_REQUEST);
     }
 
