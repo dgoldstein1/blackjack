@@ -4,15 +4,15 @@ import java.io.Serializable;
 import java.util.UUID;
 
 public class GameState implements Serializable {
-    private UUID id;
+    private String id;
 
     public GameState() {}
-    public GameState(UUID id) {
+    public GameState(String id) {
         this.id = id;
     }
 
-    public UUID getId() {return id;}
-    public void setId(UUID id) {
+    public String getId() {return id;}
+    public void setId(String id) {
         this.id = id;
     }
 

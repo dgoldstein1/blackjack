@@ -21,10 +21,15 @@ public class GameController {
         this.gameService = gameService;
     }
 
+    /**
+     * creates a new game and sends gamestate to the topic/table/id subscription endpoint
+     * @param gameId ID for the game
+     * @return
+     */
     @MessageMapping("/create/{gameId}")
     @SendTo("/topic/table/{gameId}")
     public GameState createGame(@DestinationVariable String gameId) {
-        GameState gameState = gameService.createGame(UUID.fromString(gameId));
+        GameState gameState = gameService.createGame(gameId);
 
         return gameState;
     }
@@ -32,7 +37,7 @@ public class GameController {
     @MessageMapping("/action/{gameId}")
     @SendTo("/topic/action/{gameId}")
     public GameState makeMove(@DestinationVariable String gameId, ActionRequest req) {
-        GameState gameState = gameService.move(UUID.fromString(gameId), req);
+        GameState gameState = gameService.move(gameId, req);
 
         return gameState;
     }

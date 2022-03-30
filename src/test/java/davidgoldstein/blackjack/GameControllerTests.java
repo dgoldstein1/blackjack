@@ -62,7 +62,7 @@ public class GameControllerTests {
         stompSession.send(SEND_CREATE_TABLE_ENDPOINT + uuid, null);
 
         GameState gameState = completableFuture.get(10, SECONDS);
-        assertEquals(gameState.getId().toString(), uuid.toString());
+        assertEquals(gameState.getId(), uuid);
         assertNotNull(gameState);
     }
 
