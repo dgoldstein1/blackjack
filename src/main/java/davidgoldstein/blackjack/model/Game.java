@@ -1,14 +1,23 @@
 package davidgoldstein.blackjack.model;
 
 import davidgoldstein.blackjack.beans.ActionRequest;
+import davidgoldstein.blackjack.beans.GameState;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 
 public class Game {
-	ArrayList<Player> players;
-	Dealer dealer;
-	Deck deck;
-	
+	GameState state;
+
+	public Game(String id) {
+		//TODO: initialize vars
+		state = new GameState(id);
+	}
+
+	public GameState getState() {
+		return this.state;
+	}
+
 	/**
 	 * handles incoming input into game
 	 * @param e event
@@ -17,5 +26,4 @@ public class Game {
 	public void HandleGameEvent(ActionRequest e) throws InvalidMoveException {
 		throw new InvalidMoveException(String.format("no such action :%s", e.getAction()));
 	}
-	
 }

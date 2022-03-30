@@ -38,12 +38,16 @@ public class GameControllerTests {
     private static final String SEND_ACTION_REQUEST_ENDPOINT = "/app/action/";
     private static final String SUBSCRIBE_CREATE_TABLE_ENDPOINT = "/topic/table/";
     private static final String SUBSCRIBE_ACTION_REQUEST_ENDPOINT = "/topic/action/";
+    private static final String SUBSCRIBE_ERROR_ENDPOINT = "/topic/error";
 
     private CompletableFuture<GameState> completableFuture;
+    private CompletableFuture<String> completableStringFuture;
 
     @BeforeEach
     public void setup() {
         completableFuture = new CompletableFuture<>();
+        completableStringFuture = new CompletableFuture<>();
+
         URL = "ws://localhost:" + port + "/game";
     }
 
@@ -74,14 +78,14 @@ public class GameControllerTests {
     }
 
     @Test
-    public void testCannotCreateExistingGame() throws InterruptedException, ExecutionException, TimeoutException {
+    public void testCanReturnError() throws InterruptedException, ExecutionException, TimeoutException {
         StompSession ss = newStompSession();
         String uuid = UUID.randomUUID().toString();
-        ss.subscribe(SUBSCRIBE_CREATE_TABLE_ENDPOINT + uuid, new CreateGameStompFrameHandler());
+        ss.subscribe(SUBSCRIBE_ERROR_ENDPOINT + uuid, new StringFrameHandler());
         ss.send(SEND_CREATE_TABLE_ENDPOINT + uuid, null);
         ss.send(SEND_CREATE_TABLE_ENDPOINT + uuid, null);
-        GameState gs = completableFuture.get(10, SECONDS);
-        assertNotNull(gs);
+        String exception = completableStringFuture.get(5, SECONDS);
+        assertNotNull(exception);
     }
 
     @Test
@@ -98,6 +102,20 @@ public class GameControllerTests {
         List<Transport> transports = new ArrayList<>(1);
         transports.add(new WebSocketTransport(new StandardWebSocketClient()));
         return transports;
+    }
+
+    private class StringFrameHandler implements StompFrameHandler {
+        @Override
+        public Type getPayloadType(StompHeaders stompHeaders) {
+            System.out.println(stompHeaders.toString());
+            return String.class;
+        }
+
+        @Override
+        public void handleFrame(StompHeaders stompHeaders, Object o) {
+            System.out.println(o);
+            completableStringFuture.complete((String) o);
+        }
     }
 
     private class CreateGameStompFrameHandler implements StompFrameHandler {

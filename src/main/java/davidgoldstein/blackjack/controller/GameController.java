@@ -5,16 +5,25 @@ import davidgoldstein.blackjack.beans.GameState;
 import davidgoldstein.blackjack.service.GameAlreadyExistsException;
 import davidgoldstein.blackjack.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.annotation.SendToUser;
+import org.springframework.messaging.simp.stomp.StompCommand;
+import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Controller;
 
 @Controller
 public class GameController {
-    private GameService gameService;
+    private GameService gameService = new GameService();
+
+    @Autowired
+    @Qualifier("clientOutboundChannel")
+    private MessageChannel clientOutboundChannel;
 
     @Autowired
     public void setGameService(GameService gameService) {
@@ -33,7 +42,7 @@ public class GameController {
     }
 
     @MessageExceptionHandler
-    @SendToUser("/queue/errors")
+    @SendToUser("/queue/error")
     public String handleException(Throwable exception) {
         return exception.getMessage();
     }
