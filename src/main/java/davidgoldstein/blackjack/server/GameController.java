@@ -21,18 +21,18 @@ public class GameController {
         this.gameService = gameService;
     }
 
-    @MessageMapping("/create/{uuid}")
-    @SendTo("/topic/table/{uuid}")
-    public GameState createGame(@DestinationVariable String uuid) {
-        GameState gameState = gameService.createGame(UUID.fromString(uuid));
+    @MessageMapping("/create/{gameId}")
+    @SendTo("/topic/table/{gameId}")
+    public GameState createGame(@DestinationVariable String gameId) {
+        GameState gameState = gameService.createGame(UUID.fromString(gameId));
 
         return gameState;
     }
 
-    @MessageMapping("/action/{uuid}")
-    @SendTo("/topic/action/{uuid}")
-    public GameState makeMove(@DestinationVariable String uuid, ActionRequest req) {
-        GameState gameState = gameService.move(UUID.fromString(uuid), req);
+    @MessageMapping("/action/{gameId}")
+    @SendTo("/topic/action/{gameId}")
+    public GameState makeMove(@DestinationVariable String gameId, ActionRequest req) {
+        GameState gameState = gameService.move(UUID.fromString(gameId), req);
 
         return gameState;
     }

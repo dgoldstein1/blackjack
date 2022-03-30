@@ -49,7 +49,7 @@ public class GameControllerTests {
 
 
     @Test
-    public void testCreateGameEndpoint() throws URISyntaxException, InterruptedException, ExecutionException, TimeoutException {
+    public void testCreateGame() throws URISyntaxException, InterruptedException, ExecutionException, TimeoutException {
         String uuid = UUID.randomUUID().toString();
 
         WebSocketStompClient stompClient = new WebSocketStompClient(new SockJsClient(createTransportClient()));
@@ -62,12 +62,12 @@ public class GameControllerTests {
         stompSession.send(SEND_CREATE_TABLE_ENDPOINT + uuid, null);
 
         GameState gameState = completableFuture.get(10, SECONDS);
-        System.out.println(gameState);
+        assertEquals(gameState.getId().toString(), uuid.toString());
         assertNotNull(gameState);
     }
 
     @Test
-    public void testActionEndpoint() throws InterruptedException, ExecutionException, TimeoutException {
+    public void testAction() throws InterruptedException, ExecutionException, TimeoutException {
         String uuid = UUID.randomUUID().toString();
 
         WebSocketStompClient stompClient = new WebSocketStompClient(new SockJsClient(createTransportClient()));
