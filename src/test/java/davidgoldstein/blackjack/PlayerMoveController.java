@@ -59,7 +59,7 @@ public class PlayerMoveController {
                 blockingQueue.add((PlayerEventResponse) payload);
             }
         });
-        session.send("/app/welcome", PlayerEventRequestTest.TestPlayerEventRequest());
+        session.send("/welcome", PlayerEventRequestTest.TestPlayerEventRequest());
         System.out.println(blockingQueue.toArray().length);
         assertEquals("test123", blockingQueue.poll(1, SECONDS));
     }
