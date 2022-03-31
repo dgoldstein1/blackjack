@@ -27,6 +27,7 @@ import java.util.concurrent.*;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.jupiter.api.Assertions.*;
 
+// based on https://github.com/MBlokhuijzen/Spring-Websockets-IntegrationTest
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class GameControllerTests {

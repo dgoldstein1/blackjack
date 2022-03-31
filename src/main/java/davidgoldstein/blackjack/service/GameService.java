@@ -3,6 +3,7 @@ package davidgoldstein.blackjack.service;
 import davidgoldstein.blackjack.beans.ActionRequest;
 import davidgoldstein.blackjack.beans.GameState;
 import davidgoldstein.blackjack.model.Game;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -10,7 +11,10 @@ import java.util.Map;
 
 @Service
 public class GameService {
+
     Map<String, Game> games = new HashMap<>();
+
+    public void setGames(Map<String, Game> g) { this.games = g;}
 
     public GameState createGame(String gameId) throws GameAlreadyExistsException {
         System.out.println("CREATING GAME " + gameId);
