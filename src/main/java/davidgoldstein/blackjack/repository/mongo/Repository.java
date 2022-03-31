@@ -45,10 +45,22 @@ public class Repository implements GameRepository {
         return repo.save(new GameState(gameId));
     }
 
+
+
+    /**
+     * updates the game state of an existing game
+     * @param gameId
+     * @param gs
+     * @return
+     * @throws GameNotFoundException
+     */
     @Override
-    public GameState setGameState(String gameId, GameState gs) throws GameNotFoundException {
-        // TODO
-        return null;
+    public GameState setGameState(String gameId, GameState gs) throws GameNotFoundException, IllegalArgumentException  {
+        if (gameId != gs.getId())
+            throw new IllegalArgumentException("cannot change game id");
+        // assert that game exists first
+        retrieveById(gameId);
+        return repo.save(gs);
     }
 }
 

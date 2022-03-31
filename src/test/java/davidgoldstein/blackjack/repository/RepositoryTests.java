@@ -51,5 +51,17 @@ class RepositoryTests {
         assertNotNull(exception);
         assertEquals("game already exists: test", exception.getMessage());
     }
+
+    @Test
+    void setGameState() throws GameNotFoundException {
+        GameState gameState = new GameState("test");
+        repo.save(gameState);
+        Repository gs = new Repository(repo);
+        gameState.setName("new name");
+        gameState = gs.setGameState("test",gameState);
+        assertNotNull(gameState);
+        assertEquals("test", gameState.getId());
+        assertEquals("new name", gameState.getName());
+    }
 }
 
