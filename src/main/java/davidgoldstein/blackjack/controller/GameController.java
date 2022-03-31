@@ -5,7 +5,7 @@ import davidgoldstein.blackjack.beans.GameState;
 import davidgoldstein.blackjack.repository.GameAlreadyExistsException;
 import davidgoldstein.blackjack.repository.GameNotFoundException;
 import davidgoldstein.blackjack.repository.GameRepository;
-import davidgoldstein.blackjack.repository.MongoDBRepository;
+import davidgoldstein.blackjack.repository.mongo.Repository;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class GameController {
     // TODO: conditionally set type of gameRespository
-    GameRepository gameRepository = new MongoDBRepository();
+    GameRepository gameRepository = new Repository();
 
     /**
      * creates a new game and sends gamestate to the topic/table/id subscription endpoint

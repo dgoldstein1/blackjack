@@ -1,9 +1,13 @@
 package davidgoldstein.blackjack.beans;
 
-import java.io.Serializable;
-import java.util.UUID;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.io.Serializable;
+
+@Document
 public class GameState implements Serializable {
+    @Id
     private String id;
 
     public GameState() {}

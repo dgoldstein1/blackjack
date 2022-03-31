@@ -1,18 +1,18 @@
-package davidgoldstein.blackjack.repository;
+package davidgoldstein.blackjack.repository.mongo;
 
-import davidgoldstein.blackjack.beans.ActionRequest;
 import davidgoldstein.blackjack.beans.GameState;
 import davidgoldstein.blackjack.model.Game;
+import davidgoldstein.blackjack.repository.GameAlreadyExistsException;
+import davidgoldstein.blackjack.repository.GameRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * MongoDB implementation of a game repository
  */
 @Service
-public class MongoDBRepository implements GameRepository{
+public class Repository implements GameRepository {
+
+    private MongoGameStateRepository repo;
 
     @Override
     public Game retrieveById(String gameId) {
