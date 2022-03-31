@@ -2,9 +2,10 @@ package davidgoldstein.blackjack.controller;
 
 import davidgoldstein.blackjack.beans.ActionRequest;
 import davidgoldstein.blackjack.beans.GameState;
-import davidgoldstein.blackjack.service.GameAlreadyExistsException;
-import davidgoldstein.blackjack.service.GameService;
-import org.springframework.beans.factory.annotation.Autowired;
+import davidgoldstein.blackjack.repository.GameAlreadyExistsException;
+import davidgoldstein.blackjack.repository.GameNotFoundException;
+import davidgoldstein.blackjack.repository.GameRepository;
+import davidgoldstein.blackjack.repository.MongoDBRepository;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -14,7 +15,8 @@ import org.springframework.stereotype.Controller;
 
 @Controller
 public class GameController {
-    GameService gameService = new GameService();
+    // TODO: conditionally set type of gameRespository
+    GameRepository gameRepository = new MongoDBRepository();
 
     /**
      * creates a new game and sends gamestate to the topic/table/id subscription endpoint
@@ -24,7 +26,7 @@ public class GameController {
     @MessageMapping("/create/{gameId}")
     @SendTo("/topic/table/{gameId}")
     public GameState createGame(@DestinationVariable String gameId) throws GameAlreadyExistsException {
-        return gameService.createGame(gameId);
+        return gameRepository.createGame(gameId);
     }
 
     @MessageExceptionHandler
@@ -40,10 +42,13 @@ public class GameController {
      * @return
      */
     @MessageMapping("/action/{gameId}")
-    @SendTo("/topic/action/{gameId}")
-    public GameState makeMove(@DestinationVariable String gameId, ActionRequest req) {
-        GameState gameState = gameService.move(gameId, req);
-
-        return gameState;
+    @SendTo("/topic/table/{gameId}")
+    public GameState makeMove(@DestinationVariable String gameId, ActionRequest req) throws GameNotFoundException {
+        // TODO: validate request
+        // TODO: convert to move
+        System.out.println(req.getUserId());
+        return new GameState();
+        // TODO: set in repository
+//        return gameRepository.setGameState(gameId, newGameState);
     }
 }

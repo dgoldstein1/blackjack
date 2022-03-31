@@ -2,7 +2,6 @@ package davidgoldstein.blackjack;
 
 import davidgoldstein.blackjack.beans.ActionRequest;
 import davidgoldstein.blackjack.beans.GameState;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -37,9 +36,9 @@ public class GameControllerTests {
 
     private static final String SEND_CREATE_TABLE_ENDPOINT = "/app/create/";
     private static final String SEND_ACTION_REQUEST_ENDPOINT = "/app/action/";
-    private static final String SUBSCRIBE_CREATE_TABLE_ENDPOINT = "/topic/table/";
-    private static final String SUBSCRIBE_ACTION_REQUEST_ENDPOINT = "/topic/action/";
+    private static final String TABLE_SUBSRIBE_ENDPOINT = "/topic/table/";
     private static final String SUBSCRIBE_ERROR_ENDPOINT = "/topic/error";
+    private static final int TIMEOUT_S = 5;
 
     private CompletableFuture<GameState> completableFuture;
     private CompletableFuture<String> completableStringFuture;
@@ -64,7 +63,7 @@ public class GameControllerTests {
         WebSocketStompClient stompClient = new WebSocketStompClient(new SockJsClient(createTransportClient()));
         stompClient.setMessageConverter(new MappingJackson2MessageConverter());
         return stompClient.connect(URL, new StompSessionHandlerAdapter() {
-        }).get(1, SECONDS);
+        }).get(TIMEOUT_S, SECONDS);
     }
 
 
@@ -72,31 +71,31 @@ public class GameControllerTests {
     public void testCreateGame() throws URISyntaxException, InterruptedException, ExecutionException, TimeoutException {
         StompSession ss = newStompSession();
         String uuid = UUID.randomUUID().toString();
-        ss.subscribe(SUBSCRIBE_CREATE_TABLE_ENDPOINT + uuid, new CreateGameStompFrameHandler());
+        ss.subscribe(TABLE_SUBSRIBE_ENDPOINT + uuid, new CreateGameStompFrameHandler());
         ss.send(SEND_CREATE_TABLE_ENDPOINT + uuid, null);
-        GameState gs = completableFuture.get(10, SECONDS);
+        GameState gs = completableFuture.get(TIMEOUT_S, SECONDS);
         assertNotNull(gs);
     }
 
-    @Test
-    public void testCanReturnError() throws InterruptedException, ExecutionException, TimeoutException {
-        StompSession ss = newStompSession();
-        String uuid = UUID.randomUUID().toString();
-        ss.subscribe(SUBSCRIBE_ERROR_ENDPOINT + uuid, new StringFrameHandler());
-        ss.send(SEND_CREATE_TABLE_ENDPOINT + uuid, null);
-        ss.send(SEND_CREATE_TABLE_ENDPOINT + uuid, null);
-        String exception = completableStringFuture.get(5, SECONDS);
-        assertNotNull(exception);
-    }
+//    @Test
+//    public void testCanReturnError() throws InterruptedException, ExecutionException, TimeoutException {
+//        StompSession ss = newStompSession();
+//        String uuid = UUID.randomUUID().toString();
+//        ss.subscribe(SUBSCRIBE_ERROR_ENDPOINT + uuid, new StringFrameHandler());
+//        ss.send(SEND_CREATE_TABLE_ENDPOINT + uuid, null);
+//        ss.send(SEND_CREATE_TABLE_ENDPOINT + uuid, null);
+//        String exception = completableStringFuture.get(TIMEOUT_S, SECONDS);
+//        assertNotNull(exception);
+//    }
 
     @Test
     public void testAction() throws InterruptedException, ExecutionException, TimeoutException {
         StompSession ss = newStompSession();
         String uuid = UUID.randomUUID().toString();
-        ss.subscribe(SUBSCRIBE_ACTION_REQUEST_ENDPOINT + uuid, new CreateGameStompFrameHandler());
-        ss.send(SEND_ACTION_REQUEST_ENDPOINT + uuid, new ActionRequest());
-        GameState gameStateAfterACTION_REQUEST = completableFuture.get(5, SECONDS);
-        assertNotNull(gameStateAfterACTION_REQUEST);
+        ss.subscribe(TABLE_SUBSRIBE_ENDPOINT + uuid, new CreateGameStompFrameHandler());
+        ss.send(SEND_ACTION_REQUEST_ENDPOINT + uuid, new ActionRequest("hit me",UUID.randomUUID()));
+        GameState gs = completableFuture.get(TIMEOUT_S, SECONDS);
+        assertNotNull(gs);
     }
 
     private List<Transport> createTransportClient() {
@@ -128,7 +127,7 @@ public class GameControllerTests {
 
         @Override
         public void handleFrame(StompHeaders stompHeaders, Object o) {
-            System.out.println((GameState) o);
+            System.out.println("got back game state: " + (GameState) o);
             completableFuture.complete((GameState) o);
         }
     }

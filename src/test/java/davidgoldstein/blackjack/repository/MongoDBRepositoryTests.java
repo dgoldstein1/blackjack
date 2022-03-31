@@ -1,4 +1,4 @@
-package davidgoldstein.blackjack.service;
+package davidgoldstein.blackjack.repository;
 
 import davidgoldstein.blackjack.beans.GameState;
 import org.junit.jupiter.api.Test;
@@ -7,11 +7,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class GameServiceTests {
+class MongoDBRepositoryTests {
 
     @Test
     void CreateNewGame() throws GameAlreadyExistsException {
-        GameService gs = new GameService();
+        MongoDBRepository gs = new MongoDBRepository();
         GameState gameState = gs.createGame("test");
         assertNotNull(gameState);
         assertEquals("test", gameState.getId());
@@ -19,7 +19,7 @@ class GameServiceTests {
 
     @Test
     void CannotCreateDuplicateGames() throws GameAlreadyExistsException {
-        GameService gs = new GameService();
+        MongoDBRepository gs = new MongoDBRepository();
         gs.createGame("test");
         Exception exception = null;
         try {
