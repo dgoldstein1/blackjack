@@ -6,6 +6,10 @@ package davidgoldstein.blackjack.model;
  *
  */
 public enum Action {
+	// dealer actions
+	DEAL_CARDS("deal card"),
+	COLLECT_BETS("collect bets"),
+	// player actions
 	PLACE_BET("place bet"),
 	HIT_ME("hit me"),
 	STAND("stand"),

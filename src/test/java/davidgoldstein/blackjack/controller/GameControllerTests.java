@@ -1,4 +1,4 @@
-package davidgoldstein.blackjack;
+package davidgoldstein.blackjack.controller;
 
 import davidgoldstein.blackjack.beans.ActionRequest;
 import davidgoldstein.blackjack.beans.GameState;
