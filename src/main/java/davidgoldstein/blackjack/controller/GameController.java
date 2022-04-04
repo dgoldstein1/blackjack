@@ -13,6 +13,11 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 @Controller
 public class GameController {
@@ -52,5 +57,15 @@ public class GameController {
         return new GameState();
         // TODO: set in repository
 //        return gameRepository.setGameState(gameId, newGameState);
+    }
+
+    /**
+     * list all games
+     * @return
+     */
+    @GetMapping("/rest/game")
+    @ResponseBody
+    public List<GameState> listGames() {
+        return gameRepository.listGames();
     }
 }

@@ -8,6 +8,7 @@ import davidgoldstein.blackjack.repository.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -61,6 +62,11 @@ public class Repository implements GameRepository {
         // assert that game exists first
         retrieveById(gameId);
         return repo.save(gs);
+    }
+
+    @Override
+    public List<GameState> listGames() {
+        return repo.findAll();
     }
 }
 

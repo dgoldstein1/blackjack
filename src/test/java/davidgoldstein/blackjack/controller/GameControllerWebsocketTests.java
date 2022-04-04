@@ -31,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = "spring.mongodb.embedded.version=3.5.5")
-public class GameControllerTests {
+public class GameControllerWebsocketTests {
     @Value("${local.server.port}")
     private int port;
     private String URL;
@@ -104,20 +104,6 @@ public class GameControllerTests {
         List<Transport> transports = new ArrayList<>(1);
         transports.add(new WebSocketTransport(new StandardWebSocketClient()));
         return transports;
-    }
-
-    private class StringFrameHandler implements StompFrameHandler {
-        @Override
-        public Type getPayloadType(StompHeaders stompHeaders) {
-            System.out.println(stompHeaders.toString());
-            return String.class;
-        }
-
-        @Override
-        public void handleFrame(StompHeaders stompHeaders, Object o) {
-            System.out.println(o);
-            completableStringFuture.complete((String) o);
-        }
     }
 
     private class CreateGameStompFrameHandler implements StompFrameHandler {
