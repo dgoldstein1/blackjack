@@ -49,7 +49,6 @@ public class GameControllerWebsocketTests {
     public void setup() {
         completableFuture = new CompletableFuture<>();
         completableStringFuture = new CompletableFuture<>();
-
         URL = "ws://localhost:" + port + "/game";
     }
 
