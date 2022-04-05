@@ -31,14 +31,13 @@ import static org.junit.jupiter.api.Assertions.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = "spring.mongodb.embedded.version=3.5.5")
-public class GameControllerWebsocketTests {
+public class ActionControllerTests {
     @Value("${local.server.port}")
     private int port;
     private String URL;
 
-    private static final String SEND_CREATE_TABLE_ENDPOINT = "/app/create/";
     private static final String SEND_ACTION_REQUEST_ENDPOINT = "/app/action/";
-    private static final String TABLE_SUBSRIBE_ENDPOINT = "/topic/table/";
+    private static final String GAME_SUBSRIBE_ENDPOINT = "/topic/game/";
     private static final String SUBSCRIBE_ERROR_ENDPOINT = "/topic/error";
     private static final int TIMEOUT_S = 5;
 
@@ -69,31 +68,10 @@ public class GameControllerWebsocketTests {
 
 
     @Test
-    public void testCreateGame() throws URISyntaxException, InterruptedException, ExecutionException, TimeoutException {
-        StompSession ss = newStompSession();
-        String uuid = UUID.randomUUID().toString();
-        ss.subscribe(TABLE_SUBSRIBE_ENDPOINT + uuid, new CreateGameStompFrameHandler());
-        ss.send(SEND_CREATE_TABLE_ENDPOINT + uuid, null);
-        GameState gs = completableFuture.get(TIMEOUT_S, SECONDS);
-        assertNotNull(gs);
-    }
-
-//    @Test
-//    public void testCanReturnError() throws InterruptedException, ExecutionException, TimeoutException {
-//        StompSession ss = newStompSession();
-//        String uuid = UUID.randomUUID().toString();
-//        ss.subscribe(SUBSCRIBE_ERROR_ENDPOINT + uuid, new StringFrameHandler());
-//        ss.send(SEND_CREATE_TABLE_ENDPOINT + uuid, null);
-//        ss.send(SEND_CREATE_TABLE_ENDPOINT + uuid, null);
-//        String exception = completableStringFuture.get(TIMEOUT_S, SECONDS);
-//        assertNotNull(exception);
-//    }
-
-    @Test
     public void testAction() throws InterruptedException, ExecutionException, TimeoutException {
         StompSession ss = newStompSession();
         String uuid = UUID.randomUUID().toString();
-        ss.subscribe(TABLE_SUBSRIBE_ENDPOINT + uuid, new CreateGameStompFrameHandler());
+        ss.subscribe(GAME_SUBSRIBE_ENDPOINT + uuid, new CreateGameStompFrameHandler());
         ss.send(SEND_ACTION_REQUEST_ENDPOINT + uuid, new ActionRequest("hit me",UUID.randomUUID()));
         GameState gs = completableFuture.get(TIMEOUT_S, SECONDS);
         assertNotNull(gs);

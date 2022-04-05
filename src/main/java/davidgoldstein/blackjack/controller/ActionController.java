@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.stereotype.Controller;
 
+@Controller
 public class ActionController {
 
     @Autowired
@@ -21,7 +23,7 @@ public class ActionController {
      * @return
      */
     @MessageMapping("/action/{gameId}")
-    @SendTo("/topic/table/{gameId}")
+    @SendTo("/topic/game/{gameId}")
     public GameState makeMove(@DestinationVariable String gameId, ActionRequest req) throws GameNotFoundException {
         // TODO: validate request
         // TODO: convert to move

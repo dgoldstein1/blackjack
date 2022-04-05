@@ -9,14 +9,9 @@ import davidgoldstein.blackjack.repository.mongo.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -41,6 +36,16 @@ public class GameController {
     @ResponseBody
     public List<GameState> listGames() {
         return gameRepository.listGames();
+    }
+
+    /**
+     * retrieve game by id
+     * @return
+     */
+    @GetMapping("/rest/game/{id}")
+    @ResponseBody
+    public GameState retrieveGame(@PathVariable String id) throws GameNotFoundException {
+        return gameRepository.retrieveById(id);
     }
 
     /**
