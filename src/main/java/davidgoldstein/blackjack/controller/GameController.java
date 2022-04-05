@@ -21,13 +21,6 @@ public class GameController {
     @Autowired
     GameRepository gameRepository;
 
-    @MessageExceptionHandler
-    @SendToUser("/queue/error")
-    public String handleException(Throwable exception) {
-        return exception.getMessage();
-    }
-
-
     /**
      * list all games
      * @return

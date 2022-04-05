@@ -1,6 +1,5 @@
 package davidgoldstein.blackjack.controller;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -25,9 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestPropertySource(properties = "spring.mongodb.embedded.version=3.5.5")
 public class GameControllerTests {
 
-    static final String LIST_GAME_ENDPOINT = "/rest/game";
-    static final String CREATE_GAME_ENDPOINT = "/rest/game";
-
+    static final String GAME_ENDPOINT = "/rest/game";
 
     @Autowired
     private MockMvc mockMvc;
@@ -39,7 +36,7 @@ public class GameControllerTests {
 
     @Test void returnsEmptyListWithNoGames() throws Exception {
         this.mockMvc
-            .perform(get(LIST_GAME_ENDPOINT))
+            .perform(get(GAME_ENDPOINT))
             .andExpect(status().isOk())
             .andExpect(content().contentType("application/json"))
             .andExpect(content().string("[]"));
@@ -49,7 +46,7 @@ public class GameControllerTests {
     public void createGame() throws Exception {
         String gameId = UUID.randomUUID().toString();
         this.mockMvc
-            .perform(post(LIST_GAME_ENDPOINT).param("gameId", gameId))
+            .perform(post(GAME_ENDPOINT).param("gameId", gameId))
             .andExpect(status().isOk())
             .andExpect(content().contentType("application/json"))
             .andExpect(jsonPath("$.id", is(gameId)));
@@ -59,12 +56,12 @@ public class GameControllerTests {
     public void retrieveById() throws Exception {
         String gameId = UUID.randomUUID().toString();
         this.mockMvc
-                .perform(post(LIST_GAME_ENDPOINT).param("gameId", gameId))
+                .perform(post(GAME_ENDPOINT).param("gameId", gameId))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(jsonPath("$.id", is(gameId)));
         this.mockMvc
-                .perform(get(LIST_GAME_ENDPOINT + "/" + gameId).param("gameId", gameId))
+                .perform(get(GAME_ENDPOINT + "/" + gameId).param("gameId", gameId))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(jsonPath("$.id", is(gameId)));
@@ -74,11 +71,11 @@ public class GameControllerTests {
     public void returnsCreatedGames() throws Exception {
         String gameId = UUID.randomUUID().toString();
         this.mockMvc
-                .perform(post(LIST_GAME_ENDPOINT).param("gameId", gameId))
+                .perform(post(GAME_ENDPOINT).param("gameId", gameId))
                 .andExpect(status().isOk());
 
         this.mockMvc
-                .perform(get(LIST_GAME_ENDPOINT))
+                .perform(get(GAME_ENDPOINT))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))

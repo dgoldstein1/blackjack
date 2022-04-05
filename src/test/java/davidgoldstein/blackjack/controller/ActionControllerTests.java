@@ -5,12 +5,15 @@ import davidgoldstein.blackjack.beans.GameState;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.messaging.simp.stomp.*;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
 import org.springframework.web.socket.sockjs.client.SockJsClient;
@@ -26,8 +29,11 @@ import java.util.concurrent.*;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 // based on https://github.com/MBlokhuijzen/Spring-Websockets-IntegrationTest
+@AutoConfigureMockMvc
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = "spring.mongodb.embedded.version=3.5.5")
@@ -36,25 +42,26 @@ public class ActionControllerTests {
     private int port;
     private String URL;
 
+    static final String GAME_ENDPOINT = "/rest/game";
     private static final String SEND_ACTION_REQUEST_ENDPOINT = "/app/action/";
     private static final String GAME_SUBSRIBE_ENDPOINT = "/topic/game/";
     private static final String SUBSCRIBE_ERROR_ENDPOINT = "/topic/error";
     private static final int TIMEOUT_S = 5;
 
     private CompletableFuture<GameState> completableFuture;
-    private CompletableFuture<String> completableStringFuture;
+
+    @Autowired
+    private MockMvc mockMvc;
 
     @BeforeEach
     public void setup() {
         completableFuture = new CompletableFuture<>();
-        completableStringFuture = new CompletableFuture<>();
         URL = "ws://localhost:" + port + "/game";
     }
 
     /**
      * creats a new game with a random UUID
      * @return
-     * @throws URISyntaxException
      * @throws InterruptedException
      * @throws ExecutionException
      * @throws TimeoutException
@@ -68,13 +75,19 @@ public class ActionControllerTests {
 
 
     @Test
-    public void testAction() throws InterruptedException, ExecutionException, TimeoutException {
+    public void testAction() throws Exception {
+        String gameId = UUID.randomUUID().toString();
+        this.mockMvc
+                .perform(post(GAME_ENDPOINT).param("gameId", gameId))
+                .andExpect(status().isOk());
+
         StompSession ss = newStompSession();
         String uuid = UUID.randomUUID().toString();
         ss.subscribe(GAME_SUBSRIBE_ENDPOINT + uuid, new CreateGameStompFrameHandler());
         ss.send(SEND_ACTION_REQUEST_ENDPOINT + uuid, new ActionRequest("hit me",UUID.randomUUID()));
         GameState gs = completableFuture.get(TIMEOUT_S, SECONDS);
         assertNotNull(gs);
+        assertEquals(gameId, gs.getId());
     }
 
     private List<Transport> createTransportClient() {
@@ -92,7 +105,6 @@ public class ActionControllerTests {
 
         @Override
         public void handleFrame(StompHeaders stompHeaders, Object o) {
-            System.out.println("got back game state: " + (GameState) o);
             completableFuture.complete((GameState) o);
         }
     }
