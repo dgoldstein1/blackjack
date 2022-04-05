@@ -14,6 +14,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -25,39 +26,12 @@ public class GameController {
     @Autowired
     GameRepository gameRepository;
 
-    /**
-     * creates a new game and sends gamestate to the topic/table/id subscription endpoint
-     * @param gameId ID for the game
-     * @return
-     */
-    @MessageMapping("/create/{gameId}")
-    @SendTo("/topic/table/{gameId}")
-    public GameState createGame(@DestinationVariable String gameId) throws GameAlreadyExistsException {
-        return gameRepository.createGame(gameId);
-    }
-
     @MessageExceptionHandler
     @SendToUser("/queue/error")
     public String handleException(Throwable exception) {
         return exception.getMessage();
     }
 
-    /**
-     * listens on actions to games, sends updates to /topics/actions/gameID
-     * @param gameId
-     * @param req
-     * @return
-     */
-    @MessageMapping("/action/{gameId}")
-    @SendTo("/topic/table/{gameId}")
-    public GameState makeMove(@DestinationVariable String gameId, ActionRequest req) throws GameNotFoundException {
-        // TODO: validate request
-        // TODO: convert to move
-        System.out.println(req.getUserId());
-        return new GameState();
-        // TODO: set in repository
-//        return gameRepository.setGameState(gameId, newGameState);
-    }
 
     /**
      * list all games
@@ -67,5 +41,16 @@ public class GameController {
     @ResponseBody
     public List<GameState> listGames() {
         return gameRepository.listGames();
+    }
+
+    /**
+     * create new game
+     * @param gameId unique Id
+     * @return
+     */
+    @PostMapping("/rest/game")
+    @ResponseBody
+    public GameState createGame(@RequestParam(value = "gameId",name = "gameId",required = true) String gameId) throws GameAlreadyExistsException {
+        return gameRepository.createGame(gameId);
     }
 }
