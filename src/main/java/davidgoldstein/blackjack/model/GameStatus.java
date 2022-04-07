@@ -6,6 +6,7 @@ package davidgoldstein.blackjack.model;
  *
  */
 public enum GameStatus {
+    INIT("initialized"),
     STARTED("started"),
     WAITING_FOR_CARD("waiting for player to play card"),
     DEALING_CARDS("dealing cards"),

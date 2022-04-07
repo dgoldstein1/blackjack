@@ -1,5 +1,7 @@
 package davidgoldstein.blackjack.model;
 
+import org.squirrelframework.foundation.event.SquirrelEvent;
+
 /**
  * any-time something "happens" in the game
  * @author Z008HBS
@@ -10,6 +12,7 @@ public enum Action {
 	DEAL_CARDS("deal card"),
 	COLLECT_BETS("collect bets"),
 	// player actions
+	START_GAME("start game"),
 	PLACE_BET("place bet"),
 	HIT_ME("hit me"),
 	STAND("stand"),

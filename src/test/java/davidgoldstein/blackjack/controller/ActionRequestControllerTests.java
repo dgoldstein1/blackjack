@@ -1,6 +1,6 @@
 package davidgoldstein.blackjack.controller;
 
-import davidgoldstein.blackjack.beans.Action;
+import davidgoldstein.blackjack.beans.ActionRequest;
 import davidgoldstein.blackjack.beans.GameState;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,7 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = "spring.mongodb.embedded.version=3.5.5")
-public class ActionControllerTests {
+public class ActionRequestControllerTests {
     @Value("${local.server.port}")
     private int port;
     private String URL;
@@ -82,7 +82,7 @@ public class ActionControllerTests {
 
         StompSession ss = newStompSession();
         ss.subscribe(GAME_SUBSRIBE_ENDPOINT + gameId, new CreateGameStompFrameHandler());
-        ss.send(SEND_ACTION_REQUEST_ENDPOINT + gameId, new Action("hit me",UUID.randomUUID()));
+        ss.send(SEND_ACTION_REQUEST_ENDPOINT + gameId, new ActionRequest("hit me",UUID.randomUUID()));
         GameState gs = completableFuture.get(TIMEOUT_S, SECONDS);
         assertNotNull(gs);
         assertEquals(gameId, gs.getId());

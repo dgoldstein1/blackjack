@@ -9,7 +9,7 @@ import org.squirrelframework.foundation.fsm.UntypedStateMachineBuilder;
 
 public class GameStateMachineBuilder {
 
-    public static UntypedStateMachine build(GameState game) {
+    public static UntypedStateMachine build() {
         UntypedStateMachineBuilder builder = StateMachineBuilderFactory.create(GameStateMachine.class);
 
         // define transitions
@@ -22,9 +22,11 @@ public class GameStateMachineBuilder {
 
 
         builder
-            .onEntry(GameStatus.STARTED)
-            .callMethod("fromStartedToDealCards");
+                .externalTransition()
+                .from(GameStatus.INIT)
+                .to(GameStatus.STARTED)
+                .on(Action.START_GAME);
 
-        return builder.newStateMachine(GameStatus.WAITING_FOR_BET);
+        return builder.newStateMachine(GameStatus.INIT);
     }
 }

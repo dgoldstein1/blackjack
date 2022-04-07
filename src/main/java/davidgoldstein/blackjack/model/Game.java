@@ -1,6 +1,6 @@
 package davidgoldstein.blackjack.model;
 
-import davidgoldstein.blackjack.beans.Action;
+import davidgoldstein.blackjack.beans.ActionRequest;
 import davidgoldstein.blackjack.beans.GameState;
 
 public class Game {
@@ -20,7 +20,7 @@ public class Game {
 	 * @param e event
 	 * @throws InvalidMoveException when move is invalid
 	 */
-	public void HandleGameEvent(Action e) throws InvalidMoveException {
+	public void HandleGameEvent(ActionRequest e) throws InvalidMoveException {
 		throw new InvalidMoveException(String.format("no such action :%s", e.getAction()));
 	}
 }

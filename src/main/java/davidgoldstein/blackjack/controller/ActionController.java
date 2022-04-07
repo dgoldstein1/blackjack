@@ -1,6 +1,6 @@
 package davidgoldstein.blackjack.controller;
 
-import davidgoldstein.blackjack.beans.Action;
+import davidgoldstein.blackjack.beans.ActionRequest;
 import davidgoldstein.blackjack.beans.GameState;
 import davidgoldstein.blackjack.repository.GameNotFoundException;
 import davidgoldstein.blackjack.service.GameService;
@@ -38,7 +38,7 @@ public class ActionController {
      */
     @MessageMapping("/action/{gameId}")
     @SendTo("/topic/game/{gameId}")
-    public GameState makeMove(@DestinationVariable String gameId, Action req) throws GameNotFoundException {
+    public GameState makeMove(@DestinationVariable String gameId, ActionRequest req) throws GameNotFoundException {
         return gameService.processAction(gameId, req);
     }
 }

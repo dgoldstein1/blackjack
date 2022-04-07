@@ -11,10 +11,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class GameStateMachineTests {
 
     @Test
-    public void initializesAsStarted() {
-        GameState gs = new GameState("temp");
-        UntypedStateMachine gsm = GameStateMachineBuilder.build(gs);
-        gsm.test(Action.PLACE_BET);
+    public void startGame() {
+        UntypedStateMachine gsm = GameStateMachineBuilder.build();
+        gsm.fire(Action.START_GAME);
         assertEquals(GameStatus.STARTED, gsm.getCurrentState());
     }
 }

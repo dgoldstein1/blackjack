@@ -7,13 +7,13 @@ import java.util.UUID;
  * ActionRequest holds information pertaining to a user requesting to make
  * an action in the game
  */
-public class Action implements Serializable {
+public class ActionRequest implements Serializable {
     // userId of the user trying to make the request
     private UUID userId;
     // type of action being requested
     private String action;
 
-    public Action(String action, UUID userId) {
+    public ActionRequest(String action, UUID userId) {
         this.userId = userId;
         this.action = action;
     }
