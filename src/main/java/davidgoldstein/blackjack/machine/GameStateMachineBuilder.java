@@ -25,6 +25,6 @@ public class GameStateMachineBuilder {
             .onEntry(GameStatus.STARTED)
             .callMethod("fromStartedToDealCards");
 
-        return builder.newStateMachine(GameStatus.STARTED);
+        return builder.newStateMachine(GameStatus.WAITING_FOR_BET);
     }
 }
