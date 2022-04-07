@@ -1,5 +1,6 @@
 package davidgoldstein.blackjack.service;
 
+import davidgoldstein.blackjack.beans.ActionRequest;
 import davidgoldstein.blackjack.beans.GameState;
 import davidgoldstein.blackjack.repository.GameAlreadyExistsException;
 import davidgoldstein.blackjack.repository.GameNotFoundException;
@@ -32,7 +33,27 @@ public class GameService {
         return repo.listGames();
     }
 
+    /**
+     * creates a new game
+     * @param gameId
+     * @return
+     * @throws GameAlreadyExistsException
+     */
     public GameState createGame(String gameId) throws GameAlreadyExistsException {
         return repo.createGame(gameId);
+    }
+
+    /**
+     * processes an incoming action to a game
+     * @param gameId game to apply action to
+     * @param req request to be made
+     * @return new gamestate after action is applied
+     */
+    public GameState processAction(String gameId, ActionRequest req) throws GameNotFoundException {
+        // find game in repo
+        GameState curr = repo.retrieveById(gameId);
+
+        // TODO: send event to gamestate machine
+        return new GameState(gameId);
     }
 }
