@@ -13,11 +13,17 @@ public class GameStateMachineBuilder {
         UntypedStateMachineBuilder builder = StateMachineBuilderFactory.create(GameStateMachine.class);
 
         // define transitions
-        builder.externalTransition()
-                .from(GameStatus.WAITING_FOR_BET)
-                .to(GameStatus.DEALING_CARDS)
-                .on(Action.PLACE_BET)
-                .callMethod("waitingForBetToPlayerBets");
+        builder
+            .externalTransition()
+            .from(GameStatus.WAITING_FOR_BET)
+            .to(GameStatus.DEALING_CARDS)
+            .on(Action.PLACE_BET)
+            .callMethod("waitingForBetToPlayerBets");
+
+
+        builder
+            .onEntry(GameStatus.STARTED)
+            .callMethod("fromStartedToDealCards");
 
         return builder.newStateMachine(GameStatus.STARTED);
     }

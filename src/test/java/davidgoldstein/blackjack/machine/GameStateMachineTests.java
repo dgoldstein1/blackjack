@@ -7,12 +7,12 @@ import org.squirrelframework.foundation.fsm.UntypedStateMachine;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class GameStateMachine {
+public class GameStateMachineTests {
 
     @Test
     public void initializesAsStarted() {
         GameState gs = new GameState("temp");
         UntypedStateMachine gsm = GameStateMachineBuilder.build(gs);
-        assertEquals(gsm.getCurrentState(), GameStatus.STARTED);
+        assertEquals(GameStatus.STARTED, gsm.getCurrentState());
     }
 }
