@@ -1,6 +1,6 @@
 package davidgoldstein.blackjack.service;
 
-import davidgoldstein.blackjack.beans.ActionRequest;
+import davidgoldstein.blackjack.beans.Action;
 import davidgoldstein.blackjack.beans.GameState;
 import davidgoldstein.blackjack.repository.GameAlreadyExistsException;
 import davidgoldstein.blackjack.repository.GameNotFoundException;
@@ -49,7 +49,7 @@ public class GameService {
      * @param req request to be made
      * @return new gamestate after action is applied
      */
-    public GameState processAction(String gameId, ActionRequest req) throws GameNotFoundException {
+    public GameState processAction(String gameId, Action req) throws GameNotFoundException {
         // find game in repo
         GameState curr = repo.retrieveById(gameId);
 

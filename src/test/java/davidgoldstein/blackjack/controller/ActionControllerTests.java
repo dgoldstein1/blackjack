@@ -1,6 +1,6 @@
 package davidgoldstein.blackjack.controller;
 
-import davidgoldstein.blackjack.beans.ActionRequest;
+import davidgoldstein.blackjack.beans.Action;
 import davidgoldstein.blackjack.beans.GameState;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,7 +21,6 @@ import org.springframework.web.socket.sockjs.client.Transport;
 import org.springframework.web.socket.sockjs.client.WebSocketTransport;
 
 import java.lang.reflect.Type;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -83,7 +82,7 @@ public class ActionControllerTests {
 
         StompSession ss = newStompSession();
         ss.subscribe(GAME_SUBSRIBE_ENDPOINT + gameId, new CreateGameStompFrameHandler());
-        ss.send(SEND_ACTION_REQUEST_ENDPOINT + gameId, new ActionRequest("hit me",UUID.randomUUID()));
+        ss.send(SEND_ACTION_REQUEST_ENDPOINT + gameId, new Action("hit me",UUID.randomUUID()));
         GameState gs = completableFuture.get(TIMEOUT_S, SECONDS);
         assertNotNull(gs);
         assertEquals(gameId, gs.getId());

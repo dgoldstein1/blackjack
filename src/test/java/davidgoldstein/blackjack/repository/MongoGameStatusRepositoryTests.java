@@ -18,7 +18,7 @@ import static org.junit.Assert.assertNotNull;
 @RunWith(SpringRunner.class)
 @TestPropertySource(properties = "spring.mongodb.embedded.version=3.5.5")
 @DataMongoTest
-public class MongoGameStateRepositoryTests {
+public class MongoGameStatusRepositoryTests {
 
     @Autowired
     MongoGameStateRepository repo;

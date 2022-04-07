@@ -5,22 +5,23 @@ package davidgoldstein.blackjack.model;
  * @author Z008HBS
  *
  */
-public enum GameState {
+public enum GameStatus {
     STARTED("started"),
-    WAITING_FOR_PLAYER_TO_PLAY_CARD("waiting for player to playcard"),
+    WAITING_FOR_CARD("waiting for player to play card"),
+    DEALING_CARDS("dealing cards"),
     WAITING_FOR_BET("waiting for bet"),
     ENDED("ended"),
     UNKNOWN("unknown");
 
     private final String value;
 
-    GameState(String val) {
+    GameStatus(String val) {
         this.value = val;
     }
 
-    public static GameState fromValue(String value) {
+    public static GameStatus fromValue(String value) {
         if (value != null) {
-            for (GameState ac : values()) {
+            for (GameStatus ac : values()) {
                 if (ac.value.equals(value)) {
                     return ac;
                 }
