@@ -4,6 +4,7 @@ import davidgoldstein.blackjack.beans.ActionRequest;
 import davidgoldstein.blackjack.beans.GameState;
 import davidgoldstein.blackjack.repository.GameNotFoundException;
 import davidgoldstein.blackjack.repository.GameRepository;
+import davidgoldstein.blackjack.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Controller;
 public class ActionController {
 
     @Autowired
-    GameRepository gameRepository;
+    GameService gameService;
 
     /**
      * handle exception is a separate topic to listen on errors
@@ -40,7 +41,7 @@ public class ActionController {
     @SendTo("/topic/game/{gameId}")
     public GameState makeMove(@DestinationVariable String gameId, ActionRequest req) throws GameNotFoundException {
         // validate request
-        gameRepository.retrieveById(gameId);
+        gameService.retrieveById(gameId);
 
 
         // TODO: convert to move
