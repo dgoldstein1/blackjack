@@ -82,9 +82,8 @@ public class ActionControllerTests {
                 .andExpect(status().isOk());
 
         StompSession ss = newStompSession();
-        String uuid = UUID.randomUUID().toString();
-        ss.subscribe(GAME_SUBSRIBE_ENDPOINT + uuid, new CreateGameStompFrameHandler());
-        ss.send(SEND_ACTION_REQUEST_ENDPOINT + uuid, new ActionRequest("hit me",UUID.randomUUID()));
+        ss.subscribe(GAME_SUBSRIBE_ENDPOINT + gameId, new CreateGameStompFrameHandler());
+        ss.send(SEND_ACTION_REQUEST_ENDPOINT + gameId, new ActionRequest("hit me",UUID.randomUUID()));
         GameState gs = completableFuture.get(TIMEOUT_S, SECONDS);
         assertNotNull(gs);
         assertEquals(gameId, gs.getId());

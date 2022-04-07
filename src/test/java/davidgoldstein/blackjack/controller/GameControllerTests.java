@@ -12,10 +12,11 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.UUID;
 
+import static davidgoldstein.blackjack.controller.AdminControllerTests.ADMIN_ENDPOINT;
+import static davidgoldstein.blackjack.controller.AdminControllerTests.adminToken;
 import static org.hamcrest.Matchers.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @AutoConfigureMockMvc
@@ -30,9 +31,14 @@ public class GameControllerTests {
     private MockMvc mockMvc;
 
     @BeforeEach
-    public void reset() {
-
+    public void reset() throws Exception {
+        this.mockMvc
+                .perform(delete(ADMIN_ENDPOINT + "/game").
+                        param("token", adminToken))
+                .andExpect(status().isOk());
     }
+
+
 
     @Test void returnsEmptyListWithNoGames() throws Exception {
         this.mockMvc

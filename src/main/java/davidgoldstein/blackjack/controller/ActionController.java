@@ -40,11 +40,12 @@ public class ActionController {
     @SendTo("/topic/game/{gameId}")
     public GameState makeMove(@DestinationVariable String gameId, ActionRequest req) throws GameNotFoundException {
         // validate request
+        gameRepository.retrieveById(gameId);
 
-//        gameRepository.retrieveById(gameId);
+
         // TODO: convert to move
 
-        return new GameState();
+        return new GameState(gameId);
 //        return gameRepository.setGameState(gameId, curr);
     }
 }

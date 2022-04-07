@@ -65,6 +65,11 @@ public class Repository implements GameRepository {
     }
 
     @Override
+    public void deleteAll() {
+        repo.deleteAll();
+    }
+
+    @Override
     public List<GameState> listGames() {
         return repo.findAll();
     }
