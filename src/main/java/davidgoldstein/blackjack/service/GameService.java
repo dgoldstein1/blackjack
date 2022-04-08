@@ -40,7 +40,7 @@ public class GameService {
      * @throws GameAlreadyExistsException
      */
     public GameState createGame(String gameId) throws GameAlreadyExistsException {
-        return repo.createGame(gameId);
+        return repo.createGame(new GameState(gameId));
     }
 
     /**
@@ -54,6 +54,7 @@ public class GameService {
         GameState curr = repo.retrieveById(gameId);
 
         // TODO: send event to gamestate machine
-        return new GameState(gameId);
+
+        return curr;
     }
 }

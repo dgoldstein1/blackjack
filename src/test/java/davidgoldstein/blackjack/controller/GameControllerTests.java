@@ -1,5 +1,6 @@
 package davidgoldstein.blackjack.controller;
 
+import davidgoldstein.blackjack.model.GameStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -55,7 +56,8 @@ public class GameControllerTests {
             .perform(post(GAME_ENDPOINT).param("gameId", gameId))
             .andExpect(status().isOk())
             .andExpect(content().contentType("application/json"))
-            .andExpect(jsonPath("$.id", is(gameId)));
+            .andExpect(jsonPath("$.id", is(gameId)))
+            .andExpect(jsonPath("$.status", is(GameStatus.INIT.toString())));
     }
 
     @Test

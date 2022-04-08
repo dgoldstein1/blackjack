@@ -11,7 +11,7 @@ import java.util.List;
 public interface GameRepository {
     public void deleteAll();
     public GameState retrieveById(String gameId) throws GameNotFoundException;
-    public GameState createGame(String gameId) throws GameAlreadyExistsException;
+    public GameState createGame(GameState gs) throws GameAlreadyExistsException;
     public GameState setGameState(String gameId, GameState gs) throws GameNotFoundException;
     public List<GameState> listGames();
 }

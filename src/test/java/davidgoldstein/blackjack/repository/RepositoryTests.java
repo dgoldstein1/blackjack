@@ -33,7 +33,7 @@ class RepositoryTests {
     @Test
     void CreateNewGame() throws GameAlreadyExistsException {
         Repository gs = new Repository(repo);
-        GameState gameState = gs.createGame("test");
+        GameState gameState = gs.createGame(new GameState("test"));
         assertNotNull(gameState);
         assertEquals("test", gameState.getId());
     }
@@ -41,10 +41,10 @@ class RepositoryTests {
     @Test
     void CannotCreateDuplicateGames() throws GameAlreadyExistsException {
         Repository gs = new Repository(repo);
-        gs.createGame("test");
+        gs.createGame(new GameState("test"));
         Exception exception = null;
         try {
-            gs.createGame("test");
+            gs.createGame(new GameState("test"));
         } catch (GameAlreadyExistsException e) {
             exception = e;
         }

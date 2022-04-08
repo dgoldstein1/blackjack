@@ -18,7 +18,7 @@ public class ActionRequest implements Serializable {
         this.action = action;
     }
 
-    public davidgoldstein.blackjack.model.Action getAction() { return  davidgoldstein.blackjack.model.Action.fromValue(action); }
+    public davidgoldstein.blackjack.model.Action getAction() { return  davidgoldstein.blackjack.model.Action.fromString(action); }
     public void setAction(String action) { this.action = action;}
     public UUID getUserId() {return this.userId;}
     public void setUserId(UUID id) {this.userId = userId;}

@@ -1,5 +1,6 @@
 package davidgoldstein.blackjack.beans;
 
+import davidgoldstein.blackjack.model.GameStatus;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -15,8 +16,8 @@ public class GameState implements Serializable {
     public GameState() {}
     public GameState(String id) {
         this.id = id;
+        this.status = GameStatus.INIT.toString();
     }
-
     public void setName(String name ){ this.name = name;}
     public String getName() { return this.name; }
     public String getId() {return id;}

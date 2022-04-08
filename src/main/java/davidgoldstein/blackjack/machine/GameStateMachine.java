@@ -12,6 +12,4 @@ public class GameStateMachine extends AbstractUntypedStateMachine {
     protected void waitingForBetToPlayerBets(GameStatus from, GameStatus to, Action action, GameState context) {
         System.out.println("Transition from '"+from+"' to '"+to+"' on event '"+ action + "' with context '"+context+"'.");
     }
-
-
 }

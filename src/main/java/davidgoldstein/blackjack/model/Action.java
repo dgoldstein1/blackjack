@@ -23,7 +23,7 @@ public enum Action {
 		this.value = val;
 	}
 
-	public static Action fromValue(String value) {
+	public static Action fromString(String value) {
 		if (value != null) {
 			for (Action ac : values()) {
 				if (ac.value.equals(value)) {
@@ -34,7 +34,7 @@ public enum Action {
 		return UNKNOWN;
 	}
 
-	public String toValue() {
+	public String toString() {
 		return value;
 	}
 }

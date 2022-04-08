@@ -20,7 +20,7 @@ public enum GameStatus {
         this.value = val;
     }
 
-    public static GameStatus fromValue(String value) {
+    public static GameStatus fromString(String value) {
         if (value != null) {
             for (GameStatus ac : values()) {
                 if (ac.value.equals(value)) {
@@ -30,8 +30,7 @@ public enum GameStatus {
         }
         return UNKNOWN;
     }
-
-    public String toValue() {
+    public String toString() {
         return value;
     }
 }

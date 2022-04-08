@@ -32,18 +32,18 @@ public class Repository implements GameRepository {
         return gs.get();
     }
 
-    public GameState createGame(String gameId) throws GameAlreadyExistsException {
+    public GameState createGame(GameState gs) throws GameAlreadyExistsException {
         boolean gameAlreadyExists = true;
         try {
-            retrieveById(gameId);
+            retrieveById(gs.getId());
         } catch (GameNotFoundException e) {
             gameAlreadyExists = false;
         }
         if (gameAlreadyExists) {
-            throw new GameAlreadyExistsException("game already exists: " + gameId);
+            throw new GameAlreadyExistsException("game already exists: " + gs.getId());
         }
         // else insert into repo
-        return repo.save(new GameState(gameId));
+        return repo.save(gs);
     }
 
 
