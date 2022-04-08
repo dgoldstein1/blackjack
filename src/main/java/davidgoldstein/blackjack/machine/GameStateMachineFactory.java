@@ -1,13 +1,13 @@
 package davidgoldstein.blackjack.machine;
 
-import davidgoldstein.blackjack.beans.GameState;
 import davidgoldstein.blackjack.model.Action;
 import davidgoldstein.blackjack.model.GameStatus;
 import org.squirrelframework.foundation.fsm.StateMachineBuilderFactory;
+import org.squirrelframework.foundation.fsm.StateMachineLogger;
 import org.squirrelframework.foundation.fsm.UntypedStateMachine;
 import org.squirrelframework.foundation.fsm.UntypedStateMachineBuilder;
 
-public class GameStateMachineBuilder {
+public class GameStateMachineFactory {
 
     /**
      * Creates a state machine initialized to GameStatus.INIT
@@ -29,9 +29,7 @@ public class GameStateMachineBuilder {
             .externalTransition()
             .from(GameStatus.WAITING_FOR_BET)
             .to(GameStatus.DEALING_CARDS)
-            .on(Action.PLACE_BET)
-            .callMethod("waitingForBetToPlayerBets");
-
+            .on(Action.PLACE_BET);
 
         builder
             .externalTransition()
@@ -40,7 +38,10 @@ public class GameStateMachineBuilder {
             .on(Action.START_GAME);
 
         UntypedStateMachine sm = builder.newStateMachine(initialStatus);
+        StateMachineLogger fsmLogger = new StateMachineLogger(sm);
+        fsmLogger.startLogging();
         sm.start();
+
         return sm;
     }
 }

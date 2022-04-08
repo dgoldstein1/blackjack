@@ -46,6 +46,12 @@ public class Repository implements GameRepository {
         return repo.save(gs);
     }
 
+    @Override
+    public GameState updateExisting(GameState gs) throws GameNotFoundException {
+        // assert that game exists first
+        retrieveById(gs.getId());
+        return repo.save(gs);
+    }
 
 
     /**

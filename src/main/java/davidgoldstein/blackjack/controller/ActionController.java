@@ -38,7 +38,14 @@ public class ActionController {
      */
     @MessageMapping("/action/{gameId}")
     @SendTo("/topic/game/{gameId}")
-    public GameState makeMove(@DestinationVariable String gameId, ActionRequest req) throws GameNotFoundException {
-        return gameService.processAction(gameId, req);
+    public GameState makeMove(@DestinationVariable String gameId, ActionRequest req) throws Exception {
+        GameState gs = null;
+        try {
+            gs = gameService.processAction(gameId, req);
+        } catch (Exception e) {
+            System.out.println("Could not process action " + req + ": " + e.getMessage());
+            throw e;
+        }
+        return gs;
     }
 }

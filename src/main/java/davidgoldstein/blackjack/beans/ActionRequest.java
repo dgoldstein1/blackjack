@@ -22,4 +22,9 @@ public class ActionRequest implements Serializable {
     public void setAction(String action) { this.action = action;}
     public UUID getUserId() {return this.userId;}
     public void setUserId(UUID id) {this.userId = userId;}
+
+    @Override
+    public String toString() {
+        return String.format("{userId : %s, action : %s", userId, action);
+    }
 }

@@ -6,13 +6,13 @@ package davidgoldstein.blackjack.model;
  *
  */
 public enum GameStatus {
-    INIT("initialized"),
-    STARTED("started"),
-    WAITING_FOR_CARD("waiting for player to play card"),
-    DEALING_CARDS("dealing cards"),
-    WAITING_FOR_BET("waiting for bet"),
-    ENDED("ended"),
-    UNKNOWN("unknown");
+    INIT("INIT"),
+    STARTED("STARTED"),
+    WAITING_FOR_CARD("WAITING_FOR_CARD"),
+    DEALING_CARDS("DEALING_CARDS"),
+    WAITING_FOR_BET("WAITING_FOR_BET"),
+    ENDED("ENDED"),
+    UNKNOWN("UNKNOWN");
 
     private final String value;
 

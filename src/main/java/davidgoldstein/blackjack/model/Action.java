@@ -9,14 +9,14 @@ import org.squirrelframework.foundation.event.SquirrelEvent;
  */
 public enum Action {
 	// dealer actions
-	DEAL_CARDS("deal card"),
-	COLLECT_BETS("collect bets"),
+	DEAL_CARDS("DEAL_CARDS"),
+	COLLECT_BETS("COLLECT_BETS"),
 	// player actions
-	START_GAME("start game"),
-	PLACE_BET("place bet"),
-	HIT_ME("hit me"),
-	STAND("stand"),
-	UNKNOWN("unknown");
+	START_GAME("START_GAME"),
+	PLACE_BET("PLACE_BET"),
+	HIT_ME("HIT_ME"),
+	STAND("STAND"),
+	UNKNOWN("UNKNOWN");
 
 	private final String value;
 	Action(String val) {
