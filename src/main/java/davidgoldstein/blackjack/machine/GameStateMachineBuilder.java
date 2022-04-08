@@ -34,10 +34,10 @@ public class GameStateMachineBuilder {
 
 
         builder
-                .externalTransition()
-                .from(GameStatus.INIT)
-                .to(GameStatus.STARTED)
-                .on(Action.START_GAME);
+            .externalTransition()
+            .from(GameStatus.INIT)
+            .to(GameStatus.STARTED)
+            .on(Action.START_GAME);
 
         UntypedStateMachine sm = builder.newStateMachine(initialStatus);
         sm.start();

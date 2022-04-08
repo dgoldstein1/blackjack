@@ -2,6 +2,8 @@ package davidgoldstein.blackjack.controller;
 
 import davidgoldstein.blackjack.beans.ActionRequest;
 import davidgoldstein.blackjack.beans.GameState;
+import davidgoldstein.blackjack.model.Action;
+import davidgoldstein.blackjack.model.GameStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -74,7 +76,7 @@ public class ActionRequestControllerTests {
 
 
     @Test
-    public void testAction() throws Exception {
+    public void testStartGame() throws Exception {
         String gameId = UUID.randomUUID().toString();
         this.mockMvc
                 .perform(post(GAME_ENDPOINT).param("gameId", gameId))
@@ -82,10 +84,11 @@ public class ActionRequestControllerTests {
 
         StompSession ss = newStompSession();
         ss.subscribe(GAME_SUBSRIBE_ENDPOINT + gameId, new CreateGameStompFrameHandler());
-        ss.send(SEND_ACTION_REQUEST_ENDPOINT + gameId, new ActionRequest("hit me",UUID.randomUUID()));
+        ss.send(SEND_ACTION_REQUEST_ENDPOINT + gameId, new ActionRequest(Action.START_GAME.toString(),UUID.randomUUID()));
         GameState gs = completableFuture.get(TIMEOUT_S, SECONDS);
         assertNotNull(gs);
         assertEquals(gameId, gs.getId());
+        assertEquals(GameStatus.STARTED.toString(), gs.getStatus());
     }
 
     private List<Transport> createTransportClient() {

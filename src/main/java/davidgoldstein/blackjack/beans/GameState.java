@@ -10,18 +10,17 @@ public class GameState implements Serializable {
     @Id
     private String id;
     private String name;
+    private String status;
 
     public GameState() {}
     public GameState(String id) {
         this.id = id;
     }
 
-    public void setName(String name ){
-        this.name = name;
-    }
-    public String getName() {
-        return this.name;
-    }
+    public void setName(String name ){ this.name = name;}
+    public String getName() { return this.name; }
     public String getId() {return id;}
+    public String getStatus() { return status;}
+    public void setStatus(String s) { this.status = s;}
 
 }
