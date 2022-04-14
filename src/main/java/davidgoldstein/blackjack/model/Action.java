@@ -16,6 +16,7 @@ public enum Action {
 	PLACE_BET("PLACE_BET"),
 	HIT_ME("HIT_ME"),
 	STAND("STAND"),
+	DOUBLE("DOUBLE"),
 	UNKNOWN("UNKNOWN");
 
 	private final String value;

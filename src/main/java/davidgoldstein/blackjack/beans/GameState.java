@@ -18,6 +18,11 @@ public class GameState implements Serializable {
         this.id = id;
         this.status = GameStatus.INIT.toString();
     }
+    public GameState(String id, String status) {
+        this.status = status;
+        this.id = id;
+        this.status = GameStatus.INIT.toString();
+    }
     public void setName(String name ){ this.name = name;}
     public String getName() { return this.name; }
     public String getId() {return id;}
