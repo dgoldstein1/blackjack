@@ -44,12 +44,12 @@ public class GameStateMachineTests {
         Assertions.assertNull(gsm.getLastException());
         assertEquals(GameStatus.WAITING_FOR_BETS, gsm.getCurrentState());
     }
-    @Test
-    public void needAtLeastOnePlayerToDealCards() {
-        UntypedStateMachine gsm = GameStateMachineFactory.build(GameStatus.STARTED);
-        GameState gs = new GameState("test1",GameStatus.STARTED.toString());
-        gsm.fire(Action.DEAL_CARDS, gs);
-        Assertions.assertNotNull(gsm.getLastException());
-        assertEquals(GameStatus.STARTED, gsm.getCurrentState());
-    }
+//    @Test
+//    public void needAtLeastOnePlayerToDealCards() {
+//        UntypedStateMachine gsm = GameStateMachineFactory.build(GameStatus.STARTED);
+//        GameState gs = new GameState("test1",GameStatus.STARTED.toString());
+//        gsm.fire(Action.DEAL_CARDS, gs);
+//        Assertions.assertNotNull(gsm.getLastException());
+//        assertEquals(GameStatus.STARTED, gsm.getCurrentState());
+//    }
 }
