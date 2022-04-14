@@ -10,7 +10,7 @@ public class PlayersPresent implements Condition {
     @Override
     public boolean isSatisfied(Object context) {
         GameState gs = (GameState) context;
-        return gs.getPlayers().length > 0;
+        return gs.getPlayers() != null && gs.getPlayers().length > 0;
     }
 
     @Override
