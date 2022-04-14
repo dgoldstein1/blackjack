@@ -1,12 +1,12 @@
 package davidgoldstein.blackjack.service;
 
-import davidgoldstein.blackjack.beans.ActionRequest;
-import davidgoldstein.blackjack.beans.GameState;
+import davidgoldstein.blackjack.model.ActionRequest;
+import davidgoldstein.blackjack.model.GameState;
 import davidgoldstein.blackjack.machine.GameStateMachineFactory;
 import davidgoldstein.blackjack.model.Action;
 import davidgoldstein.blackjack.model.GameStatus;
-import davidgoldstein.blackjack.repository.GameAlreadyExistsException;
-import davidgoldstein.blackjack.repository.GameNotFoundException;
+import davidgoldstein.blackjack.exceptions.GameAlreadyExistsException;
+import davidgoldstein.blackjack.exceptions.GameNotFoundException;
 import davidgoldstein.blackjack.repository.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

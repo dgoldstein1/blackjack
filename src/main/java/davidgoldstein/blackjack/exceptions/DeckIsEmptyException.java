@@ -1,4 +1,4 @@
-package davidgoldstein.blackjack.model;
+package davidgoldstein.blackjack.exceptions;
 
 /**
  * occurs when the deck is empty but an operation was requested 
@@ -6,7 +6,7 @@ package davidgoldstein.blackjack.model;
  */
 public class DeckIsEmptyException extends Exception {
 	private static final long serialVersionUID = 1L;
-	DeckIsEmptyException(String msg) {
+	public DeckIsEmptyException(String msg) {
 		super(msg);
 	}
 

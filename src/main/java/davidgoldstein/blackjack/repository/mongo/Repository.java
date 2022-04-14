@@ -1,9 +1,8 @@
 package davidgoldstein.blackjack.repository.mongo;
 
-import davidgoldstein.blackjack.beans.GameState;
-import davidgoldstein.blackjack.model.Game;
-import davidgoldstein.blackjack.repository.GameAlreadyExistsException;
-import davidgoldstein.blackjack.repository.GameNotFoundException;
+import davidgoldstein.blackjack.model.GameState;
+import davidgoldstein.blackjack.exceptions.GameAlreadyExistsException;
+import davidgoldstein.blackjack.exceptions.GameNotFoundException;
 import davidgoldstein.blackjack.repository.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

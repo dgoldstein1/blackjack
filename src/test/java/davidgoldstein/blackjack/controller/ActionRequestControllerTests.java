@@ -1,7 +1,7 @@
 package davidgoldstein.blackjack.controller;
 
-import davidgoldstein.blackjack.beans.ActionRequest;
-import davidgoldstein.blackjack.beans.GameState;
+import davidgoldstein.blackjack.model.ActionRequest;
+import davidgoldstein.blackjack.model.GameState;
 import davidgoldstein.blackjack.model.Action;
 import davidgoldstein.blackjack.model.GameStatus;
 import org.junit.jupiter.api.BeforeEach;

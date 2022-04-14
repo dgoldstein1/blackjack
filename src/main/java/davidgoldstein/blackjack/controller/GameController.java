@@ -1,8 +1,8 @@
 package davidgoldstein.blackjack.controller;
 
-import davidgoldstein.blackjack.beans.GameState;
-import davidgoldstein.blackjack.repository.GameAlreadyExistsException;
-import davidgoldstein.blackjack.repository.GameNotFoundException;
+import davidgoldstein.blackjack.model.GameState;
+import davidgoldstein.blackjack.exceptions.GameAlreadyExistsException;
+import davidgoldstein.blackjack.exceptions.GameNotFoundException;
 import davidgoldstein.blackjack.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

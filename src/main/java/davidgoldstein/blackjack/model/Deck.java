@@ -3,6 +3,8 @@
  */
 package davidgoldstein.blackjack.model;
 
+import davidgoldstein.blackjack.exceptions.DeckIsEmptyException;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

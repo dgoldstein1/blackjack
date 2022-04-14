@@ -6,13 +6,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import davidgoldstein.blackjack.exceptions.DeckIsEmptyException;
 import org.junit.jupiter.api.Test;
 
 class DeckTest {
 
 	@Test
 	void nextCards() {
-		Deck d = new Deck();		
+		Deck d = new Deck();
 		// assert that we can draw cards
 		List<Card> cards = new ArrayList<Card>();
 		try {

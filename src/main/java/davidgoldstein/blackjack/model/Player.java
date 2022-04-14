@@ -1,9 +1,10 @@
 package davidgoldstein.blackjack.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class Player implements Person{
+public class Player implements Person, Serializable {
 	String id;
 	String name;
 	ArrayList<Card> hand;

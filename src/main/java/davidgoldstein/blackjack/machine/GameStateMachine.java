@@ -1,6 +1,6 @@
 package davidgoldstein.blackjack.machine;
 
-import davidgoldstein.blackjack.beans.GameState;
+import davidgoldstein.blackjack.model.GameState;
 import davidgoldstein.blackjack.model.Action;
 import davidgoldstein.blackjack.model.GameStatus;;
 import org.squirrelframework.foundation.fsm.StateMachineStatus;

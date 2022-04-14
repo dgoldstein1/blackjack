@@ -1,4 +1,4 @@
-package davidgoldstein.blackjack.beans;
+package davidgoldstein.blackjack.model;
 
 import java.io.Serializable;
 import java.util.UUID;

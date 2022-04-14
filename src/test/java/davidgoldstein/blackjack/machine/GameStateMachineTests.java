@@ -1,8 +1,9 @@
 package davidgoldstein.blackjack.machine;
 
-import davidgoldstein.blackjack.beans.GameState;
+import davidgoldstein.blackjack.model.GameState;
 import davidgoldstein.blackjack.model.Action;
 import davidgoldstein.blackjack.model.GameStatus;
+import davidgoldstein.blackjack.model.Player;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.squirrelframework.foundation.fsm.UntypedStateMachine;
@@ -39,17 +40,23 @@ public class GameStateMachineTests {
     @Test
     public void dealCardsToPlayer() {
         UntypedStateMachine gsm = GameStateMachineFactory.build(GameStatus.STARTED);
-        GameState gs = new GameState("test1",GameStatus.STARTED.toString());
+        GameState gs = new GameState(
+                "test1",
+                GameStatus.STARTED.toString(),
+                new Player[]{
+                        new Player("david")
+                }
+            );
         gsm.fire(Action.DEAL_CARDS, gs);
         Assertions.assertNull(gsm.getLastException());
         assertEquals(GameStatus.WAITING_FOR_BETS, gsm.getCurrentState());
     }
-//    @Test
-//    public void needAtLeastOnePlayerToDealCards() {
-//        UntypedStateMachine gsm = GameStateMachineFactory.build(GameStatus.STARTED);
-//        GameState gs = new GameState("test1",GameStatus.STARTED.toString());
-//        gsm.fire(Action.DEAL_CARDS, gs);
-//        Assertions.assertNotNull(gsm.getLastException());
-//        assertEquals(GameStatus.STARTED, gsm.getCurrentState());
-//    }
+    @Test
+    public void needAtLeastOnePlayerToDealCards() {
+        UntypedStateMachine gsm = GameStateMachineFactory.build(GameStatus.STARTED);
+        GameState gs = new GameState("test1",GameStatus.STARTED.toString());
+        gsm.fire(Action.DEAL_CARDS, gs);
+        Assertions.assertNotNull(gsm.getLastException());
+        assertEquals(GameStatus.STARTED, gsm.getCurrentState());
+    }
 }

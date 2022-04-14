@@ -1,8 +1,7 @@
 package davidgoldstein.blackjack.controller;
 
-import davidgoldstein.blackjack.beans.ActionRequest;
-import davidgoldstein.blackjack.beans.GameState;
-import davidgoldstein.blackjack.repository.GameNotFoundException;
+import davidgoldstein.blackjack.model.ActionRequest;
+import davidgoldstein.blackjack.model.GameState;
 import davidgoldstein.blackjack.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;

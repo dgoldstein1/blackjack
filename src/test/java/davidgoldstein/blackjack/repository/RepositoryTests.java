@@ -1,19 +1,14 @@
 package davidgoldstein.blackjack.repository;
 
-import com.mongodb.BasicDBObjectBuilder;
-import com.mongodb.DBObject;
-import davidgoldstein.blackjack.beans.GameState;
+import davidgoldstein.blackjack.model.GameState;
+import davidgoldstein.blackjack.exceptions.GameAlreadyExistsException;
+import davidgoldstein.blackjack.exceptions.GameNotFoundException;
 import davidgoldstein.blackjack.repository.mongo.MongoGameStateRepository;
 import davidgoldstein.blackjack.repository.mongo.Repository;
-import de.flapdoodle.embed.mongo.MongodExecutable;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.TestPropertySource;
 
 import static org.junit.jupiter.api.Assertions.*;

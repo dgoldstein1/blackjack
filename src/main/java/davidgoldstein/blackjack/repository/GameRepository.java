@@ -1,8 +1,8 @@
 package davidgoldstein.blackjack.repository;
 
-import davidgoldstein.blackjack.beans.GameState;
-import davidgoldstein.blackjack.model.Game;
-import davidgoldstein.blackjack.model.GameStatus;
+import davidgoldstein.blackjack.model.GameState;
+import davidgoldstein.blackjack.exceptions.GameAlreadyExistsException;
+import davidgoldstein.blackjack.exceptions.GameNotFoundException;
 
 import java.util.List;
 

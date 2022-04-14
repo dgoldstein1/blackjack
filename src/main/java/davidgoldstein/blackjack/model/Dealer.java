@@ -2,7 +2,7 @@ package davidgoldstein.blackjack.model;
 
 import java.util.ArrayList;
 
-public class Dealer implements Person{
+public class Dealer implements Person {
 	ArrayList<Card> hand;
 	
 	public Dealer() {
