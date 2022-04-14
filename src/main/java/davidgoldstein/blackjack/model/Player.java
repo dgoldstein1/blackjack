@@ -9,6 +9,7 @@ public class Player implements Person, Serializable {
 	String name;
 	ArrayList<Card> hand;
 	int money;
+	String status;
 	
 	/**
 	 * Player of a card game
@@ -18,7 +19,8 @@ public class Player implements Person, Serializable {
 		this.name = name;
 		this.id = UUID.randomUUID().toString();
 		this.hand = new ArrayList<Card>();
-		this.money = 0;  
+		this.money = 0;
+		this.status = PlayerStatus.PLAYING.toString();
 	}
 
 	public Player() {}
@@ -32,4 +34,7 @@ public class Player implements Person, Serializable {
 	public String getName() {
 		return this.name;
 	}
+
+	public String getStatus() { return this.status;}
+	public void setStatus(String status) {this.status = status;}
 }

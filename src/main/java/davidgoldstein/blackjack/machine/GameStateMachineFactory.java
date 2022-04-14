@@ -28,6 +28,11 @@ public class GameStateMachineFactory {
         builder.externalTransition().from(GameStatus.WAITING_FOR_BETS).to(GameStatus.DEALING_CARDS).on(Action.PLACE_BET);
         builder.externalTransition().from(GameStatus.INIT).to(GameStatus.STARTED).on(Action.START_GAME);
         builder.externalTransition().from(GameStatus.STARTED).to(GameStatus.WAITING_FOR_BETS).on(Action.DEAL_CARDS).when(new PlayersPresent());
+        builder.externalTransition().from(GameStatus.WAITING_FOR_BETS).to(GameStatus.WAITING_FOR_PLAYER_MOVE).on(Action.PLACE_BET);
+        builder.externalTransition().from(GameStatus.WAITING_FOR_PLAYER_MOVE).to(GameStatus.ENDED).on(Action.STAND).when(new AllPlayersFinishedMakingMoves());
+        builder.externalTransition().from(GameStatus.WAITING_FOR_PLAYER_MOVE).to(GameStatus.ENDED).on(Action.HIT_ME).when(new AllPlayersFinishedMakingMoves());
+        builder.externalTransition().from(GameStatus.WAITING_FOR_PLAYER_MOVE).to(GameStatus.ENDED).on(Action.DOUBLE).when(new AllPlayersFinishedMakingMoves());
+        builder.externalTransition().from(GameStatus.ENDED).to(GameStatus.STARTED).on(Action.START_GAME);
 
         UntypedStateMachine sm = builder.newStateMachine(initialStatus);
         StateMachineLogger fsmLogger = new StateMachineLogger(sm);
