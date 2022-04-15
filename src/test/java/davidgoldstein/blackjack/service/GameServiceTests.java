@@ -28,7 +28,7 @@ public class GameServiceTests {
     MongoGameStateRepository repo;
     GameService service;
     private static final String gameID = "testId1";
-    private static final UUID playerId = UUID.randomUUID();
+    private static final String playerName = "david";
 
     @BeforeEach
     public void reset() {
@@ -38,17 +38,16 @@ public class GameServiceTests {
 
     @Test
     public void checksForUnknownAction() {
+        Player p = new Player(playerName);
         GameState gs = new GameState(
                 gameID,
                 GameStatus.INIT.toString(),
-                new Player[]{
-                        new Player(playerId.toString())
-                }
+                new Player[]{p}
         );
         repo.save(gs);
         Exception thrown = null;
         try {
-            service.processAction(gameID, new ActionRequest("SDFSDFSDF", playerId));
+            service.processAction(gameID, new ActionRequest("SDFSDFSDF",p.getId()));
         } catch(IllegalArgumentException e) {
             thrown = e;
         } catch (GameNotFoundException e) {
@@ -59,7 +58,7 @@ public class GameServiceTests {
 
     @Test
     public void processPlayerBet() throws GameNotFoundException {
-        Player p =new Player(playerId.toString());
+        Player p =new Player(playerName);
         int initialMoney = 100;
         int betAmount = 5;
         p.setMoney(initialMoney);
@@ -70,7 +69,7 @@ public class GameServiceTests {
         );
         repo.save(gs);
         ActionRequest ar = new PlaceBetRequest(
-                playerId,
+                p.getId(),
                 betAmount
         );
 

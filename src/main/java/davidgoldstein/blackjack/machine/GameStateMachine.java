@@ -16,6 +16,9 @@ public class GameStateMachine extends AbstractUntypedStateMachine {
      */
     protected void applyBet(GameStatus from, GameStatus to, Action event, GameContext gc) {
         PlaceBetRequest pbr = (PlaceBetRequest) gc.getActionRequest();
+        // take away money from player
+        gc.getGameState().getPlayer(pbr.getUserId()).decrMoney(pbr.getAmount());
+        // add money to pot
         gc.getGameState().incrPot(pbr.getAmount());
     }
 

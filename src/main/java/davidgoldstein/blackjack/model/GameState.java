@@ -4,6 +4,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.UUID;
 
 @Document
 public class GameState implements Serializable {
@@ -41,6 +43,14 @@ public class GameState implements Serializable {
     public int incrPot(int m) {
         this.pot += m;
         return this.pot;
+    }
+    public Player getPlayer(UUID id) {
+        for (Player p: players) {
+            if (p.id.equals(id)) {
+                return p;
+            }
+        }
+        throw new IllegalArgumentException("player " + id + " not found in players: " + Arrays.toString(players));
     }
 
 }

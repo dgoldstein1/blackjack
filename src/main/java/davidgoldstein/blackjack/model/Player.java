@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class Player implements Person, Serializable {
-	String id;
+	UUID id;
 	String name;
 	ArrayList<Card> hand;
 	int money;
@@ -17,7 +17,7 @@ public class Player implements Person, Serializable {
 	 */
 	public Player(String name) {
 		this.name = name;
-		this.id = UUID.randomUUID().toString();
+		this.id = UUID.randomUUID();
 		this.hand = new ArrayList<Card>();
 		this.money = 0;
 		this.status = PlayerStatus.PLAYING.toString();
@@ -37,6 +37,16 @@ public class Player implements Person, Serializable {
 
 	public String getStatus() { return this.status;}
 	public void setStatus(String status) {this.status = status;}
+	public UUID getId() { return this.id;}
 	public int getMoney() { return  this.money;}
 	public void setMoney(int m) { this.money = m;}
+	public int decrMoney(int m) {
+		this.money -= m;
+		return this.money;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("{id : %s, name : %s}",id, name);
+	}
 }
