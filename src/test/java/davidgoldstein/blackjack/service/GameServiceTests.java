@@ -14,10 +14,6 @@ import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.UUID;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @TestPropertySource(properties = "spring.mongodb.embedded.version=3.5.5")
@@ -101,9 +97,37 @@ public class GameServiceTests {
         GameState newGs = service.processAction(gameID, ar);
         Assertions.assertNotNull(newGs);
         Assertions.assertEquals(GameStatus.WAITING_FOR_BETS.toString(), newGs.getStatus());
-        // assert that player now has less money
+        // assert that no money taken from player
         Assertions.assertEquals(0, newGs.getPot());
-        // assert that game pot now has more money
+        // assert that pot is the same
         Assertions.assertEquals(initialMoney, newGs.getPlayers()[0].getMoney());
+    }
+
+    @Test
+    public void willNotDealCardsIfAllPlayersHaveNotBet() throws GameNotFoundException {
+        Player p0 =new Player(playerName);
+        Player p1 =new Player(playerName + "2");
+        int initialMoney = 100;
+        int betAmount = 5;
+        p0.setMoney(initialMoney);
+        p1.setMoney(initialMoney);
+        GameState gs = new GameState(
+                gameID,
+                GameStatus.WAITING_FOR_BETS.toString(),
+                new Player[]{p0,p1}
+        );
+        repo.save(gs);
+        ActionRequest ar = new PlaceBetRequest(
+                p0.getId(),
+                betAmount
+        );
+
+        GameState newGs = service.processAction(gameID, ar);
+        Assertions.assertNotNull(newGs);
+        Assertions.assertEquals(GameStatus.WAITING_FOR_BETS.toString(), newGs.getStatus());
+        // assert that player now has less money
+        Assertions.assertEquals(betAmount, newGs.getPot());
+        // assert that game pot now has more money
+        Assertions.assertEquals(initialMoney - betAmount, newGs.getPlayers()[0].getMoney());
     }
 }
