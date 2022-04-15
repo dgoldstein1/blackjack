@@ -59,23 +59,27 @@ public class GameServiceTests {
 
     @Test
     public void processPlayerBet() throws GameNotFoundException {
+        Player p =new Player(playerId.toString());
+        int initialMoney = 100;
+        int betAmount = 5;
+        p.setMoney(initialMoney);
         GameState gs = new GameState(
                 gameID,
                 GameStatus.WAITING_FOR_BETS.toString(),
-                new Player[]{
-                        new Player(playerId.toString())
-                }
+                new Player[]{p}
         );
         repo.save(gs);
-        ActionRequest ar = new ActionRequest(
-                Action.PLACE_BET.toString(),
-                playerId
+        ActionRequest ar = new PlaceBetRequest(
+                playerId,
+                betAmount
         );
 
         GameState newGs = service.processAction(gameID, ar);
         Assertions.assertNotNull(newGs);
         Assertions.assertEquals(GameStatus.WAITING_FOR_PLAYER_MOVE.toString(), newGs.getStatus());
-        // TODO: assert that player now has less money
-        // TODO: assert that game pot now has more money
+        // assert that player now has less money
+        Assertions.assertEquals(betAmount, newGs.getPot());
+        // assert that game pot now has more money
+        Assertions.assertEquals(initialMoney - betAmount, newGs.getPlayers()[0].getMoney());
     }
 }
