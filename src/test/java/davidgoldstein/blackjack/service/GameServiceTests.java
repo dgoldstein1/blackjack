@@ -81,4 +81,29 @@ public class GameServiceTests {
         // assert that game pot now has more money
         Assertions.assertEquals(initialMoney - betAmount, newGs.getPlayers()[0].getMoney());
     }
+    @Test
+    public void cannotBetIfNotEnoughtMoney() throws GameNotFoundException {
+        Player p =new Player(playerName);
+        int initialMoney = 100;
+        int betAmount = 105;
+        p.setMoney(initialMoney);
+        GameState gs = new GameState(
+                gameID,
+                GameStatus.WAITING_FOR_BETS.toString(),
+                new Player[]{p}
+        );
+        repo.save(gs);
+        ActionRequest ar = new PlaceBetRequest(
+                p.getId(),
+                betAmount
+        );
+
+        GameState newGs = service.processAction(gameID, ar);
+        Assertions.assertNotNull(newGs);
+        Assertions.assertEquals(GameStatus.WAITING_FOR_BETS.toString(), newGs.getStatus());
+        // assert that player now has less money
+        Assertions.assertEquals(0, newGs.getPot());
+        // assert that game pot now has more money
+        Assertions.assertEquals(initialMoney, newGs.getPlayers()[0].getMoney());
+    }
 }
