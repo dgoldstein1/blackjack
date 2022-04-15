@@ -1,5 +1,6 @@
 package davidgoldstein.blackjack.service;
 
+import davidgoldstein.blackjack.machine.GameContext;
 import davidgoldstein.blackjack.model.ActionRequest;
 import davidgoldstein.blackjack.model.GameState;
 import davidgoldstein.blackjack.machine.GameStateMachineFactory;
@@ -69,7 +70,7 @@ public class GameService {
         // build internal model
         UntypedStateMachine gsm = GameStateMachineFactory.build(currStatus);
         // apply event to game
-        gsm.fire(req.getAction(), curr);
+        gsm.fire(req.getAction(), new GameContext(curr, req));
         // check for error
         if (gsm.getLastException() != null ) {
             throw gsm.getLastException();

@@ -47,7 +47,7 @@ public class GameStateMachineTests {
                         new Player("david")
                 }
             );
-        gsm.fire(Action.DEAL_CARDS, gs);
+        gsm.fire(Action.DEAL_CARDS, new GameContext(gs));
         Assertions.assertNull(gsm.getLastException());
         assertEquals(GameStatus.WAITING_FOR_BETS, gsm.getCurrentState());
     }

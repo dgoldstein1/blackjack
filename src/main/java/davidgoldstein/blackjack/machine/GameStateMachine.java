@@ -7,7 +7,7 @@ import org.squirrelframework.foundation.fsm.StateMachineStatus;
 import org.squirrelframework.foundation.fsm.annotation.StateMachineParameters;
 import org.squirrelframework.foundation.fsm.impl.AbstractUntypedStateMachine;
 
-@StateMachineParameters(stateType = GameStatus.class, eventType = Action.class, contextType = GameState.class)
+@StateMachineParameters(stateType = GameStatus.class, eventType = Action.class, contextType = GameContext.class)
 public class GameStateMachine extends AbstractUntypedStateMachine {
 
     @Override

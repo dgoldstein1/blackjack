@@ -1,6 +1,7 @@
 package davidgoldstein.blackjack.machine;
 
 import davidgoldstein.blackjack.model.GameState;
+import davidgoldstein.blackjack.model.Player;
 import org.squirrelframework.foundation.fsm.Condition;
 
 /**
@@ -9,8 +10,9 @@ import org.squirrelframework.foundation.fsm.Condition;
 public class PlayersPresent implements Condition {
     @Override
     public boolean isSatisfied(Object context) {
-        GameState gs = (GameState) context;
-        return gs.getPlayers() != null && gs.getPlayers().length > 0;
+        GameContext gc = (GameContext) context;
+        Player[] players = gc.getGameState().getPlayers();
+        return players != null && players.length > 0;
     }
 
     @Override
