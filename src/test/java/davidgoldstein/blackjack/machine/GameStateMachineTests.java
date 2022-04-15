@@ -30,8 +30,8 @@ public class GameStateMachineTests {
 
     @Test
     public void ableToPassInitialState() {
-        UntypedStateMachine gsm = GameStateMachineFactory.build(GameStatus.DEALING_CARDS);
-        assertEquals(GameStatus.DEALING_CARDS, gsm.getCurrentState());
+        UntypedStateMachine gsm = GameStateMachineFactory.build(GameStatus.INIT);
+        assertEquals(GameStatus.INIT, gsm.getCurrentState());
     }
 
     /**

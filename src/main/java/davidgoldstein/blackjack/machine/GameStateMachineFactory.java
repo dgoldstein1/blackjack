@@ -25,7 +25,6 @@ public class GameStateMachineFactory {
         UntypedStateMachineBuilder builder = StateMachineBuilderFactory.create(GameStateMachine.class);
 
         // define transitions
-        builder.externalTransition().from(GameStatus.WAITING_FOR_BETS).to(GameStatus.DEALING_CARDS).on(Action.PLACE_BET);
         builder.externalTransition().from(GameStatus.INIT).to(GameStatus.STARTED).on(Action.START_GAME);
         builder.externalTransition().from(GameStatus.STARTED).to(GameStatus.WAITING_FOR_BETS).on(Action.DEAL_CARDS).when(new PlayersPresent());
         builder.externalTransition().from(GameStatus.WAITING_FOR_BETS).to(GameStatus.WAITING_FOR_PLAYER_MOVE).on(Action.PLACE_BET);

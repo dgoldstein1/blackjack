@@ -14,12 +14,15 @@ import org.squirrelframework.foundation.fsm.UntypedStateMachine;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
 
 @Service
 public class GameService {
     @Autowired
     GameRepository repo;
+
+    public GameService(GameRepository repo) {
+        this.repo = repo;
+    }
 
     /**
      * Retrieve game
@@ -55,7 +58,7 @@ public class GameService {
      * @param req request to be made
      * @return new gamestate after action is applied
      */
-    public GameState processAction(String gameId, ActionRequest req) throws Exception {
+    public GameState processAction(String gameId, ActionRequest req) throws IllegalArgumentException, GameNotFoundException {
         // find game in repo
         GameState curr = repo.retrieveById(gameId);
         GameStatus currStatus = GameStatus.fromString(curr.getStatus());
