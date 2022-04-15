@@ -38,5 +38,9 @@ public class GameState implements Serializable {
     public void setPlayers(Player[] players) {this.players = players;}
     public Player[] getPlayers() { return this.players;}
     public int getPot() { return this.pot;}
+    public int incrPot(int m) {
+        this.pot += m;
+        return this.pot;
+    }
 
 }
