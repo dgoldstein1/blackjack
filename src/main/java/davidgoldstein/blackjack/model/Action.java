@@ -17,6 +17,8 @@ public enum Action {
 	HIT_ME("HIT_ME"),
 	STAND("STAND"),
 	DOUBLE("DOUBLE"),
+	// internal (not to be called by players
+	INTERNAL_FINISH_BETS("INTERNAL_FINISH_BETS"),
 	UNKNOWN("UNKNOWN");
 
 	private final String value;

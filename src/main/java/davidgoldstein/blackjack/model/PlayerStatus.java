@@ -4,7 +4,8 @@ public enum PlayerStatus {
     PLAYING("PLAYING"),
     BUSTED("BUSTED"),
     STOOD("STOOD"),
-    UNKNOWN("UNKNOWN");
+    HAS_BET("HAS_BET"),
+    UNKNOWN("UNKNOWN"),;
 
     private final String value;
 

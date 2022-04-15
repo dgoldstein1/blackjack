@@ -1,10 +1,11 @@
-package davidgoldstein.blackjack.machine;
+package davidgoldstein.blackjack.machine.conditions;
 
+import davidgoldstein.blackjack.machine.GameContext;
 import davidgoldstein.blackjack.model.PlaceBetRequest;
 import org.squirrelframework.foundation.fsm.Condition;
 
 /**
- * assert that player have enought money in order to bet
+ * assert that player has enough money in order to bet
  */
 public class PlayerHasEnoughMoney implements Condition {
     @Override
