@@ -1,6 +1,6 @@
 package davidgoldstein.blackjack.repository.mongo;
 
-import davidgoldstein.blackjack.model.GameState;
+import davidgoldstein.blackjack.model.Game;
 import davidgoldstein.blackjack.exceptions.GameAlreadyExistsException;
 import davidgoldstein.blackjack.exceptions.GameNotFoundException;
 import davidgoldstein.blackjack.repository.GameRepository;
@@ -23,15 +23,15 @@ public class Repository implements GameRepository {
     }
 
     @Override
-    public GameState retrieveById(String gameId) throws GameNotFoundException {
-        Optional<GameState> gs = repo.findById(gameId);
+    public Game retrieveById(String gameId) throws GameNotFoundException {
+        Optional<Game> gs = repo.findById(gameId);
         if (gs.isEmpty()) {
             throw new GameNotFoundException("game does not exist: " + gameId);
         }
         return gs.get();
     }
 
-    public GameState createGame(GameState gs) throws GameAlreadyExistsException {
+    public Game createGame(Game gs) throws GameAlreadyExistsException {
         boolean gameAlreadyExists = true;
         try {
             retrieveById(gs.getId());
@@ -46,7 +46,7 @@ public class Repository implements GameRepository {
     }
 
     @Override
-    public GameState updateExisting(GameState gs) throws GameNotFoundException {
+    public Game updateExisting(Game gs) throws GameNotFoundException {
         // assert that game exists first
         retrieveById(gs.getId());
         return repo.save(gs);
@@ -61,7 +61,7 @@ public class Repository implements GameRepository {
      * @throws GameNotFoundException
      */
     @Override
-    public GameState setGameState(String gameId, GameState gs) throws GameNotFoundException, IllegalArgumentException  {
+    public Game setGameState(String gameId, Game gs) throws GameNotFoundException, IllegalArgumentException  {
         if (gameId != gs.getId())
             throw new IllegalArgumentException("cannot change game id");
         // assert that game exists first
@@ -75,7 +75,7 @@ public class Repository implements GameRepository {
     }
 
     @Override
-    public List<GameState> listGames() {
+    public List<Game> listGames() {
         return repo.findAll();
     }
 }

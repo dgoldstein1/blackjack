@@ -1,6 +1,6 @@
 package davidgoldstein.blackjack.machine;
 
-import davidgoldstein.blackjack.model.GameState;
+import davidgoldstein.blackjack.model.Game;
 import davidgoldstein.blackjack.model.Action;
 import davidgoldstein.blackjack.model.GameStatus;
 import davidgoldstein.blackjack.model.Player;
@@ -12,7 +12,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class GameStateMachineTests {
+public class GameMachineTests {
 
 
     @Test
@@ -40,7 +40,7 @@ public class GameStateMachineTests {
     @Test
     public void dealCardsToPlayer() {
         UntypedStateMachine gsm = GameStateMachineFactory.build(GameStatus.STARTED);
-        GameState gs = new GameState(
+        Game gs = new Game(
                 "test1",
                 GameStatus.STARTED.toString(),
                 new Player[]{
@@ -54,7 +54,7 @@ public class GameStateMachineTests {
     @Test
     public void needAtLeastOnePlayerToDealCards() {
         UntypedStateMachine gsm = GameStateMachineFactory.build(GameStatus.STARTED);
-        GameState gs = new GameState("test1",GameStatus.STARTED.toString());
+        Game gs = new Game("test1",GameStatus.STARTED.toString());
         Assertions.assertNull(gsm.getLastException());
         assertEquals(GameStatus.STARTED, gsm.getCurrentState());
     }

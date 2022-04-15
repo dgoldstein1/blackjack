@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.UUID;
 
 @Document
-public class GameState implements Serializable {
+public class Game implements Serializable {
     @Id
     private String id;
     private String name;
@@ -16,19 +16,19 @@ public class GameState implements Serializable {
     private int pot;
     private Player[] players;
 
-    public GameState() {
+    public Game() {
         this.status = GameStatus.INIT.toString();
         this.pot = 0;
     }
-    public GameState(String id) {
+    public Game(String id) {
         this();
         this.id = id;
     }
-    public GameState(String id, String status) {
+    public Game(String id, String status) {
         this(id);
         this.status = status;
     }
-    public GameState(String id, String status, Player[] players) {
+    public Game(String id, String status, Player[] players) {
         this(id, status);
         this.players = players;
     }

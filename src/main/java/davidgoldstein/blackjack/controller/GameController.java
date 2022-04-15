@@ -1,6 +1,6 @@
 package davidgoldstein.blackjack.controller;
 
-import davidgoldstein.blackjack.model.GameState;
+import davidgoldstein.blackjack.model.Game;
 import davidgoldstein.blackjack.exceptions.GameAlreadyExistsException;
 import davidgoldstein.blackjack.exceptions.GameNotFoundException;
 import davidgoldstein.blackjack.service.GameService;
@@ -20,7 +20,7 @@ public class GameController {
      */
     @GetMapping("/rest/game")
     @ResponseBody
-    public List<GameState> listGames() {
+    public List<Game> listGames() {
         return gameService.listGames();
     }
 
@@ -30,7 +30,7 @@ public class GameController {
      */
     @GetMapping("/rest/game/{id}")
     @ResponseBody
-    public GameState retrieveGame(@PathVariable String id) throws GameNotFoundException {
+    public Game retrieveGame(@PathVariable String id) throws GameNotFoundException {
         return gameService.retrieveById(id);
     }
 
@@ -41,7 +41,7 @@ public class GameController {
      */
     @PostMapping("/rest/game")
     @ResponseBody
-    public GameState createGame(@RequestParam(value = "gameId",name = "gameId") String gameId) throws GameAlreadyExistsException {
+    public Game createGame(@RequestParam(value = "gameId",name = "gameId") String gameId) throws GameAlreadyExistsException {
         return gameService.createGame(gameId);
     }
 

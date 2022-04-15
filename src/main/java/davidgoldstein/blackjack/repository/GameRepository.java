@@ -1,6 +1,6 @@
 package davidgoldstein.blackjack.repository;
 
-import davidgoldstein.blackjack.model.GameState;
+import davidgoldstein.blackjack.model.Game;
 import davidgoldstein.blackjack.exceptions.GameAlreadyExistsException;
 import davidgoldstein.blackjack.exceptions.GameNotFoundException;
 
@@ -11,9 +11,9 @@ import java.util.List;
  */
 public interface GameRepository {
     public void deleteAll();
-    public GameState retrieveById(String gameId) throws GameNotFoundException;
-    public GameState createGame(GameState gs) throws GameAlreadyExistsException;
-    public GameState updateExisting(GameState gs) throws GameNotFoundException;
-    public GameState setGameState(String gameId, GameState gs) throws GameNotFoundException;
-    public List<GameState> listGames();
+    public Game retrieveById(String gameId) throws GameNotFoundException;
+    public Game createGame(Game gs) throws GameAlreadyExistsException;
+    public Game updateExisting(Game gs) throws GameNotFoundException;
+    public Game setGameState(String gameId, Game gs) throws GameNotFoundException;
+    public List<Game> listGames();
 }

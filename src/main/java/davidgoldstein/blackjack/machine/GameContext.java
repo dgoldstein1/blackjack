@@ -1,27 +1,26 @@
 package davidgoldstein.blackjack.machine;
 
 import davidgoldstein.blackjack.model.ActionRequest;
-import davidgoldstein.blackjack.model.GameState;
-import davidgoldstein.blackjack.model.GameStatus;
+import davidgoldstein.blackjack.model.Game;
 
 /**
  * Context passed to the machine to validate transitions
  */
 public class GameContext {
-    GameState gameState;
+    Game game;
     ActionRequest actionRequest;
 
-    public GameContext(GameState gs) {
-        this.gameState = gs;
+    public GameContext(Game gs) {
+        this.game = gs;
     }
 
-    public GameContext(GameState gs, ActionRequest ar) {
-        this.gameState = gs;
+    public GameContext(Game gs, ActionRequest ar) {
+        this.game = gs;
         this.actionRequest = ar;
     }
 
-    public GameState getGameState() {
-        return this.gameState;
+    public Game getGameState() {
+        return this.game;
     }
 
     public ActionRequest getActionRequest() {

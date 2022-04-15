@@ -1,7 +1,7 @@
 package davidgoldstein.blackjack.controller;
 
 import davidgoldstein.blackjack.model.ActionRequest;
-import davidgoldstein.blackjack.model.GameState;
+import davidgoldstein.blackjack.model.Game;
 import davidgoldstein.blackjack.model.Action;
 import davidgoldstein.blackjack.model.GameStatus;
 import org.junit.jupiter.api.BeforeEach;
@@ -49,7 +49,7 @@ public class ActionRequestControllerTests {
     private static final String SUBSCRIBE_ERROR_ENDPOINT = "/topic/error";
     private static final int TIMEOUT_S = 5;
 
-    private CompletableFuture<GameState> completableFuture;
+    private CompletableFuture<Game> completableFuture;
 
     @Autowired
     private MockMvc mockMvc;
@@ -85,7 +85,7 @@ public class ActionRequestControllerTests {
         StompSession ss = newStompSession();
         ss.subscribe(GAME_SUBSRIBE_ENDPOINT + gameId, new CreateGameStompFrameHandler());
         ss.send(SEND_ACTION_REQUEST_ENDPOINT + gameId, new ActionRequest(Action.START_GAME.toString(),UUID.randomUUID()));
-        GameState gs = completableFuture.get(TIMEOUT_S, SECONDS);
+        Game gs = completableFuture.get(TIMEOUT_S, SECONDS);
         assertNotNull(gs);
         assertEquals(gameId, gs.getId());
         assertEquals(GameStatus.STARTED.toString(), gs.getStatus());
@@ -101,12 +101,12 @@ public class ActionRequestControllerTests {
         @Override
         public Type getPayloadType(StompHeaders stompHeaders) {
             System.out.println(stompHeaders.toString());
-            return GameState.class;
+            return Game.class;
         }
 
         @Override
         public void handleFrame(StompHeaders stompHeaders, Object o) {
-            completableFuture.complete((GameState) o);
+            completableFuture.complete((Game) o);
         }
     }
 }

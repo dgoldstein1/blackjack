@@ -1,6 +1,6 @@
 package davidgoldstein.blackjack.repository;
 
-import davidgoldstein.blackjack.model.GameState;
+import davidgoldstein.blackjack.model.Game;
 import davidgoldstein.blackjack.exceptions.GameAlreadyExistsException;
 import davidgoldstein.blackjack.exceptions.GameNotFoundException;
 import davidgoldstein.blackjack.repository.mongo.MongoGameStateRepository;
@@ -28,18 +28,18 @@ class RepositoryTests {
     @Test
     void CreateNewGame() throws GameAlreadyExistsException {
         Repository gs = new Repository(repo);
-        GameState gameState = gs.createGame(new GameState("test"));
-        assertNotNull(gameState);
-        assertEquals("test", gameState.getId());
+        Game game = gs.createGame(new Game("test"));
+        assertNotNull(game);
+        assertEquals("test", game.getId());
     }
 
     @Test
     void CannotCreateDuplicateGames() throws GameAlreadyExistsException {
         Repository gs = new Repository(repo);
-        gs.createGame(new GameState("test"));
+        gs.createGame(new Game("test"));
         Exception exception = null;
         try {
-            gs.createGame(new GameState("test"));
+            gs.createGame(new Game("test"));
         } catch (GameAlreadyExistsException e) {
             exception = e;
         }
@@ -49,14 +49,14 @@ class RepositoryTests {
 
     @Test
     void setGameState() throws GameNotFoundException {
-        GameState gameState = new GameState("test");
-        repo.save(gameState);
+        Game game = new Game("test");
+        repo.save(game);
         Repository gs = new Repository(repo);
-        gameState.setName("new name");
-        gameState = gs.setGameState("test",gameState);
-        assertNotNull(gameState);
-        assertEquals("test", gameState.getId());
-        assertEquals("new name", gameState.getName());
+        game.setName("new name");
+        game = gs.setGameState("test", game);
+        assertNotNull(game);
+        assertEquals("test", game.getId());
+        assertEquals("new name", game.getName());
     }
 }
 

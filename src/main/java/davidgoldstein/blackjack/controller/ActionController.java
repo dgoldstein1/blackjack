@@ -1,7 +1,7 @@
 package davidgoldstein.blackjack.controller;
 
 import davidgoldstein.blackjack.model.ActionRequest;
-import davidgoldstein.blackjack.model.GameState;
+import davidgoldstein.blackjack.model.Game;
 import davidgoldstein.blackjack.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -37,8 +37,8 @@ public class ActionController {
      */
     @MessageMapping("/action/{gameId}")
     @SendTo("/topic/game/{gameId}")
-    public GameState makeMove(@DestinationVariable String gameId, ActionRequest req) throws Exception {
-        GameState gs = null;
+    public Game makeMove(@DestinationVariable String gameId, ActionRequest req) throws Exception {
+        Game gs = null;
         try {
             gs = gameService.processAction(gameId, req);
         } catch (Exception e) {

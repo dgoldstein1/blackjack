@@ -1,6 +1,6 @@
 package davidgoldstein.blackjack.repository;
 
-import davidgoldstein.blackjack.model.GameState;
+import davidgoldstein.blackjack.model.Game;
 import davidgoldstein.blackjack.model.GameStatus;
 import davidgoldstein.blackjack.model.Player;
 import davidgoldstein.blackjack.repository.mongo.MongoGameStateRepository;
@@ -28,7 +28,7 @@ public class MongoGameStatusRepositoryTests {
     @BeforeEach
     public void setUp() throws Exception {
         repo.deleteAll();
-        GameState gs = new GameState(
+        Game gs = new Game(
                 gameID,
                 GameStatus.INIT.toString(),
                 new Player[]{
@@ -40,18 +40,18 @@ public class MongoGameStatusRepositoryTests {
 
     @Test
     public void shouldBeNotEmpty() {
-        Optional<GameState> gs = repo.findById(gameID);
+        Optional<Game> gs = repo.findById(gameID);
         Assertions.assertTrue(gs.isPresent());
     }
 
     @Test
     public void createsValidGameStructure() {
-        Optional<GameState> gs = repo.findById(gameID);
+        Optional<Game> gs = repo.findById(gameID);
         Assertions.assertTrue(gs.isPresent());
-        GameState gameState = gs.get();
-        Assertions.assertEquals(gameState.getStatus(), GameStatus.INIT.toString());
-        Assertions.assertEquals(1, gameState.getPlayers().length);
-        Assertions.assertEquals(playerName1, gameState.getPlayers()[0].getName());
+        Game game = gs.get();
+        Assertions.assertEquals(game.getStatus(), GameStatus.INIT.toString());
+        Assertions.assertEquals(1, game.getPlayers().length);
+        Assertions.assertEquals(playerName1, game.getPlayers()[0].getName());
     }
 
 }

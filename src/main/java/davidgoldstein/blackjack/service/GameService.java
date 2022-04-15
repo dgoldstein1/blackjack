@@ -2,7 +2,7 @@ package davidgoldstein.blackjack.service;
 
 import davidgoldstein.blackjack.machine.GameContext;
 import davidgoldstein.blackjack.model.ActionRequest;
-import davidgoldstein.blackjack.model.GameState;
+import davidgoldstein.blackjack.model.Game;
 import davidgoldstein.blackjack.machine.GameStateMachineFactory;
 import davidgoldstein.blackjack.model.Action;
 import davidgoldstein.blackjack.model.GameStatus;
@@ -31,7 +31,7 @@ public class GameService {
      * @return
      * @throws GameNotFoundException
      */
-    public GameState retrieveById(String gameId) throws GameNotFoundException {
+    public Game retrieveById(String gameId) throws GameNotFoundException {
         return repo.retrieveById(gameId);
     }
 
@@ -39,7 +39,7 @@ public class GameService {
      * lists all games in repo
      * @return
      */
-    public List<GameState> listGames() {
+    public List<Game> listGames() {
         return repo.listGames();
     }
 
@@ -49,8 +49,8 @@ public class GameService {
      * @return
      * @throws GameAlreadyExistsException
      */
-    public GameState createGame(String gameId) throws GameAlreadyExistsException {
-        return repo.createGame(new GameState(gameId));
+    public Game createGame(String gameId) throws GameAlreadyExistsException {
+        return repo.createGame(new Game(gameId));
     }
 
     /**
@@ -59,9 +59,9 @@ public class GameService {
      * @param req request to be made
      * @return new gamestate after action is applied
      */
-    public GameState processAction(String gameId, ActionRequest req) throws IllegalArgumentException, GameNotFoundException {
+    public Game processAction(String gameId, ActionRequest req) throws IllegalArgumentException, GameNotFoundException {
         // find game in repo
-        GameState curr = repo.retrieveById(gameId);
+        Game curr = repo.retrieveById(gameId);
         GameStatus currStatus = GameStatus.fromString(curr.getStatus());
         // validate action
         if (req.getAction() == Action.UNKNOWN) {

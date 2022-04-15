@@ -1,7 +1,6 @@
 package davidgoldstein.blackjack.machine.conditions;
 
 import davidgoldstein.blackjack.machine.GameContext;
-import davidgoldstein.blackjack.model.GameState;
 import davidgoldstein.blackjack.model.Player;
 import org.squirrelframework.foundation.fsm.Condition;
 

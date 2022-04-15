@@ -2,7 +2,6 @@ package davidgoldstein.blackjack.service;
 
 import davidgoldstein.blackjack.exceptions.GameNotFoundException;
 import davidgoldstein.blackjack.model.*;
-import davidgoldstein.blackjack.repository.GameRepository;
 import davidgoldstein.blackjack.repository.mongo.MongoGameStateRepository;
 import davidgoldstein.blackjack.repository.mongo.Repository;
 import org.junit.jupiter.api.Assertions;
@@ -35,7 +34,7 @@ public class GameServiceTests {
     @Test
     public void checksForUnknownAction() {
         Player p = new Player(playerName);
-        GameState gs = new GameState(
+        Game gs = new Game(
                 gameID,
                 GameStatus.INIT.toString(),
                 new Player[]{p}
@@ -58,7 +57,7 @@ public class GameServiceTests {
         int initialMoney = 100;
         int betAmount = 5;
         p.setMoney(initialMoney);
-        GameState gs = new GameState(
+        Game gs = new Game(
                 gameID,
                 GameStatus.WAITING_FOR_BETS.toString(),
                 new Player[]{p}
@@ -69,7 +68,7 @@ public class GameServiceTests {
                 betAmount
         );
 
-        GameState newGs = service.processAction(gameID, ar);
+        Game newGs = service.processAction(gameID, ar);
         Assertions.assertNotNull(newGs);
         Assertions.assertEquals(GameStatus.WAITING_FOR_PLAYER_MOVE.toString(), newGs.getStatus());
         // assert that player now has less money
@@ -84,7 +83,7 @@ public class GameServiceTests {
         int initialMoney = 100;
         int betAmount = 105;
         p.setMoney(initialMoney);
-        GameState gs = new GameState(
+        Game gs = new Game(
                 gameID,
                 GameStatus.WAITING_FOR_BETS.toString(),
                 new Player[]{p}
@@ -95,7 +94,7 @@ public class GameServiceTests {
                 betAmount
         );
 
-        GameState newGs = service.processAction(gameID, ar);
+        Game newGs = service.processAction(gameID, ar);
         Assertions.assertNotNull(newGs);
         Assertions.assertEquals(GameStatus.WAITING_FOR_BETS.toString(), newGs.getStatus());
         // assert that no money taken from player
@@ -112,7 +111,7 @@ public class GameServiceTests {
         int betAmount = 5;
         p0.setMoney(initialMoney);
         p1.setMoney(initialMoney);
-        GameState gs = new GameState(
+        Game gs = new Game(
                 gameID,
                 GameStatus.WAITING_FOR_BETS.toString(),
                 new Player[]{p0,p1}
@@ -123,7 +122,7 @@ public class GameServiceTests {
                 betAmount
         );
 
-        GameState newGs = service.processAction(gameID, ar);
+        Game newGs = service.processAction(gameID, ar);
         Assertions.assertNotNull(newGs);
         Assertions.assertEquals(GameStatus.WAITING_FOR_BETS.toString(), newGs.getStatus());
         // assert that player now has less money
