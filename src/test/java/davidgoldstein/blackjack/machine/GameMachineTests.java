@@ -1,5 +1,6 @@
 package davidgoldstein.blackjack.machine;
 
+import davidgoldstein.blackjack.exceptions.DeckIsEmptyException;
 import davidgoldstein.blackjack.model.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -75,5 +76,30 @@ public class GameMachineTests {
         assertEquals(GameStatus.WAITING_FOR_PLAYER_MOVE, gsm.getCurrentState());
         Assertions.assertEquals(PlayerStatus.HAS_BET.toString(), gs.getPlayer(p.getId()).getStatus());
         Assertions.assertEquals(10, gs.getPot());
+    }
+
+    @Test
+    public void stand() throws DeckIsEmptyException {
+        UntypedStateMachine gsm = GameStateMachineFactory.build(GameStatus.WAITING_FOR_PLAYER_MOVE);
+        Player p = new Player("david");
+        p.setMoney(100);
+        p.setStatus(PlayerStatus.HAS_BET.toString());
+        // will not transition with two players here
+        Game gs = new Game(
+                "test1",
+                GameStatus.WAITING_FOR_PLAYER_MOVE.toString(),
+                new Player[]{p}
+        );
+        gs.dealCards();
+        gs.incrPot(5);
+        ActionRequest ar = new ActionRequest(Action.STAND.toString(), p.getId());
+        gsm.fire(Action.STAND, new GameContext(gs, ar));
+        Assertions.assertNull(gsm.getLastException());
+        // internally fires
+        assertEquals(GameStatus.ENDED, gsm.getCurrentState());
+        Assertions.assertEquals(PlayerStatus.HAS_BET.toString(), gs.getPlayer(p.getId()).getStatus());
+        // assert that money has changed hands, either win money or loose money here
+        Assertions.assertEquals(0, gs.getPot());
+        Assertions.assertNotEquals(100, gs.getPlayer(p.getId()).getMoney());
     }
 }
