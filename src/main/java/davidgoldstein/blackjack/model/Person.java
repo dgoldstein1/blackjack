@@ -10,5 +10,6 @@ import java.util.ArrayList;
 public interface Person {
 	public ArrayList<Card> getHand();
 	public void setHand(ArrayList<Card> hand);
+	public ArrayList<Card> discardHand();
 	public String getName();
 }

@@ -24,10 +24,20 @@ public class Player implements Person, Serializable {
 	}
 
 	public Player() {}
+	public int getPointsInHand() {
+		return hand.stream().reduce(0, (acc, el) -> acc + el.getPointValue(), Integer::sum);
+	}
 
 	@Override
 	public ArrayList<Card> getHand() {
 		return this.hand;
+	}
+
+	// removes cards from hand, returns the cards that were in hand
+	public ArrayList<Card> discardHand() {
+		ArrayList<Card> currHand = hand;
+		hand = new ArrayList<Card>();
+		return currHand;
 	}
 	
 	@Override
@@ -40,6 +50,7 @@ public class Player implements Person, Serializable {
 	public UUID getId() { return this.id;}
 	public int getMoney() { return  this.money;}
 	public void setMoney(int m) { this.money = m;}
+	public void incrMoney(int m) {this.money += m;}
 	public int decrMoney(int m) {
 		this.money -= m;
 		return this.money;

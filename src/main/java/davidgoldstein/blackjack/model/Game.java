@@ -66,4 +66,33 @@ public class Game implements Serializable {
         }
         dealer.setHand(dealer.dealHand());
     }
+
+    // finds winner, distributes money accordingly
+    private void assignWinner() {
+        int highScore = 0;
+        UUID winningPlayer = null;
+        for(Player p : players) {
+            if (!p.getStatus().equals(PlayerStatus.BUSTED.toString()) && p.getPointsInHand() > highScore) {
+                highScore = p.getPointsInHand();
+                winningPlayer = p.getId();
+            }
+        }
+        // check dealer has not won
+        if (winningPlayer != null) {
+            getPlayer(winningPlayer).incrMoney(pot);
+        }
+        pot = 0;
+    }
+    /**
+     * ends a game, winnings are tallied and players statuses are updated
+     */
+    public void end() {
+        // give pot to winner
+        assignWinner();
+        // put cards in discard pile
+        for (Player p: players) {
+            dealer.discard(p.discardHand());
+        }
+        dealer.discard(dealer.discardHand());
+    }
 }

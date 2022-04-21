@@ -19,7 +19,7 @@ public class GameContext {
         this.actionRequest = ar;
     }
 
-    public Game getGameState() {
+    public Game getGame() {
         return this.game;
     }
 

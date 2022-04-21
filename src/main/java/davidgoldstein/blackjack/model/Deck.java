@@ -16,8 +16,8 @@ import java.util.Stack;
  * Deck of playing cards
  */
 public class Deck implements Serializable {
-	Stack<Card> deck;
-	Stack<Card> discardPile;
+	private Stack<Card> deck;
+	private Stack<Card> discardPile;
 	// size of deck when full
 	int maxSize;
 	int size;
@@ -34,6 +34,10 @@ public class Deck implements Serializable {
 		this.deck = initialDeck();
 		this.maxSize = this.deck.size();
 		this.size = this.deck.size();
+	}
+
+	public void discard(Card c) {
+		discardPile.push(c);
 	}
 
 	/**

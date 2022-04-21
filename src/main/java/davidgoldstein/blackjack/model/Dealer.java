@@ -26,7 +26,19 @@ public class Dealer implements Person, Serializable {
 		return hand;
 	}
 
+	// put cards in discard pile
+	public void discard(ArrayList<Card> cards) {
+		cards.forEach(c -> deck.discard(c));
+	}
+
 	public void setHand(ArrayList<Card> hand) {this.hand = hand;}
+
+	@Override
+	public ArrayList<Card> discardHand() {
+		ArrayList<Card> currHand = hand;
+		hand = new ArrayList<Card>();
+		return currHand;
+	}
 
 	@Override
 	public ArrayList<Card> getHand() {

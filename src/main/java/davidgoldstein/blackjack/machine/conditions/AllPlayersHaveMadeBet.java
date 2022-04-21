@@ -14,7 +14,7 @@ public class AllPlayersHaveMadeBet implements Condition {
     @Override
     public boolean isSatisfied(Object context) {
         GameContext gs = (GameContext) context;
-        for (Player p: gs.getGameState().getPlayers()) {
+        for (Player p: gs.getGame().getPlayers()) {
             if (!Objects.equals(p.getStatus(), PlayerStatus.HAS_BET.toString())) {
                 return false;
             }

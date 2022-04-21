@@ -12,7 +12,7 @@ public class PlayerHasEnoughMoney implements Condition {
     public boolean isSatisfied(Object context) {
         GameContext gc = (GameContext) context;
         PlaceBetRequest pbr = (PlaceBetRequest) gc.getActionRequest();
-        return gc.getGameState().getPlayer(pbr.getUserId()).getMoney() >= pbr.getAmount();
+        return gc.getGame().getPlayer(pbr.getUserId()).getMoney() >= pbr.getAmount();
     }
 
     @Override

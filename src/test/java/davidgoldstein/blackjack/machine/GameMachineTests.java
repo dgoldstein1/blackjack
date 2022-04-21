@@ -101,5 +101,8 @@ public class GameMachineTests {
         // assert that money has changed hands, either win money or loose money here
         Assertions.assertEquals(0, gs.getPot());
         Assertions.assertNotEquals(100, gs.getPlayer(p.getId()).getMoney());
+        // hand is empty
+        Assertions.assertEquals(0, gs.getPlayer(p.getId()).getHand().size());
+        Assertions.assertEquals(0, gs.getDealer().getHand().size());
     }
 }

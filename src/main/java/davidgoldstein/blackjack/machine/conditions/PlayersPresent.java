@@ -11,7 +11,7 @@ public class PlayersPresent implements Condition {
     @Override
     public boolean isSatisfied(Object context) {
         GameContext gc = (GameContext) context;
-        Player[] players = gc.getGameState().getPlayers();
+        Player[] players = gc.getGame().getPlayers();
         return players != null && players.length > 0;
     }
 

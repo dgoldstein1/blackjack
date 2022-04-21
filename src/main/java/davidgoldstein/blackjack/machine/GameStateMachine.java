@@ -16,29 +16,32 @@ public class GameStateMachine extends AbstractUntypedStateMachine {
     protected void applyBet(GameStatus from, GameStatus to, Action event, GameContext gc) {
         PlaceBetRequest pbr = (PlaceBetRequest) gc.getActionRequest();
         // take away money from player
-        gc.getGameState().getPlayer(pbr.getUserId()).decrMoney(pbr.getAmount());
+        gc.getGame().getPlayer(pbr.getUserId()).decrMoney(pbr.getAmount());
         // update player status
-        gc.getGameState().getPlayer(pbr.getUserId()).setStatus(PlayerStatus.HAS_BET.toString());
+        gc.getGame().getPlayer(pbr.getUserId()).setStatus(PlayerStatus.HAS_BET.toString());
         // add money to pot
-        gc.getGameState().incrPot(pbr.getAmount());
+        gc.getGame().incrPot(pbr.getAmount());
         // attempt to deal cards. This will be declined if not everyone has bet
         this.fire(Action.INTERNAL_FINISH_BETS, gc);
     }
 
-    /**
-     * player has requested to stand
-     */
+    // player has requested to stand
     protected void applyStand(GameStatus from, GameStatus to, Action event, GameContext gc) {
         Player p = gc.game.getPlayer(gc.getActionRequest().getUserId());
         p.setStatus(PlayerStatus.STOOD.toString());
         this.fire(Action.INTERNAL_END_GAME, gc);
     }
 
+    // end game
+    protected void end(GameStatus from, GameStatus to, Action event, GameContext gc) throws DeckIsEmptyException {
+        gc.getGame().end();
+    }
+
     /**
      * deal out cards to players and dealer
      */
     protected void dealCards(GameStatus from, GameStatus to, Action event, GameContext gc) throws DeckIsEmptyException {
-        gc.getGameState().dealCards();
+        gc.getGame().dealCards();
     }
 
     @Override
