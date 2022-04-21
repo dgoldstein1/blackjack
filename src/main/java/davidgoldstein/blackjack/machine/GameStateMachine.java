@@ -26,6 +26,14 @@ public class GameStateMachine extends AbstractUntypedStateMachine {
     }
 
     /**
+     * player has requested to stand
+     */
+    protected void applyStand(GameStatus from, GameStatus to, Action event, GameContext gc) {
+        Player p = gc.game.getPlayer(gc.getActionRequest().getUserId());
+        p.setStatus(PlayerStatus.STOOD.toString());
+    }
+
+    /**
      * deal out cards to players and dealer
      */
     protected void dealCards(GameStatus from, GameStatus to, Action event, GameContext gc) throws DeckIsEmptyException {

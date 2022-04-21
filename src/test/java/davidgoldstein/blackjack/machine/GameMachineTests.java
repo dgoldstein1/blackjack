@@ -96,8 +96,8 @@ public class GameMachineTests {
         gsm.fire(Action.STAND, new GameContext(gs, ar));
         Assertions.assertNull(gsm.getLastException());
         // internally fires
+        Assertions.assertEquals(PlayerStatus.STOOD.toString(), gs.getPlayer(p.getId()).getStatus());
         assertEquals(GameStatus.ENDED, gsm.getCurrentState());
-        Assertions.assertEquals(PlayerStatus.HAS_BET.toString(), gs.getPlayer(p.getId()).getStatus());
         // assert that money has changed hands, either win money or loose money here
         Assertions.assertEquals(0, gs.getPot());
         Assertions.assertNotEquals(100, gs.getPlayer(p.getId()).getMoney());
