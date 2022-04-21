@@ -32,6 +32,17 @@ public class GameStateMachine extends AbstractUntypedStateMachine {
         this.fire(Action.INTERNAL_END_GAME, gc);
     }
 
+    protected void applyHit(GameStatus from, GameStatus to, Action event, GameContext gc) throws DeckIsEmptyException {
+        gc.getGame().hitPlayer(gc.getActionRequest().getUserId());
+        this.fire(Action.INTERNAL_END_GAME, gc);
+    }
+
+    protected void applyDouble(GameStatus from, GameStatus to, Action event, GameContext gc) {
+        Player p = gc.game.getPlayer(gc.getActionRequest().getUserId());
+        // TODO
+        this.fire(Action.INTERNAL_END_GAME, gc);
+    }
+
     // end game
     protected void end(GameStatus from, GameStatus to, Action event, GameContext gc) throws DeckIsEmptyException {
         gc.getGame().end();

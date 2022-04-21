@@ -5,6 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.UUID;
 
@@ -50,7 +51,7 @@ public class Game implements Serializable {
     public Dealer getDealer() { return this.dealer;}
     public Player getPlayer(UUID id) {
         for (Player p: players) {
-            if (p.id.equals(id)) {
+            if (p.getId().equals(id)) {
                 return p;
             }
         }
@@ -94,5 +95,14 @@ public class Game implements Serializable {
             dealer.discard(p.discardHand());
         }
         dealer.discard(dealer.discardHand());
+    }
+
+    // deal another card to player, bust if too much
+    public void hitPlayer(UUID playerId) throws DeckIsEmptyException {
+        Player p = getPlayer(playerId);
+        p.addCardToHand(dealer.dealCard());
+        if (p.getPointsInHand() > 21) {
+            p.setStatus(PlayerStatus.BUSTED.toString());
+        }
     }
 }

@@ -26,6 +26,10 @@ public class Dealer implements Person, Serializable {
 		return hand;
 	}
 
+	public Card dealCard() throws DeckIsEmptyException {
+		return deck.draw(1).get(0);
+	}
+
 	// put cards in discard pile
 	public void discard(ArrayList<Card> cards) {
 		cards.forEach(c -> deck.discard(c));

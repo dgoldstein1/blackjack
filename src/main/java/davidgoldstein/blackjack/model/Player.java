@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class Player implements Person, Serializable {
-	UUID id;
-	String name;
-	ArrayList<Card> hand;
-	int money;
-	String status;
+	private UUID id;
+	private String name;
+	private ArrayList<Card> hand;
+	private int money;
+	private String status;
 	
 	/**
 	 * Player of a card game
@@ -39,6 +39,8 @@ public class Player implements Person, Serializable {
 		hand = new ArrayList<Card>();
 		return currHand;
 	}
+
+	public void addCardToHand(Card c) {hand.add(c);}
 	
 	@Override
 	public String getName() {

@@ -126,7 +126,6 @@ public class GameMachineTests {
                 GameStatus.WAITING_FOR_PLAYER_MOVE.toString(),
                 new Player[]{p}
         );
-        gs.dealCards();
         gs.incrPot(5);
         ActionRequest ar = new ActionRequest(Action.HIT_ME.toString(), p.getId());
         gsm.fire(Action.HIT_ME, new GameContext(gs, ar));
@@ -134,6 +133,7 @@ public class GameMachineTests {
         Assertions.assertEquals(PlayerStatus.HAS_BET.toString(), gs.getPlayer(p.getId()).getStatus());
         assertEquals(GameStatus.WAITING_FOR_PLAYER_MOVE, gsm.getCurrentState());
         assertEquals(3, gs.getPlayer(p.getId()).getHand().size());
+        assertTrue(gs.getPlayer(p.getId()).getPointsInHand() <= 21);
         assertNotEquals(prevPointValue, gs.getPlayer(p.getId()).getPointsInHand());
     }
 }
