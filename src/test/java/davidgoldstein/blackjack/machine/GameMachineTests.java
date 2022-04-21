@@ -6,6 +6,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.squirrelframework.foundation.fsm.UntypedStateMachine;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -104,5 +107,33 @@ public class GameMachineTests {
         // hand is empty
         Assertions.assertEquals(0, gs.getPlayer(p.getId()).getHand().size());
         Assertions.assertEquals(0, gs.getDealer().getHand().size());
+    }
+
+    @Test
+    public void hit() throws DeckIsEmptyException {
+        UntypedStateMachine gsm = GameStateMachineFactory.build(GameStatus.WAITING_FOR_PLAYER_MOVE);
+        Player p = new Player("david");
+        ArrayList<Card> hand = new ArrayList<Card>();
+        hand.add(new Card(Suit.CLUBS, CardType.TWO, 2));
+        hand.add(new Card(Suit.CLUBS, CardType.THREE, 3));
+        p.setHand(hand);
+        int prevPointValue = p.getPointsInHand();
+        p.setMoney(100);
+        p.setStatus(PlayerStatus.HAS_BET.toString());
+        // will not transition with two players here
+        Game gs = new Game(
+                "test1",
+                GameStatus.WAITING_FOR_PLAYER_MOVE.toString(),
+                new Player[]{p}
+        );
+        gs.dealCards();
+        gs.incrPot(5);
+        ActionRequest ar = new ActionRequest(Action.HIT_ME.toString(), p.getId());
+        gsm.fire(Action.HIT_ME, new GameContext(gs, ar));
+        Assertions.assertNull(gsm.getLastException());
+        Assertions.assertEquals(PlayerStatus.HAS_BET.toString(), gs.getPlayer(p.getId()).getStatus());
+        assertEquals(GameStatus.WAITING_FOR_PLAYER_MOVE, gsm.getCurrentState());
+        assertEquals(3, gs.getPlayer(p.getId()).getHand().size());
+        assertNotEquals(prevPointValue, gs.getPlayer(p.getId()).getPointsInHand());
     }
 }

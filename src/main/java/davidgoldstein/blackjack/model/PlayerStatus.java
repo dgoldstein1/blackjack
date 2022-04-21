@@ -1,7 +1,7 @@
 package davidgoldstein.blackjack.model;
 
 public enum PlayerStatus {
-    PLAYING("PLAYING"),
+    INIT("INIT"),
     BUSTED("BUSTED"),
     STOOD("STOOD"),
     HAS_BET("HAS_BET"),
