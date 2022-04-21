@@ -88,6 +88,7 @@ public class Game implements Serializable {
      * ends a game, winnings are tallied and players statuses are updated
      */
     public void end() {
+        // TODO: dealer needs to hit or stand
         // give pot to winner
         assignWinner();
         // put cards in discard pile

@@ -136,4 +136,59 @@ public class GameMachineTests {
         assertTrue(gs.getPlayer(p.getId()).getPointsInHand() <= 21);
         assertNotEquals(prevPointValue, gs.getPlayer(p.getId()).getPointsInHand());
     }
+
+    @Test
+    public void cannotHitIfBusted() {
+        UntypedStateMachine gsm = GameStateMachineFactory.build(GameStatus.WAITING_FOR_PLAYER_MOVE);
+        Player p = new Player("david");
+        ArrayList<Card> hand = new ArrayList<Card>();
+        hand.add(new Card(Suit.CLUBS, CardType.TEN, 10));
+        hand.add(new Card(Suit.SPADES, CardType.TEN, 10));
+        hand.add(new Card(Suit.DIAMONDS, CardType.TEN, 10));
+        p.setStatus(PlayerStatus.BUSTED.toString());
+        p.setHand(hand);
+        int prevPointValue = p.getPointsInHand();
+        p.setMoney(100);
+        // will not transition with two players here
+        Game gs = new Game(
+                "test1",
+                GameStatus.WAITING_FOR_PLAYER_MOVE.toString(),
+                new Player[]{p, new Player("david1")}
+        );
+        gs.incrPot(5);
+        ActionRequest ar = new ActionRequest(Action.HIT_ME.toString(), p.getId());
+        gsm.fire(Action.HIT_ME, new GameContext(gs, ar));
+        Assertions.assertNull(gsm.getLastException());
+        Assertions.assertEquals(PlayerStatus.BUSTED.toString(), gs.getPlayer(p.getId()).getStatus());
+        assertEquals(GameStatus.WAITING_FOR_PLAYER_MOVE, gsm.getCurrentState());
+        assertEquals(3, gs.getPlayer(p.getId()).getHand().size());
+        assertEquals(prevPointValue, gs.getPlayer(p.getId()).getPointsInHand());
+    }
+
+    @Test
+    public void cannotHitIfStood() {
+        UntypedStateMachine gsm = GameStateMachineFactory.build(GameStatus.WAITING_FOR_PLAYER_MOVE);
+        Player p = new Player("david");
+        ArrayList<Card> hand = new ArrayList<Card>();
+        hand.add(new Card(Suit.CLUBS, CardType.TEN, 10));
+        hand.add(new Card(Suit.SPADES, CardType.TEN, 10));
+        p.setStatus(PlayerStatus.STOOD.toString());
+        p.setHand(hand);
+        int prevPointValue = p.getPointsInHand();
+        p.setMoney(100);
+        // will not transition with two players here
+        Game gs = new Game(
+                "test1",
+                GameStatus.WAITING_FOR_PLAYER_MOVE.toString(),
+                new Player[]{p, new Player("david1")}
+        );
+        gs.incrPot(5);
+        ActionRequest ar = new ActionRequest(Action.HIT_ME.toString(), p.getId());
+        gsm.fire(Action.HIT_ME, new GameContext(gs, ar));
+        Assertions.assertNull(gsm.getLastException());
+        Assertions.assertEquals(PlayerStatus.STOOD.toString(), gs.getPlayer(p.getId()).getStatus());
+        assertEquals(GameStatus.WAITING_FOR_PLAYER_MOVE, gsm.getCurrentState());
+        assertEquals(2, gs.getPlayer(p.getId()).getHand().size());
+        assertEquals(prevPointValue, gs.getPlayer(p.getId()).getPointsInHand());
+    }
 }
