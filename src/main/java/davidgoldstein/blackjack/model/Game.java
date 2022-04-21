@@ -15,10 +15,12 @@ public class Game implements Serializable {
     private String status;
     private int pot;
     private Player[] players;
+    private Dealer dealer;
 
     public Game() {
         this.status = GameStatus.INIT.toString();
         this.pot = 0;
+        this.dealer = new Dealer();
     }
     public Game(String id) {
         this();
@@ -44,6 +46,7 @@ public class Game implements Serializable {
         this.pot += m;
         return this.pot;
     }
+    public Dealer getDealer() { return this.dealer;}
     public Player getPlayer(UUID id) {
         for (Player p: players) {
             if (p.id.equals(id)) {

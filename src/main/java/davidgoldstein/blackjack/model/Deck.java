@@ -5,6 +5,7 @@ package davidgoldstein.blackjack.model;
 
 import davidgoldstein.blackjack.exceptions.DeckIsEmptyException;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.Stack;
  * @author Z008HBS
  * Deck of playing cards
  */
-public class Deck {
+public class Deck implements Serializable {
 	Stack<Card> deck;
 	Stack<Card> discardPile;
 	// size of deck when full

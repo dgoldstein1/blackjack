@@ -34,18 +34,19 @@ public class GameMachineTests {
      * goes from started to wait for bet after DEAL_CARDS action
      */
     @Test
-    public void dealCardsToPlayer() {
+    public void dealCards() {
         UntypedStateMachine gsm = GameStateMachineFactory.build(GameStatus.STARTED);
+        Player p = new Player("david");
         Game gs = new Game(
                 "test1",
                 GameStatus.STARTED.toString(),
-                new Player[]{
-                        new Player("david")
-                }
+                new Player[]{p}
             );
         gsm.fire(Action.DEAL_CARDS, new GameContext(gs));
         Assertions.assertNull(gsm.getLastException());
         assertEquals(GameStatus.WAITING_FOR_BETS, gsm.getCurrentState());
+        assertNotNull(gs.getPlayer(p.getId()).getHand());
+        assertEquals(2, gs.getPlayer(p.getId()).getHand().size());
     }
     @Test
     public void needAtLeastOnePlayerToDealCards() {
@@ -73,8 +74,5 @@ public class GameMachineTests {
         assertEquals(GameStatus.WAITING_FOR_PLAYER_MOVE, gsm.getCurrentState());
         Assertions.assertEquals(PlayerStatus.HAS_BET.toString(), gs.getPlayer(p.getId()).getStatus());
         Assertions.assertEquals(10, gs.getPot());
-        // assert that cards were dealt
-        Assertions.assertNotNull(gs.getPlayer(p.getId()).getHand());
-        Assertions.assertEquals(2, gs.getPlayer(p.getId()).getHand().size());
     }
 }
