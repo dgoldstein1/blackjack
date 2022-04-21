@@ -17,6 +17,7 @@ public enum Action {
 	HIT_ME("HIT_ME"),
 	STAND("STAND"),
 	DOUBLE("DOUBLE"),
+	SPLIT_PAIRS("SPLIT_PAIRS"),
 	// internal (not to be called by players
 	INTERNAL_FINISH_BETS("INTERNAL_FINISH_BETS"),
 	INTERNAL_END_GAME("INTERNAL_END_GAME"),

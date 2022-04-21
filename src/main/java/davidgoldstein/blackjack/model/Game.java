@@ -63,9 +63,9 @@ public class Game implements Serializable {
      */
     public void dealCards() throws DeckIsEmptyException {
         for (Player p : this.players) {
-            p.setHand(dealer.dealHand());
+            p.setHand(dealer.dealHand(false));
         }
-        dealer.setHand(dealer.dealHand());
+        dealer.setHand(dealer.dealHand(true));
     }
 
     // finds winner, distributes money accordingly
@@ -84,6 +84,15 @@ public class Game implements Serializable {
         }
         pot = 0;
     }
+
+    // put cards in discard pile
+    private void discardCards() {
+        for (Player p: players) {
+            dealer.discard(p.discardHand());
+        }
+        dealer.discard(dealer.discardHand());
+    }
+
     /**
      * ends a game, winnings are tallied and players statuses are updated
      */
@@ -91,11 +100,6 @@ public class Game implements Serializable {
         // TODO: dealer needs to hit or stand
         // give pot to winner
         assignWinner();
-        // put cards in discard pile
-        for (Player p: players) {
-            dealer.discard(p.discardHand());
-        }
-        dealer.discard(dealer.discardHand());
     }
 
     // deal another card to player, bust if too much

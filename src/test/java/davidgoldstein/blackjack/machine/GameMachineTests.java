@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.squirrelframework.foundation.fsm.UntypedStateMachine;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
@@ -105,8 +104,7 @@ public class GameMachineTests {
         Assertions.assertEquals(0, gs.getPot());
         Assertions.assertNotEquals(100, gs.getPlayer(p.getId()).getMoney());
         // hand is empty
-        Assertions.assertEquals(0, gs.getPlayer(p.getId()).getHand().size());
-        Assertions.assertEquals(0, gs.getDealer().getHand().size());
+        Assertions.assertEquals(2, gs.getPlayer(p.getId()).getHand().size());
     }
 
     @Test
