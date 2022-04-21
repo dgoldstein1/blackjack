@@ -1,5 +1,6 @@
 package davidgoldstein.blackjack.machine.conditions;
 
+import davidgoldstein.blackjack.machine.GameContext;
 import davidgoldstein.blackjack.model.Game;
 import davidgoldstein.blackjack.model.Player;
 import davidgoldstein.blackjack.model.PlayerStatus;
@@ -13,10 +14,11 @@ import java.util.Objects;
 public class AllPlayersFinishedMakingMoves implements Condition {
     @Override
     public boolean isSatisfied(Object context) {
-        Game gs = (Game) context;
-        if (gs == null) return false;
-        for (Player p: gs.getPlayers()) {
-            if (!Objects.equals(p.getStatus(), PlayerStatus.PLAYING.toString())) {
+        GameContext gc = (GameContext) context;
+        for (Player p: gc.getGameState().getPlayers()) {
+            PlayerStatus status = PlayerStatus.fromString(p.getStatus());
+            // assert that each player has stood or busted
+            if (!status.equals(PlayerStatus.STOOD) && !status.equals(PlayerStatus.BUSTED)) {
                 return false;
             }
         }

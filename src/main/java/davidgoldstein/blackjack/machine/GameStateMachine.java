@@ -31,6 +31,7 @@ public class GameStateMachine extends AbstractUntypedStateMachine {
     protected void applyStand(GameStatus from, GameStatus to, Action event, GameContext gc) {
         Player p = gc.game.getPlayer(gc.getActionRequest().getUserId());
         p.setStatus(PlayerStatus.STOOD.toString());
+        this.fire(Action.INTERNAL_END_GAME, gc);
     }
 
     /**
