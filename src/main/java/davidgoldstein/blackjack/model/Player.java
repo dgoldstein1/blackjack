@@ -44,6 +44,7 @@ public class Player implements Person, Serializable {
 		this.money -= m;
 		return this.money;
 	}
+	public void setHand(ArrayList<Card> hand) {this.hand = hand;}
 
 	@Override
 	public String toString() {

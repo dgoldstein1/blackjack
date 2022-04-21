@@ -1,5 +1,6 @@
 package davidgoldstein.blackjack.model;
 
+import davidgoldstein.blackjack.exceptions.DeckIsEmptyException;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -56,4 +57,13 @@ public class Game implements Serializable {
         throw new IllegalArgumentException("player " + id + " not found in players: " + Arrays.toString(players));
     }
 
+    /**
+     * deals cards out to players
+     */
+    public void dealCards() throws DeckIsEmptyException {
+        for (Player p : this.players) {
+            p.setHand(dealer.dealHand());
+        }
+        dealer.setHand(dealer.dealHand());
+    }
 }

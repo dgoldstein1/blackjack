@@ -1,5 +1,6 @@
 package davidgoldstein.blackjack.machine;
 
+import davidgoldstein.blackjack.exceptions.DeckIsEmptyException;
 import davidgoldstein.blackjack.model.*;
 ;
 import org.squirrelframework.foundation.fsm.StateMachineStatus;
@@ -27,8 +28,8 @@ public class GameStateMachine extends AbstractUntypedStateMachine {
     /**
      * deal out cards to players and dealer
      */
-    protected void dealCards(GameStatus from, GameStatus to, Action event, GameContext gc) {
-
+    protected void dealCards(GameStatus from, GameStatus to, Action event, GameContext gc) throws DeckIsEmptyException {
+        gc.getGameState().dealCards();
     }
 
     @Override

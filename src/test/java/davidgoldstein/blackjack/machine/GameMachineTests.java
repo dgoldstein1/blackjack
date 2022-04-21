@@ -47,6 +47,7 @@ public class GameMachineTests {
         assertEquals(GameStatus.WAITING_FOR_BETS, gsm.getCurrentState());
         assertNotNull(gs.getPlayer(p.getId()).getHand());
         assertEquals(2, gs.getPlayer(p.getId()).getHand().size());
+        assertEquals(2, gs.getDealer().getHand().size());
     }
     @Test
     public void needAtLeastOnePlayerToDealCards() {

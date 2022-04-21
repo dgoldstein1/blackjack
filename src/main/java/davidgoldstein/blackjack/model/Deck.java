@@ -35,13 +35,13 @@ public class Deck implements Serializable {
 		this.maxSize = this.deck.size();
 		this.size = this.deck.size();
 	}
-	
+
 	/**
 	 * returns the next 
 	 * @param count
 	 * @return
 	 */
-	public List<Card> draw(int count) throws DeckIsEmptyException {
+	public ArrayList<Card> draw(int count) throws DeckIsEmptyException {
 		// check if there are enough cards in deck
 		if (count > this.deck.size()) {
 			throw new DeckIsEmptyException(String.format("requested %d cards but only %d available", count, this.deck.size()));
