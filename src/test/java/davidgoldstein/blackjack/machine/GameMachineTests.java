@@ -1,15 +1,11 @@
 package davidgoldstein.blackjack.machine;
 
-import davidgoldstein.blackjack.model.Game;
-import davidgoldstein.blackjack.model.Action;
-import davidgoldstein.blackjack.model.GameStatus;
-import davidgoldstein.blackjack.model.Player;
+import davidgoldstein.blackjack.model.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.squirrelframework.foundation.fsm.UntypedStateMachine;
 
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GameMachineTests {
@@ -57,5 +53,28 @@ public class GameMachineTests {
         Game gs = new Game("test1",GameStatus.STARTED.toString());
         Assertions.assertNull(gsm.getLastException());
         assertEquals(GameStatus.STARTED, gsm.getCurrentState());
+    }
+
+    @Test
+    public void placeBetToWaitingForPlayerMove() {
+        UntypedStateMachine gsm = GameStateMachineFactory.build(GameStatus.WAITING_FOR_BETS);
+        Player p = new Player("david");
+        p.setMoney(100);
+        // will not transition with two players here
+        Game gs = new Game(
+                "test1",
+                GameStatus.WAITING_FOR_BETS.toString(),
+                new Player[]{p}
+        );
+        ActionRequest ar = new PlaceBetRequest(p.getId(), 10);
+        gsm.fire(Action.PLACE_BET, new GameContext(gs, ar));
+        Assertions.assertNull(gsm.getLastException());
+        // internally fires
+        assertEquals(GameStatus.WAITING_FOR_PLAYER_MOVE, gsm.getCurrentState());
+        Assertions.assertEquals(PlayerStatus.HAS_BET.toString(), gs.getPlayer(p.getId()).getStatus());
+        Assertions.assertEquals(10, gs.getPot());
+        // assert that cards were dealt
+        Assertions.assertNotNull(gs.getPlayer(p.getId()).getHand());
+        Assertions.assertEquals(2, gs.getPlayer(p.getId()).getHand().size());
     }
 }

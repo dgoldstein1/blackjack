@@ -5,6 +5,8 @@ import davidgoldstein.blackjack.model.Player;
 import davidgoldstein.blackjack.model.PlayerStatus;
 import org.squirrelframework.foundation.fsm.Condition;
 
+import java.util.Objects;
+
 /**
  * all players have either busted or have stood
  */
@@ -14,7 +16,7 @@ public class AllPlayersFinishedMakingMoves implements Condition {
         Game gs = (Game) context;
         if (gs == null) return false;
         for (Player p: gs.getPlayers()) {
-            if (p.getStatus() != PlayerStatus.PLAYING.toString()) {
+            if (!Objects.equals(p.getStatus(), PlayerStatus.PLAYING.toString())) {
                 return false;
             }
         }

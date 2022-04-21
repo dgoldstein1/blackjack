@@ -5,6 +5,7 @@ import davidgoldstein.blackjack.machine.conditions.AllPlayersHaveMadeBet;
 import davidgoldstein.blackjack.machine.conditions.PlayerHasEnoughMoney;
 import davidgoldstein.blackjack.machine.conditions.PlayersPresent;
 import davidgoldstein.blackjack.model.Action;
+import davidgoldstein.blackjack.model.Game;
 import davidgoldstein.blackjack.model.GameStatus;
 import org.squirrelframework.foundation.fsm.StateMachineBuilderFactory;
 import org.squirrelframework.foundation.fsm.StateMachineLogger;
@@ -31,11 +32,15 @@ public class GameStateMachineFactory {
         // define transitions
         builder.externalTransition().from(GameStatus.INIT).to(GameStatus.STARTED).on(Action.START_GAME);
         builder.externalTransition().from(GameStatus.STARTED).to(GameStatus.WAITING_FOR_BETS).on(Action.DEAL_CARDS).when(new PlayersPresent()).callMethod("dealCards");
+        // attempts INTERNAL_FINISH_BETS on success
         builder.localTransition().from(GameStatus.WAITING_FOR_BETS).to(GameStatus.WAITING_FOR_BETS).on(Action.PLACE_BET).when(new PlayerHasEnoughMoney()).callMethod("applyBet");
         builder.externalTransition().from(GameStatus.WAITING_FOR_BETS).to(GameStatus.WAITING_FOR_PLAYER_MOVE).on(Action.INTERNAL_FINISH_BETS).when(new AllPlayersHaveMadeBet());
-        builder.externalTransition().from(GameStatus.WAITING_FOR_PLAYER_MOVE).to(GameStatus.ENDED).on(Action.STAND).when(new AllPlayersFinishedMakingMoves());
-        builder.externalTransition().from(GameStatus.WAITING_FOR_PLAYER_MOVE).to(GameStatus.ENDED).on(Action.HIT_ME).when(new AllPlayersFinishedMakingMoves());
-        builder.externalTransition().from(GameStatus.WAITING_FOR_PLAYER_MOVE).to(GameStatus.ENDED).on(Action.DOUBLE).when(new AllPlayersFinishedMakingMoves());
+        // attempts INTERNAL_END_GAME on success
+        builder.externalTransition().from(GameStatus.WAITING_FOR_PLAYER_MOVE).to(GameStatus.WAITING_FOR_PLAYER_MOVE).on(Action.STAND).callMethod("applyStand");
+        builder.externalTransition().from(GameStatus.WAITING_FOR_PLAYER_MOVE).to(GameStatus.WAITING_FOR_PLAYER_MOVE).on(Action.HIT_ME).callMethod("applyHit");
+        builder.externalTransition().from(GameStatus.WAITING_FOR_PLAYER_MOVE).to(GameStatus.WAITING_FOR_PLAYER_MOVE).on(Action.DOUBLE).callMethod("applyDouble");
+        builder.externalTransition().from(GameStatus.WAITING_FOR_PLAYER_MOVE).to(GameStatus.ENDED).on(Action.INTERNAL_END_GAME).when(new AllPlayersFinishedMakingMoves());
+
         builder.externalTransition().from(GameStatus.ENDED).to(GameStatus.STARTED).on(Action.START_GAME);
 
         UntypedStateMachine sm = builder.newStateMachine(initialStatus);

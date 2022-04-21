@@ -19,6 +19,7 @@ public enum Action {
 	DOUBLE("DOUBLE"),
 	// internal (not to be called by players
 	INTERNAL_FINISH_BETS("INTERNAL_FINISH_BETS"),
+	INTERNAL_END_GAME("INTERNAL_END_GAME"),
 	UNKNOWN("UNKNOWN");
 
 	private final String value;
