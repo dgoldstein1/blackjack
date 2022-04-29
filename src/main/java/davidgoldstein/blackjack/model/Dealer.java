@@ -9,11 +9,13 @@ import java.util.List;
 public class Dealer implements Person, Serializable {
 	ArrayList<Card> hand;
 	Deck deck;
+	String status;
 	
 	public Dealer() {
 		this.hand = new ArrayList<Card>();
 		this.deck = new Deck();
 		this.deck.shuffle();
+		this.status = PlayerStatus.INIT.toString();
 	}
 
 	/**
@@ -69,5 +71,8 @@ public class Dealer implements Person, Serializable {
 	public String getName() {
 		return "Dealer";
 	}
+
+	public String getStatus() {return this.status;}
+	public void setStatus(String status) {this.status = status;}
 
 }
