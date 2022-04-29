@@ -75,7 +75,7 @@ public class GameServiceTests {
         Assertions.assertEquals(betAmount, newGs.getPot());
         // assert that game pot now has more money
         Assertions.assertEquals(initialMoney - betAmount, newGs.getPlayers()[0].getMoney());
-        Assertions.assertEquals(PlayerStatus.HAS_BET.toString(), newGs.getPlayers()[0].getStatus());
+        Assertions.assertEquals(PersonStatus.HAS_BET.toString(), newGs.getPlayers()[0].getStatus());
     }
     @Test
     public void cannotBetIfNotEnoughtMoney() throws GameNotFoundException {

@@ -16,7 +16,7 @@ public class DealerTest {
         hand.add(new Card(Suit.CLUBS, CardType.TEN, 10));
         d.setHand(hand);
         d.finishHand();
-        assertEquals(PlayerStatus.STOOD.toString(), d.getStatus());
+        assertEquals(PersonStatus.STOOD.toString(), d.getStatus());
     }
 
 }

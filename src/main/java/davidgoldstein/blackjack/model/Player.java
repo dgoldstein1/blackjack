@@ -20,7 +20,7 @@ public class Player implements Person, Serializable {
 		this.id = UUID.randomUUID();
 		this.hand = new ArrayList<Card>();
 		this.money = 0;
-		this.status = PlayerStatus.INIT.toString();
+		this.status = PersonStatus.INIT.toString();
 	}
 
 	public Player() {}

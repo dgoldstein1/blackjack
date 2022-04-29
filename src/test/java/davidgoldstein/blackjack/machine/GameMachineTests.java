@@ -76,7 +76,7 @@ public class GameMachineTests {
         Assertions.assertNull(gsm.getLastException());
         // internally fires
         assertEquals(GameStatus.WAITING_FOR_PLAYER_MOVE, gsm.getCurrentState());
-        Assertions.assertEquals(PlayerStatus.HAS_BET.toString(), gs.getPlayer(p.getId()).getStatus());
+        Assertions.assertEquals(PersonStatus.HAS_BET.toString(), gs.getPlayer(p.getId()).getStatus());
         Assertions.assertEquals(10, gs.getPot());
     }
 
@@ -85,7 +85,7 @@ public class GameMachineTests {
         UntypedStateMachine gsm = GameStateMachineFactory.build(GameStatus.WAITING_FOR_PLAYER_MOVE);
         Player p = new Player("david");
         p.setMoney(100);
-        p.setStatus(PlayerStatus.HAS_BET.toString());
+        p.setStatus(PersonStatus.HAS_BET.toString());
         // will not transition with two players here
         Game gs = new Game(
                 "test1",
@@ -98,7 +98,7 @@ public class GameMachineTests {
         gsm.fire(Action.STAND, new GameContext(gs, ar));
         Assertions.assertNull(gsm.getLastException());
         // internally fires
-        Assertions.assertEquals(PlayerStatus.STOOD.toString(), gs.getPlayer(p.getId()).getStatus());
+        Assertions.assertEquals(PersonStatus.STOOD.toString(), gs.getPlayer(p.getId()).getStatus());
         assertEquals(GameStatus.ENDED, gsm.getCurrentState());
         // assert that money has changed hands, either win money or loose money here
         Assertions.assertEquals(0, gs.getPot());
@@ -117,7 +117,7 @@ public class GameMachineTests {
         p.setHand(hand);
         int prevPointValue = p.getPointsInHand();
         p.setMoney(100);
-        p.setStatus(PlayerStatus.HAS_BET.toString());
+        p.setStatus(PersonStatus.HAS_BET.toString());
         // will not transition with two players here
         Game gs = new Game(
                 "test1",
@@ -128,7 +128,7 @@ public class GameMachineTests {
         ActionRequest ar = new ActionRequest(Action.HIT_ME.toString(), p.getId());
         gsm.fire(Action.HIT_ME, new GameContext(gs, ar));
         Assertions.assertNull(gsm.getLastException());
-        Assertions.assertEquals(PlayerStatus.HAS_BET.toString(), gs.getPlayer(p.getId()).getStatus());
+        Assertions.assertEquals(PersonStatus.HAS_BET.toString(), gs.getPlayer(p.getId()).getStatus());
         assertEquals(GameStatus.WAITING_FOR_PLAYER_MOVE, gsm.getCurrentState());
         assertEquals(3, gs.getPlayer(p.getId()).getHand().size());
         assertTrue(gs.getPlayer(p.getId()).getPointsInHand() <= 21);
@@ -143,7 +143,7 @@ public class GameMachineTests {
         hand.add(new Card(Suit.CLUBS, CardType.TEN, 10));
         hand.add(new Card(Suit.SPADES, CardType.TEN, 10));
         hand.add(new Card(Suit.DIAMONDS, CardType.TEN, 10));
-        p.setStatus(PlayerStatus.BUSTED.toString());
+        p.setStatus(PersonStatus.BUSTED.toString());
         p.setHand(hand);
         int prevPointValue = p.getPointsInHand();
         p.setMoney(100);
@@ -157,7 +157,7 @@ public class GameMachineTests {
         ActionRequest ar = new ActionRequest(Action.HIT_ME.toString(), p.getId());
         gsm.fire(Action.HIT_ME, new GameContext(gs, ar));
         Assertions.assertNull(gsm.getLastException());
-        Assertions.assertEquals(PlayerStatus.BUSTED.toString(), gs.getPlayer(p.getId()).getStatus());
+        Assertions.assertEquals(PersonStatus.BUSTED.toString(), gs.getPlayer(p.getId()).getStatus());
         assertEquals(GameStatus.WAITING_FOR_PLAYER_MOVE, gsm.getCurrentState());
         assertEquals(3, gs.getPlayer(p.getId()).getHand().size());
         assertEquals(prevPointValue, gs.getPlayer(p.getId()).getPointsInHand());
@@ -170,7 +170,7 @@ public class GameMachineTests {
         ArrayList<Card> hand = new ArrayList<Card>();
         hand.add(new Card(Suit.CLUBS, CardType.TEN, 10));
         hand.add(new Card(Suit.SPADES, CardType.TEN, 10));
-        p.setStatus(PlayerStatus.STOOD.toString());
+        p.setStatus(PersonStatus.STOOD.toString());
         p.setHand(hand);
         int prevPointValue = p.getPointsInHand();
         p.setMoney(100);
@@ -184,7 +184,7 @@ public class GameMachineTests {
         ActionRequest ar = new ActionRequest(Action.HIT_ME.toString(), p.getId());
         gsm.fire(Action.HIT_ME, new GameContext(gs, ar));
         Assertions.assertNull(gsm.getLastException());
-        Assertions.assertEquals(PlayerStatus.STOOD.toString(), gs.getPlayer(p.getId()).getStatus());
+        Assertions.assertEquals(PersonStatus.STOOD.toString(), gs.getPlayer(p.getId()).getStatus());
         assertEquals(GameStatus.WAITING_FOR_PLAYER_MOVE, gsm.getCurrentState());
         assertEquals(2, gs.getPlayer(p.getId()).getHand().size());
         assertEquals(prevPointValue, gs.getPlayer(p.getId()).getPointsInHand());

@@ -2,7 +2,7 @@ package davidgoldstein.blackjack.machine.conditions;
 
 import davidgoldstein.blackjack.machine.GameContext;
 import davidgoldstein.blackjack.model.Player;
-import davidgoldstein.blackjack.model.PlayerStatus;
+import davidgoldstein.blackjack.model.PersonStatus;
 import org.squirrelframework.foundation.fsm.Condition;
 
 import java.util.Objects;
@@ -15,7 +15,7 @@ public class AllPlayersHaveMadeBet implements Condition {
     public boolean isSatisfied(Object context) {
         GameContext gs = (GameContext) context;
         for (Player p: gs.getGame().getPlayers()) {
-            if (!Objects.equals(p.getStatus(), PlayerStatus.HAS_BET.toString())) {
+            if (!Objects.equals(p.getStatus(), PersonStatus.HAS_BET.toString())) {
                 return false;
             }
         }

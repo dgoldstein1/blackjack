@@ -5,7 +5,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.UUID;
 
@@ -73,7 +72,7 @@ public class Game implements Serializable {
         int highScore = 0;
         UUID winningPlayer = null;
         for(Player p : players) {
-            if (!p.getStatus().equals(PlayerStatus.BUSTED.toString()) && p.getPointsInHand() > highScore) {
+            if (!p.getStatus().equals(PersonStatus.BUSTED.toString()) && p.getPointsInHand() > highScore) {
                 highScore = p.getPointsInHand();
                 winningPlayer = p.getId();
             }
@@ -107,7 +106,7 @@ public class Game implements Serializable {
         Player p = getPlayer(playerId);
         p.addCardToHand(dealer.dealCard());
         if (p.getPointsInHand() > 21) {
-            p.setStatus(PlayerStatus.BUSTED.toString());
+            p.setStatus(PersonStatus.BUSTED.toString());
         }
     }
 }

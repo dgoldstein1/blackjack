@@ -18,7 +18,7 @@ public class GameStateMachine extends AbstractUntypedStateMachine {
         // take away money from player
         gc.getGame().getPlayer(pbr.getUserId()).decrMoney(pbr.getAmount());
         // update player status
-        gc.getGame().getPlayer(pbr.getUserId()).setStatus(PlayerStatus.HAS_BET.toString());
+        gc.getGame().getPlayer(pbr.getUserId()).setStatus(PersonStatus.HAS_BET.toString());
         // add money to pot
         gc.getGame().incrPot(pbr.getAmount());
         // attempt to deal cards. This will be declined if not everyone has bet
@@ -28,7 +28,7 @@ public class GameStateMachine extends AbstractUntypedStateMachine {
     // player has requested to stand
     protected void applyStand(GameStatus from, GameStatus to, Action event, GameContext gc) {
         Player p = gc.game.getPlayer(gc.getActionRequest().getUserId());
-        p.setStatus(PlayerStatus.STOOD.toString());
+        p.setStatus(PersonStatus.STOOD.toString());
         this.fire(Action.INTERNAL_END_GAME, gc);
     }
 

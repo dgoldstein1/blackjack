@@ -4,7 +4,6 @@ import davidgoldstein.blackjack.exceptions.DeckIsEmptyException;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Dealer implements Person, Serializable {
 	ArrayList<Card> hand;
@@ -15,7 +14,7 @@ public class Dealer implements Person, Serializable {
 		this.hand = new ArrayList<Card>();
 		this.deck = new Deck();
 		this.deck.shuffle();
-		this.status = PlayerStatus.INIT.toString();
+		this.status = PersonStatus.INIT.toString();
 	}
 
 	/**
