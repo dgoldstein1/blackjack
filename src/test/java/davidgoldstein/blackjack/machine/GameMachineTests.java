@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.squirrelframework.foundation.fsm.UntypedStateMachine;
 
-import java.util.ArrayList;
-
 import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -111,11 +109,11 @@ public class GameMachineTests {
     public void hit() throws DeckIsEmptyException {
         UntypedStateMachine gsm = GameStateMachineFactory.build(GameStatus.WAITING_FOR_PLAYER_MOVE);
         Player p = new Player("david");
-        ArrayList<Card> hand = new ArrayList<Card>();
+        Hand hand = new Hand();
         hand.add(new Card(Suit.CLUBS, CardType.TWO, 2));
         hand.add(new Card(Suit.CLUBS, CardType.THREE, 3));
         p.setHand(hand);
-        int prevPointValue = p.getPointsInHand();
+        int prevPointValue = p.getHand().maxPoints();
         p.setMoney(100);
         p.setStatus(PersonStatus.HAS_BET.toString());
         // will not transition with two players here
@@ -131,21 +129,21 @@ public class GameMachineTests {
         Assertions.assertEquals(PersonStatus.HAS_BET.toString(), gs.getPlayer(p.getId()).getStatus());
         assertEquals(GameStatus.WAITING_FOR_PLAYER_MOVE, gsm.getCurrentState());
         assertEquals(3, gs.getPlayer(p.getId()).getHand().size());
-        assertTrue(gs.getPlayer(p.getId()).getPointsInHand() <= 21);
-        assertNotEquals(prevPointValue, gs.getPlayer(p.getId()).getPointsInHand());
+        assertTrue(gs.getPlayer(p.getId()).getHand().maxPoints() <= 21);
+        assertNotEquals(prevPointValue, gs.getPlayer(p.getId()).getHand().maxPoints());
     }
 
     @Test
     public void cannotHitIfBusted() {
         UntypedStateMachine gsm = GameStateMachineFactory.build(GameStatus.WAITING_FOR_PLAYER_MOVE);
         Player p = new Player("david");
-        ArrayList<Card> hand = new ArrayList<Card>();
+        Hand hand = new Hand();
         hand.add(new Card(Suit.CLUBS, CardType.TEN, 10));
         hand.add(new Card(Suit.SPADES, CardType.TEN, 10));
         hand.add(new Card(Suit.DIAMONDS, CardType.TEN, 10));
         p.setStatus(PersonStatus.BUSTED.toString());
         p.setHand(hand);
-        int prevPointValue = p.getPointsInHand();
+        int prevPointValue = p.getHand().maxPoints();
         p.setMoney(100);
         // will not transition with two players here
         Game gs = new Game(
@@ -160,19 +158,19 @@ public class GameMachineTests {
         Assertions.assertEquals(PersonStatus.BUSTED.toString(), gs.getPlayer(p.getId()).getStatus());
         assertEquals(GameStatus.WAITING_FOR_PLAYER_MOVE, gsm.getCurrentState());
         assertEquals(3, gs.getPlayer(p.getId()).getHand().size());
-        assertEquals(prevPointValue, gs.getPlayer(p.getId()).getPointsInHand());
+        assertEquals(prevPointValue, gs.getPlayer(p.getId()).getHand().maxPoints());
     }
 
     @Test
     public void cannotHitIfStood() {
         UntypedStateMachine gsm = GameStateMachineFactory.build(GameStatus.WAITING_FOR_PLAYER_MOVE);
         Player p = new Player("david");
-        ArrayList<Card> hand = new ArrayList<Card>();
+        Hand hand = new Hand();
         hand.add(new Card(Suit.CLUBS, CardType.TEN, 10));
         hand.add(new Card(Suit.SPADES, CardType.TEN, 10));
         p.setStatus(PersonStatus.STOOD.toString());
         p.setHand(hand);
-        int prevPointValue = p.getPointsInHand();
+        int prevPointValue = p.getHand().maxPoints();
         p.setMoney(100);
         // will not transition with two players here
         Game gs = new Game(
@@ -187,6 +185,6 @@ public class GameMachineTests {
         Assertions.assertEquals(PersonStatus.STOOD.toString(), gs.getPlayer(p.getId()).getStatus());
         assertEquals(GameStatus.WAITING_FOR_PLAYER_MOVE, gsm.getCurrentState());
         assertEquals(2, gs.getPlayer(p.getId()).getHand().size());
-        assertEquals(prevPointValue, gs.getPlayer(p.getId()).getPointsInHand());
+        assertEquals(prevPointValue, gs.getPlayer(p.getId()).getHand().maxPoints());
     }
 }

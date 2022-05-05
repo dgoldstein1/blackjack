@@ -72,8 +72,8 @@ public class Game implements Serializable {
         int highScore = 0;
         UUID winningPlayer = null;
         for(Player p : players) {
-            if (!p.getStatus().equals(PersonStatus.BUSTED.toString()) && p.getPointsInHand() > highScore) {
-                highScore = p.getPointsInHand();
+            if (!p.getStatus().equals(PersonStatus.BUSTED.toString()) && p.getHand().maxPoints() > highScore) {
+                highScore = p.getHand().maxPoints();
                 winningPlayer = p.getId();
             }
         }
@@ -104,8 +104,8 @@ public class Game implements Serializable {
     // deal another card to player, bust if too much
     public void hitPlayer(UUID playerId) throws DeckIsEmptyException {
         Player p = getPlayer(playerId);
-        p.addCardToHand(dealer.dealCard());
-        if (p.getPointsInHand() > 21) {
+        p.getHand().add(dealer.dealCard());
+        if (p.getHand().maxPoints() > 21) {
             p.setStatus(PersonStatus.BUSTED.toString());
         }
     }

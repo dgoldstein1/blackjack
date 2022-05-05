@@ -12,7 +12,7 @@ public class DealerTest {
     @Test
     public void standIf17OrMore() {
         Dealer d = new Dealer();
-        ArrayList<Card> hand = new ArrayList<Card>();
+        Hand hand = new Hand();
         hand.add(new Card(Suit.CLUBS, CardType.SEVEN, 7));
         hand.add(new Card(Suit.CLUBS, CardType.TEN, 10));
         d.setHand(hand);
@@ -24,7 +24,7 @@ public class DealerTest {
     @Test
     public void takesACardIf16orUnder() {
         Dealer d = new Dealer();
-        ArrayList<Card> hand = new ArrayList<Card>();
+        Hand hand = new Hand();
         hand.add(new Card(Suit.CLUBS, CardType.SEVEN, 6));
         hand.add(new Card(Suit.CLUBS, CardType.TEN, 10));
         d.setHand(hand);
@@ -36,7 +36,7 @@ public class DealerTest {
     // dealer stands if having ace is greater / equal to 17
     public void standsIfAceIsOver17() {
         Dealer d = new Dealer();
-        ArrayList<Card> hand = new ArrayList<Card>();
+        Hand hand = new Hand();
         hand.add(new Card(Suit.CLUBS, CardType.ACE, 11));
         hand.add(new Card(Suit.CLUBS, CardType.SIX, 6));
         d.setHand(hand);
@@ -49,7 +49,7 @@ public class DealerTest {
     // dealer takes card if having ace puts over 17
     public void takesCardIfAceIsOver21() {
         Dealer d = new Dealer();
-        ArrayList<Card> hand = new ArrayList<Card>();
+        Hand hand = new Hand();
         hand.add(new Card(Suit.CLUBS, CardType.ACE, 11));
         hand.add(new Card(Suit.HEARTS, CardType.ACE, 11));
         d.setHand(hand);

@@ -7,7 +7,7 @@ import java.util.UUID;
 public class Player implements Person, Serializable {
 	private UUID id;
 	private String name;
-	private ArrayList<Card> hand;
+	private Hand hand;
 	private int money;
 	private String status;
 	
@@ -18,29 +18,25 @@ public class Player implements Person, Serializable {
 	public Player(String name) {
 		this.name = name;
 		this.id = UUID.randomUUID();
-		this.hand = new ArrayList<Card>();
+		this.hand = new Hand();
 		this.money = 0;
 		this.status = PersonStatus.INIT.toString();
 	}
 
 	public Player() {}
-	public int getPointsInHand() {
-		return hand.stream().reduce(0, (acc, el) -> acc + el.getPointValue(), Integer::sum);
-	}
+
 
 	@Override
-	public ArrayList<Card> getHand() {
+	public Hand getHand() {
 		return this.hand;
 	}
 
 	// removes cards from hand, returns the cards that were in hand
-	public ArrayList<Card> discardHand() {
-		ArrayList<Card> currHand = hand;
-		hand = new ArrayList<Card>();
+	public Hand discardHand() {
+		Hand currHand = hand;
+		hand = new Hand();
 		return currHand;
 	}
-
-	public void addCardToHand(Card c) {hand.add(c);}
 	
 	@Override
 	public String getName() {
@@ -57,7 +53,7 @@ public class Player implements Person, Serializable {
 		this.money -= m;
 		return this.money;
 	}
-	public void setHand(ArrayList<Card> hand) {this.hand = hand;}
+	public void setHand(Hand hand) {this.hand = hand;}
 
 	@Override
 	public String toString() {

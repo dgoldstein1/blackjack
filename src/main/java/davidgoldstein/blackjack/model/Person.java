@@ -8,8 +8,8 @@ import java.util.ArrayList;
  *
  */
 public interface Person {
-	public ArrayList<Card> getHand();
-	public void setHand(ArrayList<Card> hand);
-	public ArrayList<Card> discardHand();
+	public Hand getHand();
+	public void setHand(Hand hand);
+	public Hand discardHand();
 	public String getName();
 }

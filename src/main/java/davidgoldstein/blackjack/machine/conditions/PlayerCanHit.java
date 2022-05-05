@@ -9,7 +9,7 @@ public class PlayerCanHit implements Condition {
     public boolean isSatisfied(Object context) {
         GameContext gc = (GameContext) context;
         Player p = gc.getGame().getPlayer(gc.getActionRequest().getUserId());
-        return p.getStatus().equals(PersonStatus.HAS_BET.toString()) && p.getPointsInHand() <= 21;
+        return p.getStatus().equals(PersonStatus.HAS_BET.toString()) && p.getHand().maxPoints() <= 21;
     }
 
     @Override

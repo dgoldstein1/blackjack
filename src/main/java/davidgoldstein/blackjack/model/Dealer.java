@@ -6,12 +6,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Dealer implements Person, Serializable {
-	ArrayList<Card> hand;
+	Hand hand;
 	Deck deck;
 	String status;
 	
 	public Dealer() {
-		this.hand = new ArrayList<Card>();
+		this.hand = new Hand();
 		this.deck = new Deck();
 		this.deck.shuffle();
 		this.status = PersonStatus.INIT.toString();
@@ -22,8 +22,8 @@ public class Dealer implements Person, Serializable {
 	 * @param setFirstFaceDown if true, set the first card in the hand face down
 	 * @throws DeckIsEmptyException
 	 */
-	public ArrayList<Card> dealHand(boolean setFirstFaceDown) throws DeckIsEmptyException {
-		ArrayList<Card> hand = deck.draw(2);
+	public Hand dealHand(boolean setFirstFaceDown) throws DeckIsEmptyException {
+		Hand hand = new Hand(deck.draw(2));
 		if (setFirstFaceDown) {
 			hand.get(0).setFaceDown();
 		}
@@ -44,25 +44,25 @@ public class Dealer implements Person, Serializable {
 	 * 		count the ace as 11 and stand.
 	 */
 	public void finishHand() {
-		// TODO
+
 	}
 
 	// put cards in discard pile
-	public void discard(ArrayList<Card> cards) {
-		cards.forEach(c -> deck.discard(c));
+	public void discard(Hand hand) {
+		hand.asList().forEach(c -> deck.discard(c));
 	}
 
-	public void setHand(ArrayList<Card> hand) {this.hand = hand;}
+	public void setHand(Hand hand) {this.hand = hand;}
 
 	@Override
-	public ArrayList<Card> discardHand() {
-		ArrayList<Card> currHand = hand;
-		hand = new ArrayList<Card>();
+	public Hand discardHand() {
+		Hand currHand = hand;
+		hand = new Hand();
 		return currHand;
 	}
 
 	@Override
-	public ArrayList<Card> getHand() {
+	public Hand getHand() {
 		return this.hand;
 	}
 
