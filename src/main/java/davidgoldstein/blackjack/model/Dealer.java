@@ -5,15 +5,17 @@ import davidgoldstein.blackjack.exceptions.DeckIsEmptyException;
 import java.io.Serializable;
 
 public class Dealer implements Person, Serializable {
-	Hand hand;
-	Deck deck;
-	String status;
+	private Hand hand;
+	private Deck deck;
+	private String status;
+	private int pot;
 	
 	public Dealer() {
 		this.hand = new Hand();
 		this.deck = new Deck();
 		this.deck.shuffle();
 		this.status = PersonStatus.INIT.toString();
+		this.pot = 1000;
 	}
 
 	/**
@@ -86,7 +88,16 @@ public class Dealer implements Person, Serializable {
 		return "Dealer";
 	}
 
+	@Override
+	public void reset() {
+		this.deck.shuffle();
+		this.status = PersonStatus.INIT.toString();
+	}
+
 	public String getStatus() {return this.status;}
 	public void setStatus(String status) {this.status = status;}
+	public int getPot() {return this.pot;}
+	public void incrPot(int m) {this.pot += m;}
+	public void decrPot(int m) {this.pot -= m;}
 
 }

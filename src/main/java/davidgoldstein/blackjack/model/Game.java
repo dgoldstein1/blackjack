@@ -39,6 +39,7 @@ public class Game implements Serializable {
     public String getStatus() { return status;}
     public void setStatus(String s) { this.status = s;}
     public void setPlayers(Player[] players) {this.players = players;}
+    public int getPot() {return dealer.getPot();}
     public Player[] getPlayers() { return this.players;}
     public Dealer getDealer() { return this.dealer;}
     public Player getPlayer(UUID id) {
@@ -60,11 +61,6 @@ public class Game implements Serializable {
         dealer.setHand(dealer.dealHand(true));
     }
 
-    // finds winner, distributes money accordingly
-    private void assignWinner() {
-        // TODO
-    }
-
     // put cards in discard pile
     private void discardCards() {
         for (Player p: players) {
@@ -77,19 +73,46 @@ public class Game implements Serializable {
      * ends a game, winnings are tallied and players statuses are updated
      */
     public void end() throws DeckIsEmptyException {
-        // if all players have busted, dealer wins
+        // if all players have busted, dealer wins and do not deal out remaining cards
         if (Arrays.stream(players).allMatch(p -> p.getStatus().equals(PersonStatus.BUSTED.toString()))) {
-            assignWinner();
-        } else {
-            // have dealer finish hand
-            dealer.finishHand();
-            assignWinner();
+            // give each player's money to dealer
+            Arrays.stream(players).forEach(p -> {
+                dealer.incrPot(p.getBet());
+                p.decrMoney(p.getBet());
+            });
+            return;
         }
+        // have dealer finish hand
+        dealer.finishHand();
+        // give money to player if they have more points and have not busted
+        Arrays.stream(players).forEach(p -> {
+            // if player has busted, goes to dealer
+            if (p.getStatus().equals(PersonStatus.BUSTED.toString())) {
+                dealer.incrPot(p.getBet());
+                p.decrMoney(p.getBet());
+            } else if (dealer.getStatus().equals(PersonStatus.BUSTED.toString())) {
+                // give money to player if dealer busted
+                p.incrMoney(p.getBet());
+                dealer.decrPot(p.getBet());
+            } else if (p.getHand().getMaxPointsLT21() > dealer.getHand().getMaxPointsLT21()) {
+                // give money to player if player has more points glt 21
+                p.incrMoney(p.getBet());
+                dealer.decrPot(p.getBet());
+            } else {
+                // dealer has a better point value
+                p.decrMoney(p.getBet());
+                dealer.incrPot(p.getBet());
+            }
+        });
+
     }
 
     // reset game for next round
     public void reset() {
-
+        for (Player p: players) {
+            p.reset();
+        }
+        dealer.reset();
     }
 
     // deal another card to player, bust if too much

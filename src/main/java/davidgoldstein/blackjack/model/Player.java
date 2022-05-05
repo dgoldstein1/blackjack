@@ -63,4 +63,10 @@ public class Player implements Person, Serializable {
 	public String toString() {
 		return String.format("{id : %s, name : %s}",id, name);
 	}
+
+	public void reset() {
+		this.hand = new Hand();
+		this.bet = 0;
+		this.status = PersonStatus.INIT.toString();
+	}
 }

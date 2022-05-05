@@ -39,6 +39,11 @@ public class Hand implements Serializable {
         return cards.size();
     }
 
+    // returns max points less than 21
+    public int getMaxPointsLT21() {
+        return maxPoints() > 21 ? minPoints() : maxPoints();
+    }
+
     public int minPoints() {
         return cards.stream().reduce(0, (acc, el) -> acc + el.minValue(), Integer::sum);
     }

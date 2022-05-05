@@ -12,4 +12,5 @@ public interface Person {
 	public void setHand(Hand hand);
 	public Hand discardHand();
 	public String getName();
+	public void reset();
 }

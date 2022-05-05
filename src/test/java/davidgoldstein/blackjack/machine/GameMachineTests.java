@@ -96,13 +96,14 @@ public class GameMachineTests {
         gsm.fire(Action.STAND, new GameContext(gs, ar));
         Assertions.assertNull(gsm.getLastException());
         // internally fires
-        Assertions.assertEquals(PersonStatus.STOOD.toString(), gs.getPlayer(p.getId()).getStatus());
+        Assertions.assertEquals(PersonStatus.INIT.toString(), gs.getPlayer(p.getId()).getStatus());
         assertEquals(GameStatus.ENDED, gsm.getCurrentState());
         // assert that money has changed hands, either win money or loose money here
-        Assertions.assertEquals(50, gs.getPlayer(p.getId()).getBet());
+        Assertions.assertEquals(0, gs.getPlayer(p.getId()).getBet());
+        Assertions.assertNotEquals(1000, gs.getPot());
         Assertions.assertNotEquals(100, gs.getPlayer(p.getId()).getMoney());
         // hand is empty
-        Assertions.assertEquals(2, gs.getPlayer(p.getId()).getHand().size());
+        Assertions.assertEquals(0, gs.getPlayer(p.getId()).getHand().size());
     }
 
     @Test
