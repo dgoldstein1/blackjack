@@ -47,8 +47,19 @@ public class Card implements Comparable<Card>, Serializable {
 	 * number of points the card is worth
 	 * @return value as int
 	 */
-	public int getPointValue()  {
+	public int maxValue()  {
 		return this.pointValue;
+	}
+
+	/**
+	 * max number of points card is worth
+	 * @return
+	 */
+	public int minValue() {
+		if (this.cardType.equals(CardType.ACE.toString())) {
+			return 1;
+		}
+		return this.maxValue();
 	}
 	
 	/**

@@ -3,7 +3,6 @@ package davidgoldstein.blackjack.model;
 import davidgoldstein.blackjack.exceptions.DeckIsEmptyException;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class Dealer implements Person, Serializable {
 	Hand hand;
@@ -35,16 +34,32 @@ public class Dealer implements Person, Serializable {
 	}
 
 	/**
-	 * If the total is 17 or more, it must stand.
-	 * If the total is 16 or under, they must take a card.
 	 * The dealer must continue to take cards until the total is 17
 	 * 		or more, at which point the dealer must stand.
-	 * 		If the dealer has an ace, and counting it as 11 would bring
-	 * 		the total to 17 or more (but not over 21), the dealer must
-	 * 		count the ace as 11 and stand.
+	 *
+	 * 	note: dealer cannot split or double down
 	 */
-	public void finishHand() {
-
+	public void finishHand() throws DeckIsEmptyException {
+		// check bust
+		if (hand.minPoints() > 21) {
+			setStatus(PersonStatus.BUSTED.toString());
+			return;
+		}
+		// If the total is 17 or more, it must stand.
+		if (hand.minPoints() >= 17) {
+			setStatus(PersonStatus.STOOD.toString());
+			return;
+		}
+		// If the dealer has an ace, and counting it as 11 would bring
+		// the total to 17 or more (but not over 21), the dealer must
+		// count the ace as 11 and stand.
+		if (hand.containsType(CardType.ACE) && hand.maxPoints() >= 17 && hand.maxPoints() <= 21) {
+			setStatus(PersonStatus.STOOD.toString());
+			return;
+		}
+		// If the total is 16 or under, they must take a card.
+		hand.add(deck.draw(1));
+		finishHand();
 	}
 
 	// put cards in discard pile

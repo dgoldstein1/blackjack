@@ -1,8 +1,7 @@
 package davidgoldstein.blackjack.model;
 
+import davidgoldstein.blackjack.exceptions.DeckIsEmptyException;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -10,7 +9,7 @@ import static org.junit.Assert.assertTrue;
 public class DealerTest {
 
     @Test
-    public void standIf17OrMore() {
+    public void standIf17OrMore() throws DeckIsEmptyException {
         Dealer d = new Dealer();
         Hand hand = new Hand();
         hand.add(new Card(Suit.CLUBS, CardType.SEVEN, 7));
@@ -22,7 +21,7 @@ public class DealerTest {
     }
 
     @Test
-    public void takesACardIf16orUnder() {
+    public void takesACardIf16orUnder() throws DeckIsEmptyException {
         Dealer d = new Dealer();
         Hand hand = new Hand();
         hand.add(new Card(Suit.CLUBS, CardType.SEVEN, 6));
@@ -34,7 +33,7 @@ public class DealerTest {
 
     @Test
     // dealer stands if having ace is greater / equal to 17
-    public void standsIfAceIsOver17() {
+    public void standsIfAceIsOver17() throws DeckIsEmptyException {
         Dealer d = new Dealer();
         Hand hand = new Hand();
         hand.add(new Card(Suit.CLUBS, CardType.ACE, 11));
@@ -47,7 +46,7 @@ public class DealerTest {
 
     @Test
     // dealer takes card if having ace puts over 17
-    public void takesCardIfAceIsOver21() {
+    public void takesCardIfAceIsOver21() throws DeckIsEmptyException {
         Dealer d = new Dealer();
         Hand hand = new Hand();
         hand.add(new Card(Suit.CLUBS, CardType.ACE, 11));
