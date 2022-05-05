@@ -50,6 +50,7 @@ public class GameStateMachine extends AbstractUntypedStateMachine {
     protected void end(GameStatus from, GameStatus to, Action event, GameContext gc) throws DeckIsEmptyException {
         gc.getGame().end();
         gc.getGame().reset();
+        gc.getGame().setStatus(GameStatus.ENDED.toString());
     }
 
     /**

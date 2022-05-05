@@ -104,6 +104,7 @@ public class GameMachineTests {
         Assertions.assertNotEquals(100, gs.getPlayer(p.getId()).getMoney());
         // hand is empty
         Assertions.assertEquals(0, gs.getPlayer(p.getId()).getHand().size());
+        Assertions.assertEquals(GameStatus.ENDED.toString(), gs.getStatus());
     }
 
     @Test
