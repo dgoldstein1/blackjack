@@ -18,7 +18,7 @@ public class PlayerCanDouble implements Condition {
         return p != null &&
                 p.getStatus().equals(PersonStatus.HAS_BET.toString()) &&
                 p.getHand().size() == 2 &&
-                p.getBet() > p.getMoney();
+                p.getMoney() >= p.getBet();
     }
 
     @Override

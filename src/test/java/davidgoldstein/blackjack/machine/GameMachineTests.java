@@ -217,20 +217,26 @@ public class GameMachineTests {
         UntypedStateMachine gsm = GameStateMachineFactory.build(GameStatus.WAITING_FOR_PLAYER_MOVE);
         Player p = new Player("david");
         Hand hand = new Hand();
-        hand.add(new Card(Suit.CLUBS, CardType.TEN, 10));
+        hand.add(new Card(Suit.CLUBS, CardType.NINE, 9));
         hand.add(new Card(Suit.SPADES, CardType.TEN, 10));
         p.setStatus(PersonStatus.HAS_BET.toString());
         p.setHand(hand);
-        int prevPointValue = p.getHand().maxPoints();
         p.setMoney(100);
+        p.setBet(5);
         // will not transition with two players here
         Game gs = new Game(
                 "test1",
                 GameStatus.WAITING_FOR_PLAYER_MOVE.toString(),
-                new Player[]{p, new Player("david1")}
+                new Player[]{p}
         );
         ActionRequest ar = new ActionRequest(Action.DOUBLE.toString(), p.getId());
         gsm.fire(Action.DOUBLE, new GameContext(gs, ar));
+
+        assertEquals(GameStatus.ENDED, gsm.getCurrentState());
+        assertEquals(0, gs.getPlayer(p.getId()).getHand().size());
+        Assertions.assertEquals(0, gs.getPlayer(p.getId()).getBet());
+        Assertions.assertNotEquals(1000, gs.getPot());
+        Assertions.assertNotEquals(100, gs.getPlayer(p.getId()).getMoney());
     }
 
 }

@@ -66,6 +66,7 @@ public class Player implements Person, Serializable {
 
 	public void reset() {
 		this.hand = new Hand();
+		this.money = 0;
 		this.bet = 0;
 		this.status = PersonStatus.INIT.toString();
 	}

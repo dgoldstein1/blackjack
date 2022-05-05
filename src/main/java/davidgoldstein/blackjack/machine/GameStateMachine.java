@@ -40,9 +40,13 @@ public class GameStateMachine extends AbstractUntypedStateMachine {
      * increase the value of your initial bet by up to 100 per cent.
      * In return, the player must stand after taking one more card.
      */
-    protected void applyDouble(GameStatus from, GameStatus to, Action event, GameContext gc) {
+    protected void applyDouble(GameStatus from, GameStatus to, Action event, GameContext gc) throws DeckIsEmptyException {
         Player p = gc.game.getPlayer(gc.getActionRequest().getUserId());
-
+        p.setBet(p.getBet() + p.getBet());
+        gc.getGame().hitPlayer(p.getId());
+        if (!p.getStatus().equals(PersonStatus.BUSTED.toString())) {
+            p.setStatus(PersonStatus.STOOD.toString());
+        }
         this.fire(Action.INTERNAL_END_GAME, gc);
     }
 
