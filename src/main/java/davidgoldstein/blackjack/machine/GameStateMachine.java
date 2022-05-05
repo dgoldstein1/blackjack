@@ -19,8 +19,7 @@ public class GameStateMachine extends AbstractUntypedStateMachine {
         gc.getGame().getPlayer(pbr.getUserId()).decrMoney(pbr.getAmount());
         // update player status
         gc.getGame().getPlayer(pbr.getUserId()).setStatus(PersonStatus.HAS_BET.toString());
-        // add money to pot
-        gc.getGame().incrPot(pbr.getAmount());
+        gc.getGame().getPlayer(pbr.getUserId()).setBet(pbr.getAmount());
         // attempt to deal cards. This will be declined if not everyone has bet
         this.fire(Action.INTERNAL_FINISH_BETS, gc);
     }
@@ -37,15 +36,20 @@ public class GameStateMachine extends AbstractUntypedStateMachine {
         this.fire(Action.INTERNAL_END_GAME, gc);
     }
 
+    /**
+     * increase the value of your initial bet by up to 100 per cent.
+     * In return, the player must stand after taking one more card.
+     */
     protected void applyDouble(GameStatus from, GameStatus to, Action event, GameContext gc) {
         Player p = gc.game.getPlayer(gc.getActionRequest().getUserId());
-        // TODO
+
         this.fire(Action.INTERNAL_END_GAME, gc);
     }
 
     // end game
     protected void end(GameStatus from, GameStatus to, Action event, GameContext gc) throws DeckIsEmptyException {
         gc.getGame().end();
+        gc.getGame().reset();
     }
 
     /**

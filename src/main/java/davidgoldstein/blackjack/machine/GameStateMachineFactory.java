@@ -34,8 +34,7 @@ public class GameStateMachineFactory {
         // attempts INTERNAL_END_GAME on success
         builder.externalTransition().from(GameStatus.WAITING_FOR_PLAYER_MOVE).to(GameStatus.WAITING_FOR_PLAYER_MOVE).on(Action.STAND).when(new PlayerCanStand()).callMethod("applyStand");
         builder.externalTransition().from(GameStatus.WAITING_FOR_PLAYER_MOVE).to(GameStatus.WAITING_FOR_PLAYER_MOVE).on(Action.HIT_ME).when(new PlayerCanHit()).callMethod("applyHit");
-        // TODO
-        builder.externalTransition().from(GameStatus.WAITING_FOR_PLAYER_MOVE).to(GameStatus.WAITING_FOR_PLAYER_MOVE).on(Action.DOUBLE).callMethod("applyDouble");
+        builder.externalTransition().from(GameStatus.WAITING_FOR_PLAYER_MOVE).to(GameStatus.WAITING_FOR_PLAYER_MOVE).on(Action.DOUBLE).when(new PlayerCanDouble()).callMethod("applyDouble");
         // TODO
         builder.externalTransition().from(GameStatus.WAITING_FOR_PLAYER_MOVE).to(GameStatus.WAITING_FOR_PLAYER_MOVE).on(Action.SPLIT_PAIRS).callMethod("applySplit");
         builder.externalTransition().from(GameStatus.WAITING_FOR_PLAYER_MOVE).to(GameStatus.ENDED).on(Action.INTERNAL_END_GAME).when(new AllPlayersFinishedMakingMoves()).callMethod("end");

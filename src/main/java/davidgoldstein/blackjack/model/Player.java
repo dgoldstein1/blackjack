@@ -1,7 +1,6 @@
 package davidgoldstein.blackjack.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.UUID;
 
 public class Player implements Person, Serializable {
@@ -9,6 +8,7 @@ public class Player implements Person, Serializable {
 	private String name;
 	private Hand hand;
 	private int money;
+	private int bet;
 	private String status;
 	
 	/**
@@ -20,6 +20,7 @@ public class Player implements Person, Serializable {
 		this.id = UUID.randomUUID();
 		this.hand = new Hand();
 		this.money = 0;
+		this.bet = 0;
 		this.status = PersonStatus.INIT.toString();
 	}
 
@@ -54,6 +55,9 @@ public class Player implements Person, Serializable {
 		return this.money;
 	}
 	public void setHand(Hand hand) {this.hand = hand;}
+	public void setBet(int m) {
+		bet = m;}
+	public int getBet() {return bet;}
 
 	@Override
 	public String toString() {

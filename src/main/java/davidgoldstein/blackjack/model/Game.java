@@ -14,13 +14,11 @@ public class Game implements Serializable {
     private String id;
     private String name;
     private String status;
-    private int pot;
     private Player[] players;
     private Dealer dealer;
 
     public Game() {
         this.status = GameStatus.INIT.toString();
-        this.pot = 0;
         this.dealer = new Dealer();
     }
     public Game(String id) {
@@ -42,11 +40,6 @@ public class Game implements Serializable {
     public void setStatus(String s) { this.status = s;}
     public void setPlayers(Player[] players) {this.players = players;}
     public Player[] getPlayers() { return this.players;}
-    public int getPot() { return this.pot;}
-    public int incrPot(int m) {
-        this.pot += m;
-        return this.pot;
-    }
     public Dealer getDealer() { return this.dealer;}
     public Player getPlayer(UUID id) {
         for (Player p: players) {
@@ -69,19 +62,7 @@ public class Game implements Serializable {
 
     // finds winner, distributes money accordingly
     private void assignWinner() {
-        int highScore = 0;
-        UUID winningPlayer = null;
-        for(Player p : players) {
-            if (!p.getStatus().equals(PersonStatus.BUSTED.toString()) && p.getHand().maxPoints() > highScore) {
-                highScore = p.getHand().maxPoints();
-                winningPlayer = p.getId();
-            }
-        }
-        // check dealer has not won
-        if (winningPlayer != null) {
-            getPlayer(winningPlayer).incrMoney(pot);
-        }
-        pot = 0;
+        // TODO
     }
 
     // put cards in discard pile
@@ -99,11 +80,16 @@ public class Game implements Serializable {
         // if all players have busted, dealer wins
         if (Arrays.stream(players).allMatch(p -> p.getStatus().equals(PersonStatus.BUSTED.toString()))) {
             assignWinner();
-            return;
+        } else {
+            // have dealer finish hand
+            dealer.finishHand();
+            assignWinner();
         }
-        // have dealer finish hand
-        dealer.finishHand();
-        assignWinner();
+    }
+
+    // reset game for next round
+    public void reset() {
+
     }
 
     // deal another card to player, bust if too much

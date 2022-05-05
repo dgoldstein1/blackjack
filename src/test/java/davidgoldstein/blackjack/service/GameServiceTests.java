@@ -72,13 +72,13 @@ public class GameServiceTests {
         Assertions.assertNotNull(newGs);
         Assertions.assertEquals(GameStatus.WAITING_FOR_PLAYER_MOVE.toString(), newGs.getStatus());
         // assert that player now has less money
-        Assertions.assertEquals(betAmount, newGs.getPot());
+        Assertions.assertEquals(betAmount, newGs.getPlayers()[0].getBet());
         // assert that game pot now has more money
         Assertions.assertEquals(initialMoney - betAmount, newGs.getPlayers()[0].getMoney());
         Assertions.assertEquals(PersonStatus.HAS_BET.toString(), newGs.getPlayers()[0].getStatus());
     }
     @Test
-    public void cannotBetIfNotEnoughtMoney() throws GameNotFoundException {
+    public void cannotBetIfNotEnoughMoney() throws GameNotFoundException {
         Player p =new Player(playerName);
         int initialMoney = 100;
         int betAmount = 105;
@@ -98,7 +98,7 @@ public class GameServiceTests {
         Assertions.assertNotNull(newGs);
         Assertions.assertEquals(GameStatus.WAITING_FOR_BETS.toString(), newGs.getStatus());
         // assert that no money taken from player
-        Assertions.assertEquals(0, newGs.getPot());
+        Assertions.assertEquals(0, gs.getPlayer(p.getId()).getBet());
         // assert that pot is the same
         Assertions.assertEquals(initialMoney, newGs.getPlayers()[0].getMoney());
     }
@@ -126,8 +126,7 @@ public class GameServiceTests {
         Assertions.assertNotNull(newGs);
         Assertions.assertEquals(GameStatus.WAITING_FOR_BETS.toString(), newGs.getStatus());
         // assert that player now has less money
-        Assertions.assertEquals(betAmount, newGs.getPot());
-        // assert that game pot now has more money
+        Assertions.assertEquals(betAmount, newGs.getPlayers()[0].getBet());
         Assertions.assertEquals(initialMoney - betAmount, newGs.getPlayers()[0].getMoney());
     }
 }
