@@ -1,7 +1,7 @@
 package davidgoldstein.blackjack.machine.conditions;
 
+import davidgoldstein.blackjack.api.PlaceBetRequest;
 import davidgoldstein.blackjack.machine.GameContext;
-import davidgoldstein.blackjack.model.PlaceBetRequest;
 import org.squirrelframework.foundation.fsm.Condition;
 
 /**

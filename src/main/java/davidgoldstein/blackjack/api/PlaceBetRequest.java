@@ -1,9 +1,11 @@
-package davidgoldstein.blackjack.model;
+package davidgoldstein.blackjack.api;
+
+import davidgoldstein.blackjack.model.Action;
 
 import java.util.UUID;
 
-public class PlaceBetRequest extends ActionRequest{
-    int amount;
+public class PlaceBetRequest extends ActionRequest {
+    private int amount;
 
     public PlaceBetRequest(String action, UUID userId) {
         super(action, userId);

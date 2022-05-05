@@ -1,6 +1,6 @@
 package davidgoldstein.blackjack.controller;
 
-import davidgoldstein.blackjack.model.ActionRequest;
+import davidgoldstein.blackjack.api.ActionRequest;
 import davidgoldstein.blackjack.model.Game;
 import davidgoldstein.blackjack.model.Action;
 import davidgoldstein.blackjack.model.GameStatus;

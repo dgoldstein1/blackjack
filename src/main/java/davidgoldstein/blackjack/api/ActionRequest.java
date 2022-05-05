@@ -1,4 +1,4 @@
-package davidgoldstein.blackjack.model;
+package davidgoldstein.blackjack.api;
 
 import java.io.Serializable;
 import java.util.UUID;

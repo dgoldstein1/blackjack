@@ -1,5 +1,8 @@
 package davidgoldstein.blackjack.machine;
 
+import davidgoldstein.blackjack.api.HitMeRequest;
+import davidgoldstein.blackjack.api.PlaceBetRequest;
+import davidgoldstein.blackjack.api.SplitRequest;
 import davidgoldstein.blackjack.exceptions.DeckIsEmptyException;
 import davidgoldstein.blackjack.model.*;
 ;
@@ -32,7 +35,14 @@ public class GameStateMachine extends AbstractUntypedStateMachine {
     }
 
     protected void applyHit(GameStatus from, GameStatus to, Action event, GameContext gc) throws DeckIsEmptyException {
-        gc.getGame().hitPlayer(gc.getActionRequest().getUserId());
+        HitMeRequest hmr = (HitMeRequest) gc.getActionRequest();
+        gc.getGame().hitPlayer(hmr.getUserId());
+        this.fire(Action.INTERNAL_END_GAME, gc);
+    }
+
+    protected void applySplit(GameStatus from, GameStatus to, Action event, GameContext gc) throws DeckIsEmptyException {
+        SplitRequest spr = (SplitRequest) gc.getActionRequest();
+        // TODO
         this.fire(Action.INTERNAL_END_GAME, gc);
     }
 
@@ -70,6 +80,4 @@ public class GameStateMachine extends AbstractUntypedStateMachine {
         System.out.println("Unable to transition from " + from + " to " + to +": " + e.getMessage());
         setStatus(StateMachineStatus.ERROR);
     }
-
-
 }

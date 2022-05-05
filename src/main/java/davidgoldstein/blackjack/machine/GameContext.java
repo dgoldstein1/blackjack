@@ -1,6 +1,6 @@
 package davidgoldstein.blackjack.machine;
 
-import davidgoldstein.blackjack.model.ActionRequest;
+import davidgoldstein.blackjack.api.ActionRequest;
 import davidgoldstein.blackjack.model.Game;
 
 /**

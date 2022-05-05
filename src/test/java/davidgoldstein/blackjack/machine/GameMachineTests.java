@@ -1,5 +1,8 @@
 package davidgoldstein.blackjack.machine;
 
+import davidgoldstein.blackjack.api.ActionRequest;
+import davidgoldstein.blackjack.api.HitMeRequest;
+import davidgoldstein.blackjack.api.PlaceBetRequest;
 import davidgoldstein.blackjack.exceptions.DeckIsEmptyException;
 import davidgoldstein.blackjack.model.*;
 import org.junit.jupiter.api.Assertions;
@@ -124,7 +127,7 @@ public class GameMachineTests {
                 GameStatus.WAITING_FOR_PLAYER_MOVE.toString(),
                 new Player[]{p}
         );
-        ActionRequest ar = new ActionRequest(Action.HIT_ME.toString(), p.getId());
+        ActionRequest ar = new HitMeRequest(Action.HIT_ME.toString(), p.getId());
         gsm.fire(Action.HIT_ME, new GameContext(gs, ar));
         Assertions.assertNull(gsm.getLastException());
         Assertions.assertEquals(PersonStatus.HAS_BET.toString(), gs.getPlayer(p.getId()).getStatus());

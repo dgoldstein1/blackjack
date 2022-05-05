@@ -1,7 +1,7 @@
 package davidgoldstein.blackjack.service;
 
 import davidgoldstein.blackjack.machine.GameContext;
-import davidgoldstein.blackjack.model.ActionRequest;
+import davidgoldstein.blackjack.api.ActionRequest;
 import davidgoldstein.blackjack.model.Game;
 import davidgoldstein.blackjack.machine.GameStateMachineFactory;
 import davidgoldstein.blackjack.model.Action;
