@@ -95,9 +95,14 @@ public class Game implements Serializable {
     /**
      * ends a game, winnings are tallied and players statuses are updated
      */
-    public void end() {
-        // TODO: dealer needs to hit or stand
-        // give pot to winner
+    public void end() throws DeckIsEmptyException {
+        // if all players have busted, dealer wins
+        if (Arrays.stream(players).allMatch(p -> p.getStatus().equals(PersonStatus.BUSTED.toString()))) {
+            assignWinner();
+            return;
+        }
+        // have dealer finish hand
+        dealer.finishHand();
         assignWinner();
     }
 
