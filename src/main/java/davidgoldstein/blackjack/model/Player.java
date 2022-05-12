@@ -66,6 +66,7 @@ public class Player implements Person, Serializable {
 		bet = m;}
 	public int getBet() {return bet;}
 	public boolean hasSplit() {return this.hasSplit;}
+	public void setHasSplit() {this.hasSplit = true;}
 	public Hand[] getAllHands() {return this.hands;}
 	public boolean hasAlreadySplitTwice() {return this.hands.length == 3;}
 	public boolean handExists(int handNumber) {
