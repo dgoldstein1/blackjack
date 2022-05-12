@@ -182,7 +182,7 @@ public class GameMachineTests {
                 GameStatus.WAITING_FOR_PLAYER_MOVE.toString(),
                 new Player[]{p, new Player("david1")}
         );
-        ActionRequest ar = new ActionRequest(Action.HIT_ME.toString(), p.getId());
+        ActionRequest ar = new HitMeRequest(Action.HIT_ME.toString(), p.getId());
         gsm.fire(Action.HIT_ME, new GameContext(gs, ar));
         Assertions.assertNull(gsm.getLastException());
         Assertions.assertEquals(PersonStatus.BUSTED.toString(), gs.getPlayer(p.getId()).getStatus());
@@ -208,7 +208,7 @@ public class GameMachineTests {
                 GameStatus.WAITING_FOR_PLAYER_MOVE.toString(),
                 new Player[]{p, new Player("david1")}
         );
-        ActionRequest ar = new ActionRequest(Action.HIT_ME.toString(), p.getId());
+        ActionRequest ar = new HitMeRequest(Action.HIT_ME.toString(), p.getId());
         gsm.fire(Action.HIT_ME, new GameContext(gs, ar));
         Assertions.assertNull(gsm.getLastException());
         Assertions.assertEquals(PersonStatus.STOOD.toString(), gs.getPlayer(p.getId()).getStatus());
