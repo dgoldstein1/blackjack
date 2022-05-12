@@ -97,4 +97,17 @@ public class Player implements Person, Serializable {
 		this.hands[handNumber+1] = new Hand(curr.get(1));
 		hasSplit = true;
 	}
+
+	/**
+	 * @return maximum points per hand less than 21
+	 */
+	public int getMaxPointsLT21FromAllHands() {
+		int max = -1;
+		for (Hand h : hands) {
+			if (h.getMaxPointsLT21() > max) {
+				max = h.getMaxPointsLT21();
+			}
+		}
+		return max;
+	}
 }

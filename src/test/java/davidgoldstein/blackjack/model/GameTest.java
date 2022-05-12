@@ -98,8 +98,12 @@ public class GameTest {
                 GameStatus.STARTED.toString(),
                 new Player[]{p}
         );
+        g.getDealer().setPrimaryHand(new Hand(new Card(Suit.DIAMONDS, CardType.NINE, 9)));
         g.end();
-
-        Assert.assertEquals(105, p.getMoney());
+        if (p.getMoney() == 95) {
+            Assert.assertEquals(21, g.getDealer().getPrimaryHand().getMaxPointsLT21());
+        } else {
+            Assert.assertEquals(105, p.getMoney());
+        }
     }
 }

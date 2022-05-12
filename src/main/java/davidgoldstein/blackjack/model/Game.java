@@ -94,7 +94,7 @@ public class Game implements Serializable {
                 // give money to player if dealer busted
                 p.incrMoney(p.getBet());
                 dealer.decrPot(p.getBet());
-            } else if (p.getPrimaryHand().getMaxPointsLT21() > dealer.getPrimaryHand().getMaxPointsLT21()) {
+            } else if (p.getMaxPointsLT21FromAllHands() > dealer.getPrimaryHand().getMaxPointsLT21()) {
                 // give money to player if player has more points glt 21
                 p.incrMoney(p.getBet());
                 dealer.decrPot(p.getBet());
