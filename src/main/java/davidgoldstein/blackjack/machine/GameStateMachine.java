@@ -36,7 +36,7 @@ public class GameStateMachine extends AbstractUntypedStateMachine {
 
     protected void applyHit(GameStatus from, GameStatus to, Action event, GameContext gc) throws DeckIsEmptyException {
         HitMeRequest hmr = (HitMeRequest) gc.getActionRequest();
-        gc.getGame().hitPlayer(hmr.getUserId());
+        gc.getGame().hitPlayer(hmr.getUserId(), hmr.getHandNumber());
         this.fire(Action.INTERNAL_END_GAME, gc);
     }
 
@@ -54,7 +54,7 @@ public class GameStateMachine extends AbstractUntypedStateMachine {
     protected void applyDouble(GameStatus from, GameStatus to, Action event, GameContext gc) throws DeckIsEmptyException {
         Player p = gc.game.getPlayer(gc.getActionRequest().getUserId());
         p.setBet(p.getBet() + p.getBet());
-        gc.getGame().hitPlayer(p.getId());
+        gc.getGame().hitPlayer(p.getId(), 0);
         if (!p.getStatus().equals(PersonStatus.BUSTED.toString())) {
             p.setStatus(PersonStatus.STOOD.toString());
         }

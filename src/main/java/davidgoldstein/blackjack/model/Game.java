@@ -118,9 +118,10 @@ public class Game implements Serializable {
     }
 
     // deal another card to player, bust if too much
-    public void hitPlayer(UUID playerId) throws DeckIsEmptyException {
+    // assumes we've already validated that hand exists
+    public void hitPlayer(UUID playerId, int hNumber) throws DeckIsEmptyException {
         Player p = getPlayer(playerId);
-        p.getPrimaryHand().add(dealer.dealCard());
+        p.getAllHands()[hNumber].add(dealer.dealCard());
         if (p.getPrimaryHand().maxPoints() > 21) {
             p.setStatus(PersonStatus.BUSTED.toString());
         }

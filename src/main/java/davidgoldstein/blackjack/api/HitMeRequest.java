@@ -17,6 +17,7 @@ public class HitMeRequest extends ActionRequest{
         if (handNumber > 2) {
             throw new IllegalArgumentException("a player can only split two times");
         }
+        this.handNumber = handNumber;
     }
 
     public int getHandNumber() { return this.handNumber;}
