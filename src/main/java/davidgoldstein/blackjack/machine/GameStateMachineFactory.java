@@ -36,7 +36,7 @@ public class GameStateMachineFactory {
         builder.externalTransition().from(GameStatus.WAITING_FOR_PLAYER_MOVE).to(GameStatus.WAITING_FOR_PLAYER_MOVE).on(Action.HIT_ME).when(new PlayerCanHit()).callMethod("applyHit");
         builder.externalTransition().from(GameStatus.WAITING_FOR_PLAYER_MOVE).to(GameStatus.WAITING_FOR_PLAYER_MOVE).on(Action.DOUBLE).when(new PlayerCanDouble()).callMethod("applyDouble");
         // TODO
-        builder.externalTransition().from(GameStatus.WAITING_FOR_PLAYER_MOVE).to(GameStatus.WAITING_FOR_PLAYER_MOVE).on(Action.SPLIT_PAIRS).callMethod("applySplit");
+        builder.externalTransition().from(GameStatus.WAITING_FOR_PLAYER_MOVE).to(GameStatus.WAITING_FOR_PLAYER_MOVE).on(Action.SPLIT_PAIRS).when(new PlayerCanSplit()).callMethod("applySplit");
         builder.externalTransition().from(GameStatus.WAITING_FOR_PLAYER_MOVE).to(GameStatus.ENDED).on(Action.INTERNAL_END_GAME).when(new AllPlayersFinishedMakingMoves()).callMethod("end");
 
         builder.externalTransition().from(GameStatus.ENDED).to(GameStatus.STARTED).on(Action.START_GAME);

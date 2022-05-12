@@ -244,6 +244,30 @@ public class GameMachineTests {
     }
 
     @Test
+    public void playerCannotSplit() {
+        UntypedStateMachine gsm = GameStateMachineFactory.build(GameStatus.WAITING_FOR_PLAYER_MOVE);
+        Player p = new Player("david");
+        Hand hand = new Hand();
+        hand.add(new Card(Suit.CLUBS, CardType.NINE, 9));
+        hand.add(new Card(Suit.SPADES, CardType.EIGHT, 8));
+        p.setStatus(PersonStatus.HAS_BET.toString());
+        p.setPrimaryHand(hand);
+        p.setMoney(100);
+        p.setBet(5);
+        // will not transition with two players here
+        Game gs = new Game(
+                "test1",
+                GameStatus.WAITING_FOR_PLAYER_MOVE.toString(),
+                new Player[]{p}
+        );
+        ActionRequest ar = (ActionRequest) new SplitRequest(p.getId(), 0);
+        gsm.fire(Action.SPLIT_PAIRS, new GameContext(gs, ar));
+        assertEquals(GameStatus.WAITING_FOR_PLAYER_MOVE, gsm.getCurrentState());
+        assertEquals(2, gs.getPlayer(p.getId()).getPrimaryHand().size());
+
+    }
+
+    @Test
     public void successfulSplit() {
         UntypedStateMachine gsm = GameStateMachineFactory.build(GameStatus.WAITING_FOR_PLAYER_MOVE);
         Player p = new Player("david");
@@ -267,5 +291,4 @@ public class GameMachineTests {
         assertEquals(1, gs.getPlayer(p.getId()).getPrimaryHand().size());
 
     }
-
 }

@@ -10,6 +10,7 @@ public class Player implements Person, Serializable {
 	private int money;
 	private int bet;
 	private String status;
+	private boolean hasSplit;
 	
 	/**
 	 * Player of a card game
@@ -22,6 +23,7 @@ public class Player implements Person, Serializable {
 		this.money = 0;
 		this.bet = 0;
 		this.status = PersonStatus.INIT.toString();
+		this.hasSplit = false;
 	}
 
 	public Player() {}
@@ -62,6 +64,12 @@ public class Player implements Person, Serializable {
 	public void setBet(int m) {
 		bet = m;}
 	public int getBet() {return bet;}
+	public boolean hasSplit() {return this.hasSplit;}
+	public Hand[] getAllHands() {return this.hands;}
+	public boolean hasAlreadySplitTwice() {return this.hands.length == 3;}
+	public boolean handExists(int handNumber) {
+		return handNumber >= 0 && handNumber < this.hands.length;
+	}
 
 	@Override
 	public String toString() {
@@ -73,5 +81,18 @@ public class Player implements Person, Serializable {
 		this.money = 0;
 		this.bet = 0;
 		this.status = PersonStatus.INIT.toString();
+		this.hasSplit = false;
+	}
+
+	/**
+	 * splits the and in two. Assumes that we have already
+	 * validated that we can split this hand
+	 * @param handNumber the hand to split
+	 */
+	public void splitHand(int handNumber) {
+		Hand curr = this.hands[handNumber];
+		this.hands[handNumber] = new Hand(curr.get(0));
+		this.hands[handNumber+1] = new Hand(curr.get(1));
+		hasSplit = true;
 	}
 }

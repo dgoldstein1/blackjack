@@ -14,6 +14,11 @@ public class Hand implements Serializable {
         this.cards.addAll(cards);
     }
 
+    public Hand(Card c) {
+        this();
+        this.cards.add(c);
+    }
+
     /**
      * get card in hand
      * @param i index
@@ -65,5 +70,12 @@ public class Hand implements Serializable {
             }
         }
         return false;
+    }
+
+    /**
+     * @return if the hand is only two of the same cardType
+     */
+    public boolean isTwoPair() {
+        return cards.size() == 2 && cards.get(0).cardType.equals(cards.get(1).cardType);
     }
 }

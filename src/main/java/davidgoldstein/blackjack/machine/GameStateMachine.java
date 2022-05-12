@@ -42,7 +42,8 @@ public class GameStateMachine extends AbstractUntypedStateMachine {
 
     protected void applySplit(GameStatus from, GameStatus to, Action event, GameContext gc) throws DeckIsEmptyException {
         SplitRequest spr = (SplitRequest) gc.getActionRequest();
-        // TODO
+        Player p = gc.getGame().getPlayer(gc.getActionRequest().getUserId());
+        p.splitHand(spr.getHandNumber());
         this.fire(Action.INTERNAL_END_GAME, gc);
     }
 
