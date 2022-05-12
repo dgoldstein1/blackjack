@@ -6,7 +6,7 @@ import java.util.UUID;
 public class Player implements Person, Serializable {
 	private UUID id;
 	private String name;
-	private Hand hand;
+	private Hand[] hands;
 	private int money;
 	private int bet;
 	private String status;
@@ -18,7 +18,7 @@ public class Player implements Person, Serializable {
 	public Player(String name) {
 		this.name = name;
 		this.id = UUID.randomUUID();
-		this.hand = new Hand();
+		this.hands = new Hand[]{new Hand()};
 		this.money = 0;
 		this.bet = 0;
 		this.status = PersonStatus.INIT.toString();
@@ -28,15 +28,19 @@ public class Player implements Person, Serializable {
 
 
 	@Override
-	public Hand getHand() {
-		return this.hand;
+	public Hand getPrimaryHand() {
+		return this.hands[0];
 	}
 
-	// removes cards from hand, returns the cards that were in hand
-	public Hand discardHand() {
-		Hand currHand = hand;
-		hand = new Hand();
-		return currHand;
+
+	// removes all cards, returns the cards that were in hands
+	public Hand discardAllCards() {
+		Hand toReturn = new Hand();
+		for (Hand h: hands) {
+			toReturn.add(h.asList());
+		}
+		hands = new Hand[]{new Hand()};
+		return toReturn;
 	}
 	
 	@Override
@@ -54,7 +58,7 @@ public class Player implements Person, Serializable {
 		this.money -= m;
 		return this.money;
 	}
-	public void setHand(Hand hand) {this.hand = hand;}
+	public void setPrimaryHand(Hand hand) {this.hands[0] = hand;}
 	public void setBet(int m) {
 		bet = m;}
 	public int getBet() {return bet;}
@@ -65,7 +69,7 @@ public class Player implements Person, Serializable {
 	}
 
 	public void reset() {
-		this.hand = new Hand();
+		this.hands = new Hand[]{new Hand()};
 		this.money = 0;
 		this.bet = 0;
 		this.status = PersonStatus.INIT.toString();

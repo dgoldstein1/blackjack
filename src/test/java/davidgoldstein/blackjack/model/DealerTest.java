@@ -14,10 +14,10 @@ public class DealerTest {
         Hand hand = new Hand();
         hand.add(new Card(Suit.CLUBS, CardType.SEVEN, 7));
         hand.add(new Card(Suit.CLUBS, CardType.TEN, 10));
-        d.setHand(hand);
+        d.setPrimaryHand(hand);
         d.finishHand();
         assertEquals(PersonStatus.STOOD.toString(), d.getStatus());
-        assertEquals(hand, d.getHand());
+        assertEquals(hand, d.getPrimaryHand());
     }
 
     @Test
@@ -26,9 +26,9 @@ public class DealerTest {
         Hand hand = new Hand();
         hand.add(new Card(Suit.CLUBS, CardType.SEVEN, 6));
         hand.add(new Card(Suit.CLUBS, CardType.TEN, 10));
-        d.setHand(hand);
+        d.setPrimaryHand(hand);
         d.finishHand();
-        assertTrue(d.getHand().size() > 2);
+        assertTrue(d.getPrimaryHand().size() > 2);
     }
 
     @Test
@@ -38,10 +38,10 @@ public class DealerTest {
         Hand hand = new Hand();
         hand.add(new Card(Suit.CLUBS, CardType.ACE, 11));
         hand.add(new Card(Suit.CLUBS, CardType.SIX, 6));
-        d.setHand(hand);
+        d.setPrimaryHand(hand);
         d.finishHand();
         assertEquals(PersonStatus.STOOD.toString(), d.getStatus());
-        assertTrue(d.getHand().size() == 2);
+        assertTrue(d.getPrimaryHand().size() == 2);
     }
 
     @Test
@@ -51,9 +51,9 @@ public class DealerTest {
         Hand hand = new Hand();
         hand.add(new Card(Suit.CLUBS, CardType.ACE, 11));
         hand.add(new Card(Suit.HEARTS, CardType.ACE, 11));
-        d.setHand(hand);
+        d.setPrimaryHand(hand);
         d.finishHand();
-        assertTrue(d.getHand().size() > 2);
+        assertTrue(d.getPrimaryHand().size() > 2);
     }
 
 }

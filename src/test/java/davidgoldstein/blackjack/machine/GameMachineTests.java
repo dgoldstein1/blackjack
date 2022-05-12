@@ -3,6 +3,7 @@ package davidgoldstein.blackjack.machine;
 import davidgoldstein.blackjack.api.ActionRequest;
 import davidgoldstein.blackjack.api.HitMeRequest;
 import davidgoldstein.blackjack.api.PlaceBetRequest;
+import davidgoldstein.blackjack.api.SplitRequest;
 import davidgoldstein.blackjack.exceptions.DeckIsEmptyException;
 import davidgoldstein.blackjack.model.*;
 import org.junit.jupiter.api.Assertions;
@@ -49,9 +50,9 @@ public class GameMachineTests {
         gsm.fire(Action.DEAL_CARDS, new GameContext(gs));
         Assertions.assertNull(gsm.getLastException());
         assertEquals(GameStatus.WAITING_FOR_BETS, gsm.getCurrentState());
-        assertNotNull(gs.getPlayer(p.getId()).getHand());
-        assertEquals(2, gs.getPlayer(p.getId()).getHand().size());
-        assertEquals(2, gs.getDealer().getHand().size());
+        assertNotNull(gs.getPlayer(p.getId()).getPrimaryHand());
+        assertEquals(2, gs.getPlayer(p.getId()).getPrimaryHand().size());
+        assertEquals(2, gs.getDealer().getPrimaryHand().size());
     }
     @Test
     public void needAtLeastOnePlayerToDealCards() {
@@ -106,7 +107,7 @@ public class GameMachineTests {
         Assertions.assertNotEquals(1000, gs.getPot());
         Assertions.assertNotEquals(100, gs.getPlayer(p.getId()).getMoney());
         // hand is empty
-        Assertions.assertEquals(0, gs.getPlayer(p.getId()).getHand().size());
+        Assertions.assertEquals(0, gs.getPlayer(p.getId()).getPrimaryHand().size());
         Assertions.assertEquals(GameStatus.ENDED.toString(), gs.getStatus());
     }
 
@@ -117,8 +118,8 @@ public class GameMachineTests {
         Hand hand = new Hand();
         hand.add(new Card(Suit.CLUBS, CardType.TWO, 2));
         hand.add(new Card(Suit.CLUBS, CardType.THREE, 3));
-        p.setHand(hand);
-        int prevPointValue = p.getHand().maxPoints();
+        p.setPrimaryHand(hand);
+        int prevPointValue = p.getPrimaryHand().maxPoints();
         p.setMoney(100);
         p.setStatus(PersonStatus.HAS_BET.toString());
         // will not transition with two players here
@@ -132,9 +133,9 @@ public class GameMachineTests {
         Assertions.assertNull(gsm.getLastException());
         Assertions.assertEquals(PersonStatus.HAS_BET.toString(), gs.getPlayer(p.getId()).getStatus());
         assertEquals(GameStatus.WAITING_FOR_PLAYER_MOVE, gsm.getCurrentState());
-        assertEquals(3, gs.getPlayer(p.getId()).getHand().size());
-        assertTrue(gs.getPlayer(p.getId()).getHand().maxPoints() <= 21);
-        assertNotEquals(prevPointValue, gs.getPlayer(p.getId()).getHand().maxPoints());
+        assertEquals(3, gs.getPlayer(p.getId()).getPrimaryHand().size());
+        assertTrue(gs.getPlayer(p.getId()).getPrimaryHand().maxPoints() <= 21);
+        assertNotEquals(prevPointValue, gs.getPlayer(p.getId()).getPrimaryHand().maxPoints());
     }
 
     @Test
@@ -146,8 +147,8 @@ public class GameMachineTests {
         hand.add(new Card(Suit.SPADES, CardType.TEN, 10));
         hand.add(new Card(Suit.DIAMONDS, CardType.TEN, 10));
         p.setStatus(PersonStatus.BUSTED.toString());
-        p.setHand(hand);
-        int prevPointValue = p.getHand().maxPoints();
+        p.setPrimaryHand(hand);
+        int prevPointValue = p.getPrimaryHand().maxPoints();
         p.setMoney(100);
         // will not transition with two players here
         Game gs = new Game(
@@ -160,8 +161,8 @@ public class GameMachineTests {
         Assertions.assertNull(gsm.getLastException());
         Assertions.assertEquals(PersonStatus.BUSTED.toString(), gs.getPlayer(p.getId()).getStatus());
         assertEquals(GameStatus.WAITING_FOR_PLAYER_MOVE, gsm.getCurrentState());
-        assertEquals(3, gs.getPlayer(p.getId()).getHand().size());
-        assertEquals(prevPointValue, gs.getPlayer(p.getId()).getHand().maxPoints());
+        assertEquals(3, gs.getPlayer(p.getId()).getPrimaryHand().size());
+        assertEquals(prevPointValue, gs.getPlayer(p.getId()).getPrimaryHand().maxPoints());
     }
 
     @Test
@@ -172,8 +173,8 @@ public class GameMachineTests {
         hand.add(new Card(Suit.CLUBS, CardType.TEN, 10));
         hand.add(new Card(Suit.SPADES, CardType.TEN, 10));
         p.setStatus(PersonStatus.STOOD.toString());
-        p.setHand(hand);
-        int prevPointValue = p.getHand().maxPoints();
+        p.setPrimaryHand(hand);
+        int prevPointValue = p.getPrimaryHand().maxPoints();
         p.setMoney(100);
         // will not transition with two players here
         Game gs = new Game(
@@ -186,8 +187,8 @@ public class GameMachineTests {
         Assertions.assertNull(gsm.getLastException());
         Assertions.assertEquals(PersonStatus.STOOD.toString(), gs.getPlayer(p.getId()).getStatus());
         assertEquals(GameStatus.WAITING_FOR_PLAYER_MOVE, gsm.getCurrentState());
-        assertEquals(2, gs.getPlayer(p.getId()).getHand().size());
-        assertEquals(prevPointValue, gs.getPlayer(p.getId()).getHand().maxPoints());
+        assertEquals(2, gs.getPlayer(p.getId()).getPrimaryHand().size());
+        assertEquals(prevPointValue, gs.getPlayer(p.getId()).getPrimaryHand().maxPoints());
     }
 
     @Test
@@ -198,8 +199,8 @@ public class GameMachineTests {
         hand.add(new Card(Suit.CLUBS, CardType.TEN, 10));
         hand.add(new Card(Suit.SPADES, CardType.TEN, 10));
         p.setStatus(PersonStatus.STOOD.toString());
-        p.setHand(hand);
-        int prevPointValue = p.getHand().maxPoints();
+        p.setPrimaryHand(hand);
+        int prevPointValue = p.getPrimaryHand().maxPoints();
         p.setMoney(100);
         // will not transition with two players here
         Game gs = new Game(
@@ -211,8 +212,8 @@ public class GameMachineTests {
         gsm.fire(Action.DOUBLE, new GameContext(gs, ar));
         assertEquals(GameStatus.WAITING_FOR_PLAYER_MOVE, gsm.getCurrentState());
         assertEquals(PersonStatus.STOOD.toString(), gs.getPlayer(p.getId()).getStatus());
-        assertEquals(2, gs.getPlayer(p.getId()).getHand().size());
-        assertEquals(prevPointValue, gs.getPlayer(p.getId()).getHand().maxPoints());
+        assertEquals(2, gs.getPlayer(p.getId()).getPrimaryHand().size());
+        assertEquals(prevPointValue, gs.getPlayer(p.getId()).getPrimaryHand().maxPoints());
     }
 
     @Test
@@ -223,7 +224,7 @@ public class GameMachineTests {
         hand.add(new Card(Suit.CLUBS, CardType.NINE, 9));
         hand.add(new Card(Suit.SPADES, CardType.TEN, 10));
         p.setStatus(PersonStatus.HAS_BET.toString());
-        p.setHand(hand);
+        p.setPrimaryHand(hand);
         p.setMoney(100);
         p.setBet(5);
         // will not transition with two players here
@@ -236,10 +237,35 @@ public class GameMachineTests {
         gsm.fire(Action.DOUBLE, new GameContext(gs, ar));
 
         assertEquals(GameStatus.ENDED, gsm.getCurrentState());
-        assertEquals(0, gs.getPlayer(p.getId()).getHand().size());
+        assertEquals(0, gs.getPlayer(p.getId()).getPrimaryHand().size());
         Assertions.assertEquals(0, gs.getPlayer(p.getId()).getBet());
         Assertions.assertNotEquals(1000, gs.getPot());
         Assertions.assertNotEquals(100, gs.getPlayer(p.getId()).getMoney());
+    }
+
+    @Test
+    public void successfulSplit() {
+        UntypedStateMachine gsm = GameStateMachineFactory.build(GameStatus.WAITING_FOR_PLAYER_MOVE);
+        Player p = new Player("david");
+        Hand hand = new Hand();
+        hand.add(new Card(Suit.CLUBS, CardType.NINE, 9));
+        hand.add(new Card(Suit.SPADES, CardType.NINE, 9));
+        p.setStatus(PersonStatus.HAS_BET.toString());
+        p.setPrimaryHand(hand);
+        p.setMoney(100);
+        p.setBet(5);
+        // will not transition with two players here
+        Game gs = new Game(
+                "test1",
+                GameStatus.WAITING_FOR_PLAYER_MOVE.toString(),
+                new Player[]{p}
+        );
+        ActionRequest ar = (ActionRequest) new SplitRequest(p.getId(), 0);
+        gsm.fire(Action.SPLIT_PAIRS, new GameContext(gs, ar));
+
+        assertEquals(GameStatus.WAITING_FOR_PLAYER_MOVE, gsm.getCurrentState());
+        assertEquals(1, gs.getPlayer(p.getId()).getPrimaryHand().size());
+
     }
 
 }

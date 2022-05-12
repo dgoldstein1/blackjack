@@ -56,17 +56,17 @@ public class Game implements Serializable {
      */
     public void dealCards() throws DeckIsEmptyException {
         for (Player p : this.players) {
-            p.setHand(dealer.dealHand(false));
+            p.setPrimaryHand(dealer.dealHand(false));
         }
-        dealer.setHand(dealer.dealHand(true));
+        dealer.setPrimaryHand(dealer.dealHand(true));
     }
 
     // put cards in discard pile
     private void discardCards() {
         for (Player p: players) {
-            dealer.discard(p.discardHand());
+            dealer.discard(p.discardAllCards());
         }
-        dealer.discard(dealer.discardHand());
+        dealer.discard(dealer.discardAllCards());
     }
 
     /**
@@ -96,7 +96,7 @@ public class Game implements Serializable {
                 // give money to player if dealer busted
                 p.incrMoney(p.getBet());
                 dealer.decrPot(p.getBet());
-            } else if (p.getHand().getMaxPointsLT21() > dealer.getHand().getMaxPointsLT21()) {
+            } else if (p.getPrimaryHand().getMaxPointsLT21() > dealer.getPrimaryHand().getMaxPointsLT21()) {
                 // give money to player if player has more points glt 21
                 p.incrMoney(p.getBet());
                 dealer.decrPot(p.getBet());
@@ -120,8 +120,8 @@ public class Game implements Serializable {
     // deal another card to player, bust if too much
     public void hitPlayer(UUID playerId) throws DeckIsEmptyException {
         Player p = getPlayer(playerId);
-        p.getHand().add(dealer.dealCard());
-        if (p.getHand().maxPoints() > 21) {
+        p.getPrimaryHand().add(dealer.dealCard());
+        if (p.getPrimaryHand().maxPoints() > 21) {
             p.setStatus(PersonStatus.BUSTED.toString());
         }
     }

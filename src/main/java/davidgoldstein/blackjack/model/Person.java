@@ -1,16 +1,14 @@
 package davidgoldstein.blackjack.model;
 
-import java.util.ArrayList;
-
 /**
  * dealer and players are people
  * @author Z008HBS
  *
  */
 public interface Person {
-	public Hand getHand();
-	public void setHand(Hand hand);
-	public Hand discardHand();
+	public Hand getPrimaryHand();
+	public void setPrimaryHand(Hand hand);
+	public Hand discardAllCards();
 	public String getName();
 	public void reset();
 }

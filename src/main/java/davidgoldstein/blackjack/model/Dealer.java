@@ -69,17 +69,17 @@ public class Dealer implements Person, Serializable {
 		hand.asList().forEach(c -> deck.discard(c));
 	}
 
-	public void setHand(Hand hand) {this.hand = hand;}
+	public void setPrimaryHand(Hand hand) {this.hand = hand;}
 
 	@Override
-	public Hand discardHand() {
+	public Hand discardAllCards() {
 		Hand currHand = hand;
 		hand = new Hand();
 		return currHand;
 	}
 
 	@Override
-	public Hand getHand() {
+	public Hand getPrimaryHand() {
 		return this.hand;
 	}
 
