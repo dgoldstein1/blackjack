@@ -61,6 +61,7 @@ public class Player implements Person, Serializable {
 		return this.money;
 	}
 	public void setPrimaryHand(Hand hand) {this.hands[0] = hand;}
+	public void setHands(Hand[] hands) {this.hands = hands;}
 	public void setBet(int m) {
 		bet = m;}
 	public int getBet() {return bet;}

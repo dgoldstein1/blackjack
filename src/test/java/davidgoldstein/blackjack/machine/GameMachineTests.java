@@ -139,6 +139,32 @@ public class GameMachineTests {
     }
 
     @Test
+    public void hitWithSplit() throws DeckIsEmptyException {
+        UntypedStateMachine gsm = GameStateMachineFactory.build(GameStatus.WAITING_FOR_PLAYER_MOVE);
+        Player p = new Player("david");
+        Hand hand1 = new Hand();
+        Hand hand2 = new Hand();
+        hand1.add(new Card(Suit.CLUBS, CardType.TWO, 2));
+        hand2.add(new Card(Suit.CLUBS, CardType.TWO, 2));
+        p.setHands(new Hand[]{hand1, hand2});
+        p.setMoney(100);
+        p.setStatus(PersonStatus.HAS_BET.toString());
+        // will not transition with two players here
+        Game gs = new Game(
+                "test1",
+                GameStatus.WAITING_FOR_PLAYER_MOVE.toString(),
+                new Player[]{p}
+        );
+        ActionRequest ar = new HitMeRequest(p.getId(), 1);
+        gsm.fire(Action.HIT_ME, new GameContext(gs, ar));
+        Assertions.assertNull(gsm.getLastException());
+        Assertions.assertEquals(PersonStatus.HAS_BET.toString(), gs.getPlayer(p.getId()).getStatus());
+        assertEquals(GameStatus.WAITING_FOR_PLAYER_MOVE, gsm.getCurrentState());
+        assertEquals(1, gs.getPlayer(p.getId()).getPrimaryHand().size());
+        assertEquals(2, gs.getPlayer(p.getId()).getAllHands()[1].size());
+    }
+
+    @Test
     public void cannotHitIfBusted() {
         UntypedStateMachine gsm = GameStateMachineFactory.build(GameStatus.WAITING_FOR_PLAYER_MOVE);
         Player p = new Player("david");
@@ -289,6 +315,5 @@ public class GameMachineTests {
 
         assertEquals(GameStatus.WAITING_FOR_PLAYER_MOVE, gsm.getCurrentState());
         assertEquals(1, gs.getPlayer(p.getId()).getPrimaryHand().size());
-
     }
 }
