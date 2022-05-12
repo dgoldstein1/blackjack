@@ -78,4 +78,28 @@ public class GameTest {
         Assert.assertEquals(4, p.getAllHands()[1].size());
         Assert.assertEquals(PersonStatus.BUSTED.toString(), p.getStatus());
     }
+    @Test
+    public void endFromSplit() throws DeckIsEmptyException {
+        Player p = new Player("testID");
+        p.setBet(5);
+        p.setMoney(100);
+        p.setStatus(PersonStatus.STOOD.toString());
+        ArrayList<Card> h1 = new ArrayList<>();
+        h1.add(new Card(Suit.CLUBS, CardType.ACE, 1));
+        h1.add(new Card(Suit.CLUBS, CardType.TEN, 10));
+        h1.add(new Card(Suit.HEARTS, CardType.TEN, 10));
+        p.setHands(new Hand[]{
+                new Hand(new Card(Suit.SPADES, CardType.TEN, 10)),
+                new Hand(h1),
+        });
+        p.setHasSplit();
+        Game g = new Game(
+                "test",
+                GameStatus.STARTED.toString(),
+                new Player[]{p}
+        );
+        g.end();
+
+        Assert.assertEquals(105, p.getMoney());
+    }
 }

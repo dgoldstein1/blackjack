@@ -78,9 +78,7 @@ public class Game implements Serializable {
             // give each player's money to dealer
             Arrays.stream(players).forEach(p -> {
                 dealer.incrPot(p.getBet());
-                System.out.println(p.getBet());
                 p.decrMoney(p.getBet());
-                System.out.println(p.getMoney());
             });
             return;
         }
