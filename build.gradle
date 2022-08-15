@@ -23,6 +23,14 @@ dependencies {
 	testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
 }
 
+tasks.named('bootJar') {
+	launchScript()
+}
+
+bootJar {
+	baseName = 'blackjack'
+}
+
 tasks.named('test') {
 	useJUnitPlatform()
 }
