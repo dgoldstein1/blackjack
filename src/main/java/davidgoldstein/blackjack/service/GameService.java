@@ -49,8 +49,10 @@ public class GameService {
      * @return
      * @throws GameAlreadyExistsException
      */
-    public Game createGame(String gameId) throws GameAlreadyExistsException {
-        return repo.createGame(new Game(gameId));
+    public Game createGame(String gameId, String name) throws GameAlreadyExistsException {
+        Game g = new Game(gameId);
+        g.setName(name);
+        return repo.createGame(g);
     }
 
     /**

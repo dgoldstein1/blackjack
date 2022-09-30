@@ -36,15 +36,12 @@ public class GameController {
 
     /**
      * create new game
-     * @param gameId unique Id
      * @return gameState
      */
     @PostMapping("/rest/game")
     @ResponseBody
-    public Game createGame(@RequestBody(required = false) String name, @RequestParam(value = "gameId",name = "gameId") String gameId) throws GameAlreadyExistsException {
-        Game game = gameService.createGame(gameId);
-        game.setName(name);
-        return game;
+    public Game createGame(@RequestBody Game game) throws GameAlreadyExistsException {
+        return gameService.createGame(game.getId(), game.getName());
     }
 
 

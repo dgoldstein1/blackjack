@@ -4,6 +4,7 @@ import davidgoldstein.blackjack.api.ActionRequest;
 import davidgoldstein.blackjack.model.Game;
 import davidgoldstein.blackjack.model.Action;
 import davidgoldstein.blackjack.model.GameStatus;
+import net.minidev.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.messaging.simp.stomp.*;
 import org.springframework.test.context.TestPropertySource;
@@ -78,8 +80,12 @@ public class ActionRequestControllerTests {
     @Test
     public void testStartGame() throws Exception {
         String gameId = UUID.randomUUID().toString();
+        JSONObject json = new JSONObject();
+        json.put("id",gameId);
         this.mockMvc
-                .perform(post(GAME_ENDPOINT).param("gameId", gameId))
+                .perform(post(GAME_ENDPOINT)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json.toString()))
                 .andExpect(status().isOk());
 
         StompSession ss = newStompSession();
