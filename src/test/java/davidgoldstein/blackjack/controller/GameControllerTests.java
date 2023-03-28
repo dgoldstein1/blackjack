@@ -137,6 +137,8 @@ public class GameControllerTests {
         joinGameRequest.put("name", "davesauce");
         joinGameRequest.put("playerId", playerID);
 
+
+
         this.mockMvc
                 .perform(post(GAME_ENDPOINT + "/" + gameId.toString() + "/join")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -151,7 +153,23 @@ public class GameControllerTests {
                 .andExpect(content().contentType("application/json"))
                 .andExpect(jsonPath("$.id", is(gameId)))
                 .andExpect(jsonPath("$.name", is(gameName)))
-                .andExpect(jsonPath("$.players[0].name",is("davesauce")));
+                .andExpect(jsonPath("$.players[0].name",is("davesauce")))
+                .andExpect(jsonPath("$.players[0].id", is(playerID)));
+
+        this.mockMvc
+                .perform(post(GAME_ENDPOINT + "/" + gameId.toString() + "/join")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(joinGameRequest.toString()))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"));
+
+
+        this.mockMvc
+                .perform(get(GAME_ENDPOINT + "/" + gameId).param("gameId", gameId))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(jsonPath("$.id", is(gameId)))
+                .andExpect(jsonPath("$.name", is(gameName)));
 
     }
 

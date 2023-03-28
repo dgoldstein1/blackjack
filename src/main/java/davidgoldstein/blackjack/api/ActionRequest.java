@@ -24,7 +24,7 @@ public class ActionRequest implements Serializable {
     public davidgoldstein.blackjack.model.Action getAction() { return  davidgoldstein.blackjack.model.Action.fromString(action); }
     public void setAction(String action) { this.action = action;}
     public UUID getUserId() {return this.userId;}
-    public void setUserId(UUID id) {this.userId = userId;}
+    public void setUserId(UUID id) {this.userId = id;}
 
     @Override
     public String toString() {

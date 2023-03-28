@@ -1,6 +1,7 @@
 package davidgoldstein.blackjack.controller;
 
 import davidgoldstein.blackjack.api.JoinGameRequest;
+import davidgoldstein.blackjack.exceptions.InvalidRequestException;
 import davidgoldstein.blackjack.model.Game;
 import davidgoldstein.blackjack.exceptions.GameAlreadyExistsException;
 import davidgoldstein.blackjack.exceptions.GameNotFoundException;
@@ -50,7 +51,16 @@ public class GameController {
     // join an existing game
     @PostMapping("/rest/game/{id}/join")
     @ResponseBody
-    public Game joinGame(@PathVariable String id, @RequestBody JoinGameRequest jgr) throws GameNotFoundException {
+    public Game joinGame(@PathVariable String id, @RequestBody JoinGameRequest jgr) throws GameNotFoundException, InvalidRequestException {
+        if (jgr.getPlayerId().isEmpty()) {
+            throw new InvalidRequestException("playerID is required");
+        }
+        try {
+            jgr.setUserId(UUID.fromString(jgr.getPlayerId()));
+        } catch (IllegalArgumentException e) {
+            throw  new InvalidRequestException(e.getMessage());
+        }
+
         return gameService.processAction(id,jgr);
     }
 }

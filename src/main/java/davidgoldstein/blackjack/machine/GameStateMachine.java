@@ -22,11 +22,16 @@ public class GameStateMachine extends AbstractUntypedStateMachine {
 
         if (gc.getGame().getPlayers() == null) {
             gc.getGame().setPlayers(new Player[]{p});
+            return;
+
         }
-        
+
         int currentNPlayers = gc.getGame().getPlayers().length;
         Player[] newPlayers = new Player[currentNPlayers +1];
         for (int i = 0; i < currentNPlayers; i++) {
+            if (gc.getGame().getPlayers()[i].getId().equals(jgr.getUserId())) {
+                return;
+            }
             newPlayers[i] = gc.getGame().getPlayers()[i];
         }
         newPlayers[currentNPlayers] = p;
