@@ -1,5 +1,6 @@
 package davidgoldstein.blackjack.controller;
 
+import davidgoldstein.blackjack.api.JoinGameRequest;
 import davidgoldstein.blackjack.model.Game;
 import davidgoldstein.blackjack.exceptions.GameAlreadyExistsException;
 import davidgoldstein.blackjack.exceptions.GameNotFoundException;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class GameController {
@@ -45,4 +47,10 @@ public class GameController {
     }
 
 
+    // join an existing game
+    @PostMapping("/rest/game/{id}/join")
+    @ResponseBody
+    public Game joinGame(@PathVariable String id, @RequestBody JoinGameRequest jgr) throws GameNotFoundException {
+        return gameService.processAction(id,jgr);
+    }
 }

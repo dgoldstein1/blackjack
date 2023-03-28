@@ -13,11 +13,15 @@ public class PlayerNotPresent implements Condition {
     @Override
     public boolean isSatisfied(Object context) {
         GameContext gc = (GameContext) context;
-        for (Player player: gc.getGame().getPlayers()) {
-            if (player.getId() == gc.getActionRequest().getUserId()) {
-                return false;
+        Player[] players = gc.getGame().getPlayers();
+        if (players != null) {
+            for (Player player: players) {
+                if (player.getId() == gc.getActionRequest().getUserId()) {
+                    return false;
+                }
             }
         }
+
         return true;
     }
 

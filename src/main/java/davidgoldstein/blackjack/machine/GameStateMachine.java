@@ -15,15 +15,20 @@ import org.squirrelframework.foundation.fsm.impl.AbstractUntypedStateMachine;
 public class GameStateMachine extends AbstractUntypedStateMachine {
 
     protected void applyPlayerJoinGame(GameStatus from, GameStatus to, Action event, GameContext gc) {
+        JoinGameRequest jgr = (JoinGameRequest) gc.getActionRequest();
+        Player p = new Player(jgr.getName());
+        p.setID(gc.getActionRequest().getUserId());
+        p.setMoney(100);
+
+        if (gc.getGame().getPlayers() == null) {
+            gc.getGame().setPlayers(new Player[]{p});
+        }
+        
         int currentNPlayers = gc.getGame().getPlayers().length;
         Player[] newPlayers = new Player[currentNPlayers +1];
         for (int i = 0; i < currentNPlayers; i++) {
             newPlayers[i] = gc.getGame().getPlayers()[i];
         }
-        JoinGameRequest jgr = (JoinGameRequest) gc.getActionRequest();
-        Player p = new Player(jgr.getName());
-        p.setID(gc.getActionRequest().getUserId());
-        p.setMoney(100);
         newPlayers[currentNPlayers] = p;
 
         gc.getGame().setPlayers(newPlayers);
