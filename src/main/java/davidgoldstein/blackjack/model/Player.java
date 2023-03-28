@@ -53,6 +53,7 @@ public class Player implements Person, Serializable {
 	public String getStatus() { return this.status;}
 	public void setStatus(String status) {this.status = status;}
 	public UUID getId() { return this.id;}
+	public void setID(UUID id) {this.id = id;}
 	public int getMoney() { return  this.money;}
 	public void setMoney(int m) { this.money = m;}
 	public void incrMoney(int m) {this.money += m;}

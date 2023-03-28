@@ -45,6 +45,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         stompEndpointRegistry
             .addEndpoint("/game")
             .setHandshakeHandler(hsHandler)
+                .setAllowedOriginPatterns("*")
             .withSockJS();
     }
 }

@@ -1,14 +1,13 @@
 package davidgoldstein.blackjack.machine;
 
-import davidgoldstein.blackjack.api.ActionRequest;
-import davidgoldstein.blackjack.api.HitMeRequest;
-import davidgoldstein.blackjack.api.PlaceBetRequest;
-import davidgoldstein.blackjack.api.SplitRequest;
+import davidgoldstein.blackjack.api.*;
 import davidgoldstein.blackjack.exceptions.DeckIsEmptyException;
 import davidgoldstein.blackjack.model.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.squirrelframework.foundation.fsm.UntypedStateMachine;
+
+import java.util.UUID;
 
 import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -80,6 +79,31 @@ public class GameMachineTests {
         assertEquals(GameStatus.WAITING_FOR_PLAYER_MOVE, gsm.getCurrentState());
         Assertions.assertEquals(PersonStatus.HAS_BET.toString(), gs.getPlayer(p.getId()).getStatus());
         Assertions.assertEquals(10, gs.getPlayer(p.getId()).getBet());
+    }
+
+    @Test
+    public void join_game() throws DeckIsEmptyException {
+        UntypedStateMachine gsm = GameStateMachineFactory.build(GameStatus.INIT);
+        // will not transition with two players here
+        Game gs = new Game(
+                "test1",
+                GameStatus.INIT.toString(),
+                new Player[]{}
+        );
+
+        UUID playerId = UUID.randomUUID();
+        ActionRequest ar = new JoinGameRequest(playerId, "davesauce");
+
+
+        gsm.fire(Action.JOIN_GAME, new GameContext(gs, ar));
+
+        Assertions.assertNull(gsm.getLastException());
+        Assertions.assertEquals(GameStatus.INIT.toString(), gs.getStatus());
+        Assertions.assertEquals(1, gs.getPlayers().length);
+        Player p = gs.getPlayer(playerId);
+        Assertions.assertNotNull(p);
+        assertEquals(p.getName(),"davesauce");
+        assertEquals(p.getMoney(), 100);
     }
 
     @Test

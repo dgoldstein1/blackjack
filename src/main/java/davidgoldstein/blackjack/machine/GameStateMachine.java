@@ -1,6 +1,7 @@
 package davidgoldstein.blackjack.machine;
 
 import davidgoldstein.blackjack.api.HitMeRequest;
+import davidgoldstein.blackjack.api.JoinGameRequest;
 import davidgoldstein.blackjack.api.PlaceBetRequest;
 import davidgoldstein.blackjack.api.SplitRequest;
 import davidgoldstein.blackjack.exceptions.DeckIsEmptyException;
@@ -12,6 +13,21 @@ import org.squirrelframework.foundation.fsm.impl.AbstractUntypedStateMachine;
 
 @StateMachineParameters(stateType = GameStatus.class, eventType = Action.class, contextType = GameContext.class)
 public class GameStateMachine extends AbstractUntypedStateMachine {
+
+    protected void applyPlayerJoinGame(GameStatus from, GameStatus to, Action event, GameContext gc) {
+        int currentNPlayers = gc.getGame().getPlayers().length;
+        Player[] newPlayers = new Player[currentNPlayers +1];
+        for (int i = 0; i < currentNPlayers; i++) {
+            newPlayers[i] = gc.getGame().getPlayers()[i];
+        }
+        JoinGameRequest jgr = (JoinGameRequest) gc.getActionRequest();
+        Player p = new Player(jgr.getName());
+        p.setID(gc.getActionRequest().getUserId());
+        p.setMoney(100);
+        newPlayers[currentNPlayers] = p;
+
+        gc.getGame().setPlayers(newPlayers);
+    }
 
     /**
      * apply bet from player

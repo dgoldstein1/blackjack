@@ -26,6 +26,7 @@ public class GameStateMachineFactory {
         UntypedStateMachineBuilder builder = StateMachineBuilderFactory.create(GameStateMachine.class);
 
         // define transitions
+        builder.externalTransition().from(GameStatus.INIT).to(GameStatus.INIT).on(Action.JOIN_GAME).when(new PlayerNotPresent()).callMethod("applyPlayerJoinGame");
         builder.externalTransition().from(GameStatus.INIT).to(GameStatus.STARTED).on(Action.START_GAME);
         builder.externalTransition().from(GameStatus.STARTED).to(GameStatus.WAITING_FOR_BETS).on(Action.DEAL_CARDS).when(new PlayersPresent()).callMethod("dealCards");
         // attempts INTERNAL_FINISH_BETS on success
